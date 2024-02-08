@@ -1,10 +1,14 @@
-import NavDrawer from "../Components/Ui/NavDrawer";
+import { Outlet } from "react-router-dom";
+import NavDrawer from "../Components/Shared/NavDrawer";
+import Banner from "../Pages/Home/Banner/Banner";
+
 
 
 const MainLayout = () => {
     return (
         <>
         <NavDrawer/>
+        <Outlet/>
         </>
     );
 };

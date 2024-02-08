@@ -13,8 +13,8 @@ import Container from '../../../Components/Ui/Container/Container';
 
 const Banner = () => {
   return (
-    <Container className="z-0">
-      <div>
+    <Container>
+      <div className="mt-8">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}

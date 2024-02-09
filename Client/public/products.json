@@ -4,11 +4,11 @@
       "parent_category": "Electronics",
       "category": "Smartphone",
       "rating": 4.5,
-      "price": "$699",
+      "price": "699",
       "description": "The iPhone 13 features a new chip, improved battery life, and a dual-camera system.",
       "variant": "128GB",
       "colors": ["Black", "White", "Blue"],
-      "image": "iphone13.jpg",
+      "image": "https://shop.mobily.com.sa/wp-content/uploads/2021/09/iPhone13Pro-Sierra-blue.png",
       "product_specification": [
         {
           "brand_name": "Apple",
@@ -30,11 +30,11 @@
       "parent_category": "Electronics",
       "category": "Smartphone",
       "rating": 4.6,
-      "price": "$799",
+      "price": "799",
       "description": "The Samsung Galaxy S22 offers a dynamic AMOLED 2X screen and an updated camera system.",
       "variant": "128GB",
       "colors": ["Phantom Black", "Phantom Silver", "Phantom Violet"],
-      "image": "galaxy_s22.jpg",
+      "image": "https://images.samsung.com/is/image/samsung/p6pim/levant/2202/gallery/levant-galaxy-s22-ultra-s908-413037-sm-s908ezggmea-530970243?$650_519_PNG$",
       "product_specification": [
         {
           "brand_name": "Samsung",
@@ -56,11 +56,11 @@
       "parent_category": "Electronics",
       "category": "Headphones",
       "rating": 4.7,
-      "price": "$348",
+      "price": "348",
       "description": "The Sony WH-1000XM4 offers industry-leading noise cancellation, improved call quality, and music upscaling.",
       "variant": "Over-ear",
       "colors": ["Black", "Silver"],
-      "image": "sony_wh1000xm4.jpg",
+      "image": "https://m.media-amazon.com/images/I/61F2AnH2lFL.jpg",
       "product_specification": [
         {
           "brand_name": "Sony",
@@ -82,11 +82,11 @@
       "parent_category": "Electronics",
       "category": "Laptop",
       "rating": 4.6,
-      "price": "$999",
+      "price": "999",
       "description": "The Dell XPS 13 features a 13.4-inch display, 11th Gen Intel Core i7, and up to 16GB RAM.",
       "variant": "i7 16GB 512GB",
       "colors": ["Platinum Silver", "Frost White"],
-      "image": "dell_xps13.jpg",
+      "image": "https://www.colbybrownphotography.com/wp-content/uploads/2022/11/XPS-13-Plus-Cover-Image.jpg",
       "product_specification": [
         {
           "brand_name": "Dell",
@@ -108,11 +108,11 @@
       "parent_category": "Electronics",
       "category": "Smartwatch",
       "rating": 4.7,
-      "price": "$399",
+      "price": "399",
       "description": "The Apple Watch Series 7 offers a larger display, faster charging, and new color options.",
       "variant": "41mm",
       "colors": ["Blue", "Green", "Red", "Silver", "Black"],
-      "image": "apple_watch7.jpg",
+      "image": "https://adminapi.applegadgetsbd.com/storage/media/large/4171-14633.jpg",
       "product_specification": [
         {
           "brand_name": "Apple",

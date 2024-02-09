@@ -1,0 +1,133 @@
+[
+    {
+      "name": "iPhone 13",
+      "parent_category": "Electronics",
+      "category": "Smartphone",
+      "rating": 4.5,
+      "price": "$699",
+      "description": "The iPhone 13 features a new chip, improved battery life, and a dual-camera system.",
+      "variant": "128GB",
+      "colors": ["Black", "White", "Blue"],
+      "image": "iphone13.jpg",
+      "product_specification": [
+        {
+          "brand_name": "Apple",
+          "type": "Smartphone"
+        }
+      ],
+      "reviews": [
+        {
+          "user_name": "John Doe",
+          "image": "john_doe.jpg",
+          "date": "2024-02-08",
+          "rating": 5,
+          "review_message": "Great phone with amazing battery life."
+        }
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S22",
+      "parent_category": "Electronics",
+      "category": "Smartphone",
+      "rating": 4.6,
+      "price": "$799",
+      "description": "The Samsung Galaxy S22 offers a dynamic AMOLED 2X screen and an updated camera system.",
+      "variant": "128GB",
+      "colors": ["Phantom Black", "Phantom Silver", "Phantom Violet"],
+      "image": "galaxy_s22.jpg",
+      "product_specification": [
+        {
+          "brand_name": "Samsung",
+          "type": "Smartphone"
+        }
+      ],
+      "reviews": [
+        {
+          "user_name": "Jane Doe",
+          "image": "jane_doe.jpg",
+          "date": "2024-02-08",
+          "rating": 4,
+          "review_message": "Impressive display and camera, but could be better in terms of battery life."
+        }
+      ]
+    },
+    {
+      "name": "Sony WH-1000XM4",
+      "parent_category": "Electronics",
+      "category": "Headphones",
+      "rating": 4.7,
+      "price": "$348",
+      "description": "The Sony WH-1000XM4 offers industry-leading noise cancellation, improved call quality, and music upscaling.",
+      "variant": "Over-ear",
+      "colors": ["Black", "Silver"],
+      "image": "sony_wh1000xm4.jpg",
+      "product_specification": [
+        {
+          "brand_name": "Sony",
+          "type": "Headphones"
+        }
+      ],
+      "reviews": [
+        {
+          "user_name": "Alice",
+          "image": "alice.jpg",
+          "date": "2024-02-08",
+          "rating": 5,
+          "review_message": "Best noise cancellation headphones on the market!"
+        }
+      ]
+    },
+    {
+      "name": "Dell XPS 13",
+      "parent_category": "Electronics",
+      "category": "Laptop",
+      "rating": 4.6,
+      "price": "$999",
+      "description": "The Dell XPS 13 features a 13.4-inch display, 11th Gen Intel Core i7, and up to 16GB RAM.",
+      "variant": "i7 16GB 512GB",
+      "colors": ["Platinum Silver", "Frost White"],
+      "image": "dell_xps13.jpg",
+      "product_specification": [
+        {
+          "brand_name": "Dell",
+          "type": "Laptop"
+        }
+      ],
+      "reviews": [
+        {
+          "user_name": "Bob",
+          "image": "bob.jpg",
+          "date": "2024-02-08",
+          "rating": 4,
+          "review_message": "Solid performance and premium build. A bit pricey though."
+        }
+      ]
+    },
+    {
+      "name": "Apple Watch Series 7",
+      "parent_category": "Electronics",
+      "category": "Smartwatch",
+      "rating": 4.7,
+      "price": "$399",
+      "description": "The Apple Watch Series 7 offers a larger display, faster charging, and new color options.",
+      "variant": "41mm",
+      "colors": ["Blue", "Green", "Red", "Silver", "Black"],
+      "image": "apple_watch7.jpg",
+      "product_specification": [
+        {
+          "brand_name": "Apple",
+          "type": "Smartwatch"
+        }
+      ],
+      "reviews": [
+        {
+          "user_name": "Charlie",
+          "image": "charlie.jpg",
+          "date": "2024-02-08",
+          "rating": 5,
+          "review_message": "Love the new design and health features!"
+        }
+      ]
+    }
+  ]
+  

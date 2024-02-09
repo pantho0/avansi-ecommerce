@@ -1,5 +1,6 @@
 import Banner from "./Banner/Banner";
 import FeaturedCategory from "./Featured Category/FeaturedCategory";
+import PopularProducts from "./Popular Products/PopularProducts";
 
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <Banner/>
             <FeaturedCategory/>
+            <PopularProducts/>
         </div>
     );
 };

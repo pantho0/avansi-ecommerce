@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 const FeaturedCategory = () => {
   return (
     <Container>
-      <div className="my-16">
+      <div className="my-12">
         <div className="flex justify-between">
           <h2 className="text-3xl font-bold">Featured Category</h2>
          <Link to='/'>

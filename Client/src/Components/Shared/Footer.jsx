@@ -42,6 +42,14 @@ const Footer = () => {
         <p>E-mail : complain@avansi.av</p>
       </nav>
     </footer>
+    <div className="text-center text-sm">
+        <p className="uppercase">copyright &copy; AVANSI all rights reserved.</p>
+        <div className="">
+            <a className="link link-hover">Terms of Service</a>
+            {' || '}
+            <a className="link link-hover">Privacy Policy</a>
+        </div>
+        </div>
         </Container>
     </div>
   );

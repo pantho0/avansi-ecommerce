@@ -121,7 +121,7 @@ const NavDrawer = () => {
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
+              className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
             >
               <div className="card-body">
                 <span className="font-bold text-lg">8 Items</span>
@@ -149,7 +149,7 @@ const NavDrawer = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 z-10"
+              className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10"
             >
               <li>
                 <a className="justify-between">

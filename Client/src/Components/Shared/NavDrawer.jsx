@@ -1,4 +1,5 @@
 import { HiMiniShoppingBag } from "react-icons/hi2";
+import Logo from "../Logo/Logo";
 const NavDrawer = () => {
   return (
     <>
@@ -44,15 +45,7 @@ const NavDrawer = () => {
               </li>
             </ul>
           </div>
-          <div className="flex items-center text-4xl">
-            <HiMiniShoppingBag
-              size={30}
-              className="bg-primary text-white p-1 rounded-full "
-            />
-            <span className="text-primary">A</span>
-            <span className="text-accent">VANSI</span>
-            <span className="text-primary">.</span>
-          </div>
+          <Logo/>
         </div>
         <div className="navbar-center hidden lg:flex w-1/2">
           <ul className="menu menu-horizontal mr-4">

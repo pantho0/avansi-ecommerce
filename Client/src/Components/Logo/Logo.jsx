@@ -1,7 +1,11 @@
+
 import { HiMiniShoppingBag } from "react-icons/hi2";
+import useAuth from "../Hooks/useAuth";
+
 
 
 const Logo = () => {
+
     return (
         <div className="flex items-center text-4xl">
             <HiMiniShoppingBag

@@ -1,8 +1,13 @@
-import { HiMiniShoppingBag } from "react-icons/hi2";
+import useAuth from "../Hooks/useAuth";
+import { LuLogIn } from "react-icons/lu";
+import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
+import { Link } from "react-router-dom";
 const NavDrawer = () => {
+  const {user} = useAuth()
+  console.log(user);
   return (
-    <>
+    <div className="fixed w-full shadow-md mb-50 z-20">
       <div className="navbar bg-base-100 w-[1200px] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -127,7 +132,8 @@ const NavDrawer = () => {
               </div>
             </div>
           </div>
-          <div className="dropdown dropdown-end">
+          {
+            user ? <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
@@ -158,9 +164,15 @@ const NavDrawer = () => {
               </li>
             </ul>
           </div>
+          :
+          <>
+          <Link to="/login"><button className="btn btn-accent btn-sm text-white ml-2 mr-2">Login<LuLogIn size={20}/></button></Link>
+          <Link><button className="btn btn-primary btn-sm text-white">SignUp<FaUserCheck size={20}/></button></Link>
+          </>
+          }
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

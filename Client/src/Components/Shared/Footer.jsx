@@ -43,7 +43,7 @@ const Footer = () => {
       </nav>
     </footer>
     <div className="text-center text-sm">
-        <p className="uppercase">copyright &copy; AVANSI all rights reserved.</p>
+        <p className="uppercase">copyright &copy; {new Date().getFullYear()} AVANSI all rights reserved.</p>
         <div className="">
             <a className="link link-hover">Terms of Service</a>
             {' || '}

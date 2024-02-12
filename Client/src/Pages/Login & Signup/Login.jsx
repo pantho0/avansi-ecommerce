@@ -1,6 +1,7 @@
 const Login = () => {
   return (
-    <div className="relative">
+    <>
+    <div className="relative pt-12">
       <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         <div className="grid items-center md:grid-cols-2 gap-8 lg:gap-12">
           <div>
@@ -67,10 +68,10 @@ const Login = () => {
           <div>
             <form>
               <div className="lg:max-w-lg lg:mx-auto lg:me-0 ms-auto">
-                <div className="p-4 sm:p-7 flex flex-col bg-white rounded-2xl shadow-lg dark:bg-slate-900">
+                <div className="p-4 sm:p-7 flex flex-col bg-white rounded-2xl shadow-lg dark:bg-primary">
                   <div className="text-center">
                     <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
-                      Start your free trial
+                      Log In
                     </h1>
                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                       Already have an account?
@@ -86,7 +87,7 @@ const Login = () => {
                   <div className="mt-5">
                     <button
                       type="button"
-                      className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-info dark:border-gray-700 dark:text-white dark:hover:bg-accent dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                     >
                       <svg
                         className="w-4 h-auto"
@@ -693,6 +694,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

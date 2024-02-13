@@ -23,7 +23,7 @@ const Articles = () => {
         <div className="py-8 grid grid-cols-4">
           {articles.map((article) => {
             return (
-              <div key={article.name} className="card w-64 glass">
+              <div key={article.title} className="card w-64 glass">
                 <figure className="h-[200px]">
                   <img
                     src={article?.image}

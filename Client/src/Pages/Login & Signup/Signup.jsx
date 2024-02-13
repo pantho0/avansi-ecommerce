@@ -1,62 +1,57 @@
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Components/Hooks/useAuth";
 
-const Login = () => {
-  const {register, handleSubmit} = useForm();
-  const {login} = useAuth();
-  const navigate = useNavigate()
-  const onSubmit = (data) =>{
+const Signup = () => {
+  const { createUser } = useAuth();
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
     const email = data?.email;
     const password = data?.password;
-    login(email, password)
+    createUser(email, password)
     .then(res=>{
-      console.log(res);
-      navigate('/')
+      console.log(res.user)
     })
-    console.log(data)
-  }
+
+  };
+
   return (
     <div className="px-0 py-20 mx-auto max-w-7xl sm:px-4">
       <div className="w-full px-4 pt-5 pb-6 mx-auto mt-8 mb-6 bg-white rounded-none shadow-xl sm:rounded-lg sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 sm:px-6">
         <h1 className="mb-4 text-lg font-semibold text-left text-gray-900">
-          Log in to your account
+          Sign Up Now
         </h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Email</span>
-          </label>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Email</span>
+            </label>
+            <input
+              type="email"
+              placeholder="email"
+              {...register("email")}
+              className="input input-bordered"
+              required
+            />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Password</span>
+            </label>
+            <input
+              type="password"
+              placeholder="password"
+              {...register("password")}
+              className="input input-bordered"
+              required
+            />
+          </div>
           <input
-            type="email"
-            placeholder="email"
-            {...register('email')}
-            className="input input-bordered"
-            required
+            type="submit"
+            className="w-full py-4 mt-4 btn btn-primary"
+            value="Signup"
           />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Password</span>
-          </label>
-          <input
-            type="password"
-            placeholder="password"
-            {...register('password')}
-            className="input input-bordered"
-            required
-          />
-          <label className="label">
-            <a href="#" className="label-text-alt link link-hover">
-              Forgot password?
-            </a>
-          </label>
-        </div>
-        <input
-          type="submit"
-          className="w-full py-3 mt-1 btn btn-primary"
-          value="Login"
-        />
         </form>
         <div className="space-y-8">
           <div className="divider">OR</div>
@@ -90,9 +85,9 @@ const Login = () => {
           </div>
         </div>
         <p className="text-center mt-6">
-          Don&apos;t have an account?{" "}
-          <Link to="/signup" className="text-primary font-bold hover:underline">
-            Sign Up
+          Already have an account?
+          <Link to="/login" className="text-primary font-bold hover:underline">
+            Login
           </Link>
         </p>
       </div>
@@ -100,4 +95,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

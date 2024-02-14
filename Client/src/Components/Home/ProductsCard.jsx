@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const ProductsCard = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    fetch("products.json")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
-
+  const axiosPublic = useAxiosPublic()
+  const {data:products=[]} = useQuery({
+    queryKey : ['products'],
+    queryFn : async() =>{
+      const res = await axiosPublic.get('/products')
+      return res.data;
+    }
+  })
   return (
     <div>
       <section className="text-gray-600 body-font">

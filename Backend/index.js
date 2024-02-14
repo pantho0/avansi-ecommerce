@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -25,13 +25,30 @@ async function run() {
   try {
 
     const productsCollection = client.db('avansi').collection('products')
+    const articlesCollection = client.db('avansi').collection('articles')
 
     //All Products API
     app.get("/api/v1/products", async(req,res)=>{
-        const result = await productsCollection.find().toArray()
+        let query ={}
+        const category = req.query.parent_category;
+        if(category){
+          query.parent_category=category
+        }
+        const result = await productsCollection.find(query).toArray()
         res.send(result)
     })
-
+    //Individual Product get api
+    app.get("/api/v1/products/:id", async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await productsCollection.findOne(query)
+      res.send(result);
+    })
+   //All Artcles get api
+   app.get("/api/v1/articles", async(req,res)=>{
+      const result = await articlesCollection.find().toArray()
+      res.send(result)
+   })
 
 
 

@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import Container from "../../../Components/Ui/Container/Container";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
 
 const Articles = () => {
-  const [articles, setArticles] = useState([]);
-  useEffect(() => {
-    fetch("articles.json")
-      .then((res) => res.json())
-      .then((data) => setArticles(data));
-  }, []);
+  const axiosPublic = useAxiosPublic()
+  const {data:articles=[]}=useQuery({
+    queryKey:['articles'],
+    queryFn: async()=>{
+      const {data} = await axiosPublic("/articles")
+      return data;
+    }
+  })
   return (
     <Container>
       <div className="my-24">

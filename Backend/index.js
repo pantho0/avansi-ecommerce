@@ -27,14 +27,25 @@ async function run() {
     const productsCollection = client.db('avansi').collection('products')
     const articlesCollection = client.db('avansi').collection('articles')
 
-    //All Products API
+    //All Products API with sort & filter methods
     app.get("/api/v1/products", async(req,res)=>{
         let query ={}
-        const category = req.query.parent_category;
-        if(category){
-          query.parent_category=category
+        let sortObj = {}
+        const parentCategory = req.query.parent_category;
+        const category = req.query.category;
+        const sortField = req.query.sortField;
+        const sortOrder = req.query.sortOrder;
+
+        if(parentCategory){
+          query.parent_category=parentCategory
         }
-        const result = await productsCollection.find(query).toArray()
+        if(category){
+          query.category = category;
+        }
+        if(sortField && sortObj){
+          sortObj[sortField] = sortOrder;
+        }
+        const result = await productsCollection.find(query).sort(sortObj).toArray()
         res.send(result)
     })
     //Individual Product get api

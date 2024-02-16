@@ -1,14 +1,25 @@
 import { useLoaderData } from "react-router-dom";
-import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import Container from "../../Components/Ui/Container/Container";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Rating } from "@smastrom/react-rating";
+
+import "@smastrom/react-rating/style.css";
 
 const ProductDetails = () => {
-  const { image, name, price, description, variant, colors, rating } =
-    useLoaderData();
+  const {
+    image,
+    name,
+    price,
+    description,
+    variant,
+    colors,
+    rating,
+    category,
+    reviews,
+  } = useLoaderData();
 
   return (
     <div className="pt-20">
@@ -71,20 +82,119 @@ const ProductDetails = () => {
                   <option disabled selected>
                     Select Please
                   </option>
-                  {
-                    colors.map(color=><option key={color}>{color}</option>)
-                  }
+                  {colors.map((color) => (
+                    <option key={color}>{color}</option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className="flex gap-2">
-            <button className="btn btn-primary">Buy Now</button>
-            <button className="btn btn-outline">Add To Cart</button>
-
-        </div>
+              <button className="btn btn-primary">Buy Now</button>
+              <button className="btn btn-outline">Add To Cart</button>
+            </div>
           </div>
         </div>
-   
+        <div>
+          <div className="divider"></div>
+          <h4 className="text-2xl font-bold">About This Product </h4>
+          <div className="mt-6">
+            <p className="font-bold">Name : {name}</p>
+            <p>Category : {category}</p>
+            <p>Description : {description}</p>
+            <p>Variant: {variant}</p>
+            <p>
+              colors:
+              {colors.map((color, index) => (
+                <span key={color}>
+                  {color}
+                  {index !== colors.length - 1 ? ", " : ""}
+                </span>
+              ))}
+            </p>
+          </div>
+        </div>
+        <div>
+          <div className="divider"></div>
+          <h4 className="text-2xl font-bold">Reviews</h4>
+          <div className="mt-4">
+            {reviews.map((review) => (
+              <Swiper
+                key={review}
+                pagination={{
+                  dynamicBullets: true,
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+              >
+                <SwiperSlide>
+                  <div className="text-center space-y-2 pb-9">
+                    <div className="flex justify-center">
+                      <Rating
+                        style={{ maxWidth: 100 }}
+                        value={review.rating}
+                        readOnly
+                      />
+                    </div>
+                    <div>
+                      <h6>{review.review_message}</h6>
+                      <p>{review.date}</p>
+                      <div className="avatar placeholder items-center gap-2">
+                        <div className="bg-neutral text-neutral-content rounded-full w-8">
+                          img
+                        </div>
+                        <p>{review.user_name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="text-center space-y-2 pb-9">
+                    <div className="flex justify-center">
+                      <Rating
+                        style={{ maxWidth: 100 }}
+                        value={review.rating}
+                        readOnly
+                      />
+                    </div>
+                    <div>
+                      <h6>{review.review_message}</h6>
+                      <p>{review.date}</p>
+                      <div className="avatar placeholder items-center gap-2">
+                        <div className="bg-neutral text-neutral-content rounded-full w-8">
+                          img
+                        </div>
+                        <p>{review.user_name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="text-center space-y-2 pb-9">
+                    <div className="flex justify-center">
+                      <Rating
+                        style={{ maxWidth: 100 }}
+                        value={review.rating}
+                        readOnly
+                      />
+                    </div>
+                    <div>
+                      <h6>{review.review_message}</h6>
+                      <p>{review.date}</p>
+                      <div className="avatar placeholder items-center gap-2">
+                        <div className="bg-neutral text-neutral-content rounded-full w-8">
+                          img
+                        </div>
+                        <p>{review.user_name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                
+              </Swiper>
+            ))}
+            <div className="divider"></div>
+          </div>
+        </div>
       </Container>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
+import { Link } from "react-router-dom";
 
 const ProductsCard = () => {
   const axiosPublic = useAxiosPublic()
@@ -40,7 +41,7 @@ const ProductsCard = () => {
                     </p>
                   </div>
                   <div className="card-actions w-1/2 mx-auto">
-                    <button className="btn btn-primary btn-sm w-full hover:btn-accent">Buy Now</button>
+                    <Link to={`/product/${product._id}`}><button className="btn btn-primary btn-sm w-full hover:btn-accent">Buy Now</button></Link>
                   </div>
                 </div>
               );

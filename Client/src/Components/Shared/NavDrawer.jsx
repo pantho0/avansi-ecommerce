@@ -5,6 +5,7 @@ import Logo from "../Logo/Logo";
 import { Link } from "react-router-dom";
 const NavDrawer = () => {
   const { user, logOut } = useAuth();
+  console.log(user);
   const signOut = () => {
     logOut();
   };
@@ -95,7 +96,7 @@ const NavDrawer = () => {
           </div>
         </div>
         <div className="navbar-end ">
-          {user ? 
+          {user ? (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -135,9 +136,9 @@ const NavDrawer = () => {
                 </div>
               </div>
             </div>
-          : 
+          ) : (
             ""
-          }
+          )}
           {user ? (
             <div className="dropdown dropdown-end">
               <div
@@ -148,8 +149,11 @@ const NavDrawer = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={user.photoURL ? `${user?.photoURL}`: 
-                    "https://w7.pngwing.com/pngs/39/283/png-transparent-user-user-people-linear-icon-user-infographic-people-monochrome-thumbnail.png" }
+                    src={
+                      user.photoURL
+                        ? `${user?.photoURL}`
+                        : "https://w7.pngwing.com/pngs/39/283/png-transparent-user-user-people-linear-icon-user-infographic-people-monochrome-thumbnail.png"
+                    }
                   />
                 </div>
               </div>
@@ -158,10 +162,12 @@ const NavDrawer = () => {
                 className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10"
               >
                 <li>
-                  <a className="justify-between">
+                  <Link to="/dashboard/profile">
+                  <div className="justify-between">
                     Profile
                     <span className="badge">New</span>
-                  </a>
+                  </div>
+                  </Link>
                 </li>
                 <li>
                   <a>Settings</a>

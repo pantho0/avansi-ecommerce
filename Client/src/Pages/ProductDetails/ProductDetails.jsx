@@ -7,8 +7,12 @@ import "swiper/css/pagination";
 import { Rating } from "@smastrom/react-rating";
 
 import "@smastrom/react-rating/style.css";
+import { useState } from "react";
 
 const ProductDetails = () => {
+
+  const [selectedColor, setColor] = useState('');
+  const [selectedType, setType] = useState('')
   const {
     image,
     name,
@@ -20,6 +24,24 @@ const ProductDetails = () => {
     category,
     reviews,
   } = useLoaderData();
+
+  const handleSelectColor = (e) =>{
+    e.preventDefault();
+    setColor(e.target.value);
+
+  }
+  const handleSelectType = (e) =>{
+    e.preventDefault();
+    setType(e.target.value);
+
+  }
+  console.log(selectedType);
+  console.log(selectedColor);
+
+  const handleAddToCart = () =>{
+    
+    console.log('clicked');
+  }
 
   return (
     <div className="pt-20">
@@ -69,7 +91,7 @@ const ProductDetails = () => {
             <div className="flex gap-4">
               <div>
                 <p>Type</p>
-                <select className="select select-primary w-full max-w-xs">
+                <select onChange={handleSelectType} className="select select-primary w-full max-w-xs">
                   <option disabled selected>
                     Select Please
                   </option>
@@ -78,9 +100,9 @@ const ProductDetails = () => {
               </div>
               <div>
                 <p>color</p>
-                <select className="select select-primary w-full max-w-xs">
-                  <option disabled selected>
-                    Select Please
+                <select onChange={handleSelectColor} className="select select-primary w-full max-w-xs">
+                  <option >
+                  Select Please
                   </option>
                   {colors.map((color) => (
                     <option key={color}>{color}</option>
@@ -90,7 +112,7 @@ const ProductDetails = () => {
             </div>
             <div className="flex gap-2">
               <button className="btn btn-primary">Buy Now</button>
-              <button className="btn btn-outline">Add To Cart</button>
+              <button onClick={()=> handleAddToCart(name,)} className="btn btn-outline">Add To Cart</button>
             </div>
           </div>
         </div>

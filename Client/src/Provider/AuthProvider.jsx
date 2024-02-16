@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -13,7 +14,7 @@ export const AuthContext = createContext(null);
 
 const provider = new GoogleAuthProvider();
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -25,27 +26,28 @@ const AuthProvider = ({children}) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const googleLogin = () =>{
+  const googleLogin = () => {
     return signInWithPopup(auth, provider);
-  }
+    
+  };
 
-  const logOut = () =>{
-    return signOut(auth)
-  }
+  const logOut = () => {
+    return signOut(auth);
+  };
 
-  useEffect(() =>{
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setLoading(true);
       setUser(currentUser);
       console.log("checking the user from auth state", currentUser?.email);
       if (currentUser) {
         setLoading(false);
-        
       }
     });
     return () => {
       return unsubscribe();
     };
-  },[]);
+  }, []);
 
   const authInfo = {
     user,
@@ -53,8 +55,7 @@ const AuthProvider = ({children}) => {
     login,
     createUser,
     logOut,
-    googleLogin
-
+    googleLogin,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

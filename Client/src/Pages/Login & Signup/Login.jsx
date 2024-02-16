@@ -22,7 +22,6 @@ const Login = () => {
       console.log(res?.user?.email);
       navigate('/')
     })
-    
   }
   return (
     <>

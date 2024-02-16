@@ -10,7 +10,7 @@ const NavDrawer = () => {
   };
   return (
     <div className="fixed w-full shadow-md mb-50 z-20">
-      <div className="navbar bg-base-100 w-[1200px] mx-auto">
+      <div className="navbar bg-white w-[1200px] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -148,7 +148,8 @@ const NavDrawer = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    src={user.photoURL ? `${user?.photoURL}`: 
+                    "https://w7.pngwing.com/pngs/39/283/png-transparent-user-user-people-linear-icon-user-infographic-people-monochrome-thumbnail.png" }
                   />
                 </div>
               </div>

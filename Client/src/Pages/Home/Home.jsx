@@ -1,4 +1,3 @@
-import Footer from "../../Components/Shared/Footer";
 import AllProducts from "./All Products/AllProducts";
 import Articles from "./Articles/Articles";
 import Banner from "./Banner/Banner";
@@ -16,7 +15,6 @@ const Home = () => {
             <AllProducts/>
             <Subscribe/>
             <Articles/>
-            <Footer/>
         </div>
     );
 };

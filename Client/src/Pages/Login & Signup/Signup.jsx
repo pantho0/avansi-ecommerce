@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Components/Hooks/useAuth";
 
 const Signup = () => {
-  const { createUser } = useAuth();
+  const { createUser, googleLogin } = useAuth();
   const { register, handleSubmit } = useForm();
-
+  const navigate = useNavigate()
   const onSubmit = (data) => {
     const email = data?.email;
     const password = data?.password;
@@ -13,8 +13,15 @@ const Signup = () => {
     .then(res=>{
       console.log(res.user)
     })
-
   };
+
+  const handleGoogleLogin = () =>{
+    googleLogin()
+    .then(res=>{
+      console.log(res?.user?.email);
+      navigate('/')
+    })
+  }
 
   return (
     <div className="px-0 py-20 mx-auto max-w-7xl sm:px-4">
@@ -55,7 +62,7 @@ const Signup = () => {
         </form>
         <div className="space-y-8">
           <div className="divider">OR</div>
-          <div className="grid grid-cols-2 gap-4">
+          <div onClick={handleGoogleLogin} className="grid grid-cols-2 gap-4">
             <a href="#" className="py-3 btn btn-icon btn-google">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

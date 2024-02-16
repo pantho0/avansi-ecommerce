@@ -4,7 +4,7 @@ import useAuth from "../../Components/Hooks/useAuth";
 
 const Login = () => {
   const {register, handleSubmit} = useForm();
-  const {login} = useAuth();
+  const {user,login, googleLogin} = useAuth();
   const navigate = useNavigate()
   const onSubmit = (data) =>{
     const email = data?.email;
@@ -16,8 +16,19 @@ const Login = () => {
     })
     console.log(data)
   }
+  const handleGoogleLogin = () =>{
+    googleLogin()
+    .then(res=>{
+      console.log(res?.user?.email);
+      navigate('/')
+    })
+    
+  }
   return (
-    <div className="px-0 py-20 mx-auto max-w-7xl sm:px-4">
+    <>
+    {
+      !user ? 
+      <div className="px-0 py-20 mx-auto max-w-7xl sm:px-4">
       <div className="w-full px-4 pt-5 pb-6 mx-auto mt-8 mb-6 bg-white rounded-none shadow-xl sm:rounded-lg sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 sm:px-6">
         <h1 className="mb-4 text-lg font-semibold text-left text-gray-900">
           Log in to your account
@@ -60,7 +71,7 @@ const Login = () => {
         </form>
         <div className="space-y-8">
           <div className="divider">OR</div>
-          <div className="grid grid-cols-2 gap-4">
+          <div onClick={handleGoogleLogin} className="grid grid-cols-2 gap-4">
             <a href="#" className="py-3 btn btn-icon btn-google">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +108,15 @@ const Login = () => {
         </p>
       </div>
     </div>
+    :
+    <div className="h-screen pt-20 flex justify-center items-center">
+      <p className="text-2xl font-bold">
+      Youre Logged In 
+    </p>
+    </div>
+    
+    }
+    </>
   );
 };
 

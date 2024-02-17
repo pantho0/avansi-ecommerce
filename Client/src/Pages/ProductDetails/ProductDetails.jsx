@@ -8,12 +8,16 @@ import { Rating } from "@smastrom/react-rating";
 
 import "@smastrom/react-rating/style.css";
 import { useState } from "react";
+import useAuth from "../../Components/Hooks/useAuth";
+import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 const ProductDetails = () => {
-
+  const {user} = useAuth();
+  const axiosPublic = useAxiosPublic()
   const [selectedColor, setColor] = useState('');
   const [selectedType, setType] = useState('')
   const {
+    _id,
     image,
     name,
     price,
@@ -38,9 +42,29 @@ const ProductDetails = () => {
   console.log(selectedType);
   console.log(selectedColor);
 
-  const handleAddToCart = () =>{
-    
-    console.log('clicked');
+  const handleAddToCart = async(_id,name, price, selectedType, selectedColor) =>{
+    if(!user){
+      return alert('Please Sign In First')
+    }
+    if(selectedColor === "" && selectedType === ""){
+      return alert('please select type and color')
+    }
+    const item = {
+      product_id : _id,
+      image : image,
+      name : name,
+      price : price,
+      type : selectedType, 
+      color : selectedColor,
+      email : user.email
+    }
+
+    const {data} = await axiosPublic.post('/saveToCart', item)
+    console.log(data);
+    if(data.insertedId){
+      alert("product added to cart")
+    }
+
   }
 
   return (
@@ -112,7 +136,7 @@ const ProductDetails = () => {
             </div>
             <div className="flex gap-2">
               <button className="btn btn-primary">Buy Now</button>
-              <button onClick={()=> handleAddToCart(name,)} className="btn btn-outline">Add To Cart</button>
+              <button onClick={()=>handleAddToCart(_id,name, price, selectedType, selectedColor)} className="btn btn-outline">Add To Cart</button>
             </div>
           </div>
         </div>

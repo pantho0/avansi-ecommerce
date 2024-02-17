@@ -7,6 +7,7 @@ import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Dashboard from "../Layouts/Dashboard";
 import Profile from "../Pages/User_Dashboard/Profile";
 import PrivateRoute from "./PrivateRoute";
+import Cart from "../Pages/User_Dashboard/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
             {
                 path:"profile",
                 element: <PrivateRoute><Profile/></PrivateRoute>
+            },
+            {
+                path : "cart",
+                element :<Cart/>, 
             }
         ]
     }

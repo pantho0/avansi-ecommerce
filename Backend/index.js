@@ -26,6 +26,7 @@ async function run() {
 
     const productsCollection = client.db('avansi').collection('products')
     const articlesCollection = client.db('avansi').collection('articles')
+    const cartsCollection = client.db('avansi').collection('carts')
 
     //All Products API with sort & filter methods
     app.get("/api/v1/products", async(req,res)=>{
@@ -60,7 +61,27 @@ async function run() {
       const result = await articlesCollection.find().toArray()
       res.send(result)
    })
-
+  //  Cart Related API's
+   //get cart items :
+   app.get("/api/v1/getCartItem/:email", async(req,res)=>{
+    const email = req.params.email;
+    console.log(email);
+    const result = await cartsCollection.find({email:email}).toArray()
+    res.send(result)
+   })
+   //post cart items :
+   app.post("/api/v1/saveToCart", async(req,res)=>{
+    const item = req.body;
+    const result = await cartsCollection.insertOne(item)
+    res.send(result)
+   })
+   //delete cart items : 
+   app.delete("/api/v1/deleteCartItem/:id", async(req,res)=>{
+    const id = req.params.id;
+    const result = await cartsCollection.deleteOne({_id: new ObjectId(id)})
+    res.send(result);
+   })
+   
 
 
 

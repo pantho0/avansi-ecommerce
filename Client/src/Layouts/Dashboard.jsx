@@ -13,7 +13,7 @@ const Dashboard = () => {
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-row items-center">
+      <div className="drawer-content">
         <div>
           <label
             htmlFor="my-drawer-2"
@@ -51,9 +51,11 @@ const Dashboard = () => {
           <button className="btn btn-secendary w-full rounded-none mt-2">
             Dashboard
           </button>
+          <Link to="/dashboard/cart">
           <button className="btn btn-secendary w-full rounded-none mt-2">
             Cart
           </button>
+          </Link>
           <button className="btn btn-secendary w-full rounded-none mt-2">
             My Orders
           </button>

@@ -123,6 +123,15 @@ async function run() {
     console.log(id);
 
  })
+//Total price in cart items :
+app.get("/api/v1/cartTotal/:email", async(req,res)=>{
+  const email = req.params.email;
+  const myCart = await cartsCollection.find({email:email}).toArray()
+  const totalPrice = myCart.reduce((acc,cart)=> acc+parseFloat(cart.priceWithQuantity) ,0)
+  res.send({total: totalPrice})
+})
+
+
    //delete cart items : 
    app.delete("/api/v1/deleteCartItem/:id", async(req,res)=>{
     const id = req.params.id;

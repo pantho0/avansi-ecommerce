@@ -14,6 +14,14 @@ const Cart = () => {
       return data;
     },
   });
+  const {data:totalPrice=[], refetch:reload}=useQuery({
+    queryKey: ['totalPrice', user?.email],
+    queryFn: async()=>{
+      const {data} = await axiosPublic(`/cartTotal/${user.email}`)
+      return data
+    }
+  })
+
 
   const handleDelete = async(id) =>{
       console.log(id);
@@ -21,7 +29,6 @@ const Cart = () => {
       if(data.deletedCount>0){
         refetch()
         alert('Item Deleted')
-        
       }
   }
 
@@ -31,6 +38,7 @@ const Cart = () => {
     }
     const {data} = await axiosPublic.patch(`/quantityPrice/${id}`, quantityInfo)
     refetch()
+    reload()
   }
 
   const handleDecreaseQuantity = async(id, quantity) =>{
@@ -42,6 +50,7 @@ const Cart = () => {
     }
     const {data} = await axiosPublic.patch(`/quantityPriceDecrease/${id}`, quantityInfo)
     refetch()
+    reload()
   }
 
   return (
@@ -105,7 +114,7 @@ const Cart = () => {
           </div>
           <div className="flex justify-between px-4 pt-4 text-sm text-gray-500">
             <p>Total Price</p>
-            <p>$0.0</p>
+            <p>{totalPrice?.total}</p>
           </div>
           <div className="flex justify-between px-4 pt-4 text-sm text-gray-500">
             <p>Total Price Discount</p>
@@ -117,8 +126,8 @@ const Cart = () => {
           </div>
           <hr  className="mt-6"/>
           <div className="flex justify-between px-4 pt-4 text-sm text-black font-medium">
-            <p>Total Price</p>
-            <p>$0.0</p>
+            <p>Grand Total Price</p>
+            <p>{totalPrice?.total}</p>
           </div>
          <div className="p-3 mt-4">
          <button className="btn btn-primary btn-md rounded-md w-full">Check Out</button>

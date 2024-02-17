@@ -65,7 +65,6 @@ async function run() {
    //get cart items :
    app.get("/api/v1/getCartItem/:email", async(req,res)=>{
     const email = req.params.email;
-    console.log(email);
     const result = await cartsCollection.find({email:email}).toArray()
     res.send(result)
    })
@@ -75,6 +74,55 @@ async function run() {
     const result = await cartsCollection.insertOne(item)
     res.send(result)
    })
+   //for increase quantity
+   app.patch("/api/v1/quantityPrice/:id", async(req,res)=>{
+      const id = req.params.id;
+      const quantityInfo = req.body;
+      const newQuantity = quantityInfo.quantity+1;
+      const filter = {_id : new ObjectId(id)}
+      const options = {upsert:true}
+      const cart = await cartsCollection.findOne(filter)
+
+      const currentPrice = parseFloat(cart.price);
+      const priceWithQuantity = currentPrice*newQuantity;
+
+      const updatedDoc = {
+        $set : {
+          quantity : newQuantity,
+          priceWithQuantity : priceWithQuantity
+        }
+      }
+      const result = await cartsCollection.updateOne(filter, updatedDoc, options)
+      res.send(result)
+      console.log(id);
+
+   })
+   //for decrease quantity
+   app.patch("/api/v1/quantityPriceDecrease/:id", async(req,res)=>{
+    const id = req.params.id;
+    const quantityInfo = req.body;
+    if(quantityInfo.quantity < 2){
+      return res.send('invalid input')
+    }
+    const newQuantity = quantityInfo.quantity-1;
+    const filter = {_id : new ObjectId(id)}
+    const options = {upsert:true}
+    const cart = await cartsCollection.findOne(filter)
+
+    const currentPrice = parseFloat(cart.price);
+    const priceWithQuantity = currentPrice*newQuantity;
+
+    const updatedDoc = {
+      $set : {
+        quantity : newQuantity,
+        priceWithQuantity : priceWithQuantity
+      }
+    }
+    const result = await cartsCollection.updateOne(filter, updatedDoc, options)
+    res.send(result)
+    console.log(id);
+
+ })
    //delete cart items : 
    app.delete("/api/v1/deleteCartItem/:id", async(req,res)=>{
     const id = req.params.id;

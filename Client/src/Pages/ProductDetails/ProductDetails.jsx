@@ -53,7 +53,9 @@ const ProductDetails = () => {
       product_id : _id,
       image : image,
       name : name,
-      price : price,
+      price : parseFloat(price),
+      quantity : 1,
+      priceWithQuantity: parseFloat(price),
       type : selectedType, 
       color : selectedColor,
       email : user.email

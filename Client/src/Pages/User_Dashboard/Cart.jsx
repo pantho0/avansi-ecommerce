@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
+import { useState } from "react";
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
@@ -22,6 +23,25 @@ const Cart = () => {
         alert('Item Deleted')
         
       }
+  }
+
+  const handleIncreaseQuantity = async(id, quantity) =>{
+    const quantityInfo = {
+      quantity : quantity 
+    }
+    const {data} = await axiosPublic.patch(`/quantityPrice/${id}`, quantityInfo)
+    refetch()
+  }
+
+  const handleDecreaseQuantity = async(id, quantity) =>{
+    if(quantity <= 1){
+      return alert('You can"t set quantity to below 1')
+    }
+    const quantityInfo = {
+      quantity : quantity 
+    }
+    const {data} = await axiosPublic.patch(`/quantityPriceDecrease/${id}`, quantityInfo)
+    refetch()
   }
 
   return (
@@ -60,9 +80,14 @@ const Cart = () => {
                 </div>
                 <div className="flex-grow">
                   <p className="font-bold">{item?.name}</p>
-                  <p>{item?.price}</p>
+                  <p>{item?.priceWithQuantity}</p>
                 </div>
-                <div className="">
+                <div className="flex items-center gap-2">
+                  <div className="flex border">
+                    <button onClick={()=>handleDecreaseQuantity(item._id, item?.quantity)} className="btn btn-xs rounded-none btn-accent mr-4">-</button>
+                    {item?.quantity}
+                    <button onClick={()=>handleIncreaseQuantity(item._id, item?.quantity)} className="btn btn-xs rounded-none btn-accent ml-4">+</button>
+                  </div>
                   <button onClick={()=>handleDelete(item._id)} className="btn btn-primary btn-xs">
                     <MdDeleteSweep size={18} color="white"/>
                   </button>

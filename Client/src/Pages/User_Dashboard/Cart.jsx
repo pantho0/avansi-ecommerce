@@ -73,7 +73,8 @@ const Cart = () => {
             </>
           }
         </div>
-        <div className="flex-1 m-5 h-1/2 rounded-2xl shadow-2xl">
+        <div className="flex-1 m-5 w-full h-1/2 rounded-2xl shadow-2xl">
+          <div className="fixed w-[300px] bg-white rounded-lg">
           <div className="text-center p-4 bg-primary text-white rounded-tr-2xl rounded-tl-2xl">
             <p>Billing Summary</p>
           </div>
@@ -97,6 +98,7 @@ const Cart = () => {
          <div className="p-3 mt-4">
          <button className="btn btn-primary btn-md rounded-md w-full">Check Out</button>
          </div>
+          </div>
         </div>
       </div>
     </div>

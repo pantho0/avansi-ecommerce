@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const {register, handleSubmit} = useForm();
@@ -33,6 +34,7 @@ const Login = () => {
   }
   return (
     <>
+    <Helmet title="AVANSI || LOGIN"/>
     {
       !user ? 
       <div className="px-0 py-20 mx-auto max-w-7xl sm:px-4">

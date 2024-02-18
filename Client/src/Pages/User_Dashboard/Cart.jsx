@@ -3,6 +3,7 @@ import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 
 const Cart = () => {
@@ -57,6 +58,7 @@ const Cart = () => {
 
   return (
     <div>
+      <Helmet title="Avansi || User-Cart"/>
       <div className="flex justify-between">
         <div className="p-6">
           <p className="text-2xl font-bold">Shopping Cart</p>

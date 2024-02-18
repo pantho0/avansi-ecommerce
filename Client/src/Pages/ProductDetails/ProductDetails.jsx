@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../Components/Hooks/useAuth";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const ProductDetails = () => {
   const {user} = useAuth();
@@ -79,6 +80,8 @@ const ProductDetails = () => {
   },[])
 
   return (
+    <>
+    <Helmet title="Avansi || Product-Details"/>
     <div className="pt-20">
       <Container>
         <div className="flex gap-16 mt-16">
@@ -254,6 +257,7 @@ const ProductDetails = () => {
         </div>
       </Container>
     </div>
+    </>
   );
 };
 

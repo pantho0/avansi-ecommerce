@@ -5,6 +5,7 @@ import Banner from "./Banner/Banner";
 import FeaturedCategory from "./Featured Category/FeaturedCategory";
 import PopularProducts from "./Popular Products/PopularProducts";
 import Subscribe from "./Subscribe/Subscribe";
+import { Helmet } from "react-helmet-async";
 
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
     },[])
     return (
         <div>
+            <Helmet title="Avansi Multi-Vendor Store"/>
             <Banner/>
             <FeaturedCategory/>
             <PopularProducts/>

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Signup = () => {
   const { createUser, googleLogin } = useAuth();
@@ -35,6 +36,8 @@ const Signup = () => {
   }
 
   return (
+    <>
+    <Helmet title="Avansi || Signup"/>
     <div className="px-0 py-20 mx-auto max-w-7xl sm:px-4">
       <div className="w-full px-4 pt-5 pb-6 mx-auto mt-8 mb-6 bg-white rounded-none shadow-xl sm:rounded-lg sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 sm:px-6">
         <h1 className="mb-4 text-lg font-semibold text-left text-gray-900">
@@ -110,6 +113,7 @@ const Signup = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 

@@ -113,7 +113,7 @@ const Cart = () => {
         </div>
         <div className="flex-1 m-5 w-full h-1/2 rounded-2xl shadow-2xl">
           <div className="fixed w-[300px] bg-white rounded-lg">
-          <div className="text-center p-4 bg-primary text-white rounded-tr-2xl rounded-tl-2xl">
+          <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white rounded-tr-2xl rounded-tl-2xl">
             <p>Billing Summary</p>
           </div>
           <div className="flex justify-between px-4 pt-4 text-sm text-gray-500">

@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
-import { useState } from "react";
+import toast from "react-hot-toast";
+
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
@@ -29,7 +30,7 @@ const Cart = () => {
       if(data.deletedCount>0){
         refetch()
         reload()
-        alert('Item Deleted')
+        toast.success("Item deleted from cart")
       }
   }
 

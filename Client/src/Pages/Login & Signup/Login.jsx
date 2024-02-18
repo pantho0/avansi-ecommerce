@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Components/Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {register, handleSubmit} = useForm();
@@ -11,16 +12,23 @@ const Login = () => {
     const password = data?.password;
     login(email, password)
     .then(res=>{
-      console.log(res);
-      navigate('/')
+      if(res?.user?.email){
+        navigate('/')
+        toast.success('Login Success')
+      }
+    }).catch((error)=>{
+      if(error){
+        toast.error(error.message)
+        console.log('toast');
+      }
     })
-    console.log(data)
   }
   const handleGoogleLogin = () =>{
     googleLogin()
     .then(res=>{
       console.log(res?.user?.email);
       navigate('/')
+      toast.success('Login Success')
     })
   }
   return (

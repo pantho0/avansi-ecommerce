@@ -10,6 +10,7 @@ import "@smastrom/react-rating/style.css";
 import { useEffect, useState } from "react";
 import useAuth from "../../Components/Hooks/useAuth";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const {user} = useAuth();
@@ -39,15 +40,16 @@ const ProductDetails = () => {
     setType(e.target.value);
 
   }
-  console.log(selectedType);
-  console.log(selectedColor);
 
   const handleAddToCart = async(_id,name, price, selectedType, selectedColor) =>{
     if(!user){
-      return alert('Please Sign In First')
+      return toast.error("Please Login First")
     }
-    if(selectedColor === "" && selectedType === ""){
-      return alert('please select type and color')
+    if(selectedColor === ""){
+      return toast.error('please select color')
+    }
+    if(selectedType === ""){
+      return toast.error('please select type')
     }
     const item = {
       product_id : _id,
@@ -64,7 +66,9 @@ const ProductDetails = () => {
     const {data} = await axiosPublic.post('/saveToCart', item)
     console.log(data);
     if(data.insertedId){
-      alert("product added to cart")
+      setColor('')
+      setType('')
+      toast.success("Product Added To Cart")
     }
 
   }

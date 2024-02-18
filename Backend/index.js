@@ -66,7 +66,8 @@ async function run() {
    app.get("/api/v1/getCartItem/:email", async(req,res)=>{
     const email = req.params.email;
     const result = await cartsCollection.find({email:email}).toArray()
-    res.send(result)
+    const count = await cartsCollection.estimatedDocumentCount()
+    res.send({result, count})
    })
    //post cart items :
    app.post("/api/v1/saveToCart", async(req,res)=>{

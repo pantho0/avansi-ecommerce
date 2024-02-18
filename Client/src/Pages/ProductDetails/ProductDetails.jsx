@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import { Rating } from "@smastrom/react-rating";
 
 import "@smastrom/react-rating/style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../Components/Hooks/useAuth";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
@@ -68,6 +68,11 @@ const ProductDetails = () => {
     }
 
   }
+
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
 
   return (
     <div className="pt-20">

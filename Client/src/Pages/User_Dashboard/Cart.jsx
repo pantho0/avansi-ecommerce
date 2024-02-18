@@ -11,7 +11,7 @@ const Cart = () => {
     queryKey: ["products", user?.email],
     queryFn: async () => {
       const { data } = await axiosPublic(`/getCartItem/${user?.email}`);
-      return data;
+      return data.result;
     },
   });
   const {data:totalPrice=[], refetch:reload}=useQuery({
@@ -28,6 +28,7 @@ const Cart = () => {
       const {data} = await axiosPublic.delete(`/deleteCartItem/${id}`)
       if(data.deletedCount>0){
         refetch()
+        reload()
         alert('Item Deleted')
       }
   }

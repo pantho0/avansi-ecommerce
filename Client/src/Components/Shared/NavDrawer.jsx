@@ -3,12 +3,31 @@ import { LuLogIn } from "react-icons/lu";
 import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
+import { useEffect, useState } from "react";
 const NavDrawer = () => {
   const { user, logOut } = useAuth();
-  console.log(user);
+  const axiosPublic = useAxiosPublic();
   const signOut = () => {
     logOut();
   };
+    const [cartLength, setCartLength]=useState(0)
+  // const {data:cartLength, refetch:cartRefetch}=useQuery({
+  //   queryKey:["cartLength", user?.email],
+  //   queryFn: async()=>{
+  //     const {data}=await axiosPublic(`/getCartItem/${user?.email}`)
+  //     return data.result;
+  //   }
+  // })
+
+useEffect(()=>{
+  fetch(`http://localhost:5000/api/v1/getCartItem/${user?.email}`)
+  .then(res=>res.json())
+  .then(data=>setCartLength(data.result.length))
+},[user?.email,cartLength])
+
+
   return (
     <div className="fixed w-full shadow-md mb-50 z-20">
       <div className="navbar bg-white w-[1200px] mx-auto">
@@ -118,7 +137,7 @@ const NavDrawer = () => {
                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                     />
                   </svg>
-                  <span className="badge badge-sm indicator-item">8</span>
+                  <span className="badge badge-sm indicator-item">{cartLength}</span>
                 </div>
               </div>
               <div
@@ -126,12 +145,15 @@ const NavDrawer = () => {
                 className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
               >
                 <div className="card-body">
-                  <span className="font-bold text-lg">8 Items</span>
+                  <span className="font-bold text-lg">{cartLength} Items</span>
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
+                    <Link to="/dashboard/cart" className="w-full">
                     <button className="btn btn-primary btn-block">
                       View cart
                     </button>
+                    </Link>
+                    
                   </div>
                 </div>
               </div>

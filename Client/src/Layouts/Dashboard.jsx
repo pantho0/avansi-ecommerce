@@ -31,7 +31,7 @@ const Dashboard = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-56 min-h-full bg-black text-base-content">
+        <ul className="menu p-4 w-56 min-h-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-content">
           {/* Sidebar content here */}
           <div className="">
             <Logo />

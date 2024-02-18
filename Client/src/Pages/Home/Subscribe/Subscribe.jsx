@@ -2,7 +2,7 @@ import { IoMdPaperPlane } from "react-icons/io";
 
 const Subscribe = () => {
   return (
-    <div className="bg-primary my-16 py-10">
+    <div className="bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] my-16 py-10">
       <div className="w-[1200px] flex gap-4 mx-auto py-8 text-white">
 
           <div className="flex w-[600px] gap-6 items-center">

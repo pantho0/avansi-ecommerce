@@ -33,8 +33,8 @@ const NavDrawer = () => {
   }, [user?.email, cartLength]);
 
   return (
-    <div className="fixed w-full shadow-md mb-50 z-20">
-      <div className="navbar bg-white w-[1200px] mx-auto">
+    <div className="fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] shadow-md mb-50 z-20">
+      <div className="navbar bg-transparent w-[1200px] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -85,7 +85,7 @@ const NavDrawer = () => {
                 <summary className="bg-primary text-white hover:bg-accent">
                   All Category
                 </summary>
-                <ul className="z-10 w-96">
+                <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
                   <li>
                     <a>Electronic</a>
                   </li>

@@ -59,14 +59,14 @@ const Cart = () => {
   return (
     <div>
       <Helmet title="Avansi || User-Cart"/>
-      <div className="flex justify-between">
+      <div className="flex justify-between bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
         <div className="p-6">
           <p className="text-2xl font-bold">Shopping Cart</p>
-          <p className="text-sm text-gray-800">Showing your choosed product</p>
+          <p className="text-sm text-white">Showing your choosed product</p>
         </div>
         <div className="p-6 flex items-center gap-2">
           <p className="text-sm">Price:</p>
-          <select className="select select-bordered select-sm w-full max-w-xs">
+          <select className="select select-bordered text-black select-sm w-full max-w-xs">
             <option>Low to high</option>
             <option>High to low</option>
           </select>

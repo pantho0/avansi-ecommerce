@@ -12,7 +12,7 @@ const Cart = () => {
   const { data: products = [], refetch } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: async () => {
-      const { data } = await axiosPublic(`/getCartItem/${user?.email}`);
+      const { data } = await axiosPublic(`/getCartItem/?email=${user?.email}`);
       return data.result;
     },
   });

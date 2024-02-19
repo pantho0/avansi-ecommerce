@@ -63,27 +63,20 @@ async function run() {
    })
   //  Cart Related API's
    //get cart items :
-   app.get("/api/v1/getCartItem/:email", async(req,res)=>{
-    const email = req.params.email;
-    const result = await cartsCollection.find({email:email}).toArray()
-    const count = await cartsCollection.estimatedDocumentCount()
-    res.send({result, count})
-   })
-   //get cart items :
-   app.get("/api/v1/getCartItemWithSort", async(req,res)=>{
+   app.get("/api/v1/getCartItem", async(req,res)=>{
+    const email = req.query.email;
+    const query = {email:email}
     let sortObj = {};
-    const email = req.query.email; 
-    console.log(email);
     const sortField = req.query.sortField;
-    console.log(sortField);
     const sortOrder = req.query.sortOrder;
-
     if(sortField && sortOrder){
       sortObj[sortField]=sortOrder;
     }
-    const result = await cartsCollection.find({email:email}).sort(sortObj).toArray()
-    res.send(result)
+    const result = await cartsCollection.find(query).sort(sortObj).toArray()
+    const count = await cartsCollection.estimatedDocumentCount()
+    res.send({result, count})
    })
+   
    //post cart items :
    app.post("/api/v1/saveToCart", async(req,res)=>{
     const item = req.body;

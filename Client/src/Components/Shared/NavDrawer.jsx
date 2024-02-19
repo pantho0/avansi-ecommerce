@@ -3,27 +3,24 @@ import { LuLogIn } from "react-icons/lu";
 import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../Hooks/useAxiosPublic";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import useCart from "../Hooks/useCart";
+
 const NavDrawer = () => {
   const { user, logOut } = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const [cartData, , totalPrice] = useCart()
+
+
   const signOut = () => {
     logOut().then(()=>{
       toast.success("Logout Successful")
     }).catch((error)=>{
-      toast.error("Something went wrong")
+      toast.error(error?.message)
     })
   };
-  const [cartLength, setCartLength] = useState(0);
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/getCartItem/${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => setCartLength(data.result.length));
-  }, [user?.email, cartLength]);
+
+
 
   return (
     <div className="fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] shadow-md mb-50 z-20">
@@ -125,7 +122,7 @@ const NavDrawer = () => {
                     className="h-5 w-5"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    stroke="#ffffff"
                   >
                     <path
                       strokeLinecap="round"
@@ -134,8 +131,8 @@ const NavDrawer = () => {
                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                     />
                   </svg>
-                  <span className="badge badge-sm indicator-item">
-                    {cartLength}
+                  <span className="badge badge-sm bg-primary border-none text-white indicator-item">
+                   {cartData?.length}
                   </span>
                 </div>
               </div>
@@ -143,9 +140,9 @@ const NavDrawer = () => {
                 tabIndex={0}
                 className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
               >
-                <div className="card-body">
-                  <span className="font-bold text-lg">{cartLength} Items</span>
-                  <span className="text-info">Subtotal: $999</span>
+                <div className="card-body bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+                  <span className="font-bold text-lg"> {cartData?.length} Items</span>
+                  <span className="text-accent">Subtotal: ${totalPrice?.total}</span>
                   <div className="card-actions">
                     <Link to="/dashboard/cart" className="w-full">
                       <button className="btn btn-primary btn-block">

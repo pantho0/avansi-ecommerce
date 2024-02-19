@@ -12,9 +12,12 @@ import useAuth from "../../Components/Hooks/useAuth";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
+import useCart from "../../Components/Hooks/useCart";
 
 const ProductDetails = () => {
   const {user} = useAuth();
+  const [ ,refetch, ,reloadTotalPrice] = useCart();
+  console.log(reloadTotalPrice);
   const axiosPublic = useAxiosPublic()
   const [selectedColor, setColor] = useState('');
   const [selectedType, setType] = useState('')
@@ -65,8 +68,9 @@ const ProductDetails = () => {
     }
 
     const {data} = await axiosPublic.post('/saveToCart', item)
-    console.log(data);
     if(data.insertedId){
+      refetch()
+      reloadTotalPrice()
       setColor('')
       setType('')
       toast.success("Product Added To Cart")

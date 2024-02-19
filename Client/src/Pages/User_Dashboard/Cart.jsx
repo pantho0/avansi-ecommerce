@@ -15,7 +15,7 @@ const Cart = () => {
     queryKey: ["products", user?.email, price],
     queryFn: async () => {
       const { data } = await axiosPublic(`/getCartItem/?email=${user?.email}&sortField=priceWithQuantity&sortOrder=${price}`);
-      return data.result;
+      return data;
     },
   });
   const {data:totalPrice=[], refetch:reload}=useQuery({
@@ -25,6 +25,7 @@ const Cart = () => {
       return data
     }
   })
+
 
 
   const handleDelete = async(id) =>{
@@ -73,6 +74,7 @@ const Cart = () => {
         <div className="p-6 flex items-center gap-2">
           <p className="text-sm">Price:</p>
           <select onChange={handleFilter} className="select select-bordered text-black select-sm w-full max-w-xs">
+            <option defaultValue={''} disabled selected>Slect One</option>
             <option value={'asc'}>Low to high</option>
             <option value={'desc'}>High to low</option>
           </select>

@@ -73,10 +73,10 @@ async function run() {
       sortObj[sortField]=sortOrder;
     }
     const result = await cartsCollection.find(query).sort(sortObj).toArray()
-    const count = await cartsCollection.estimatedDocumentCount()
-    res.send({result, count})
+    res.send(result)
    })
-   
+
+
    //post cart items :
    app.post("/api/v1/saveToCart", async(req,res)=>{
     const item = req.body;
@@ -103,8 +103,6 @@ async function run() {
       }
       const result = await cartsCollection.updateOne(filter, updatedDoc, options)
       res.send(result)
-      console.log(id);
-
    })
    //for decrease quantity
    app.patch("/api/v1/quantityPriceDecrease/:id", async(req,res)=>{
@@ -148,10 +146,7 @@ app.get("/api/v1/cartTotal/:email", async(req,res)=>{
     res.send(result);
    })
    
-
-
-
-   
+ 
 
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();

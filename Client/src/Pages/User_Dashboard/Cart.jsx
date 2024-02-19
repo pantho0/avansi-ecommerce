@@ -4,15 +4,17 @@ import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
 
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
+  const [price, setPrice] = useState('')
   const { user } = useAuth();
   const { data: products = [], refetch } = useQuery({
-    queryKey: ["products", user?.email],
+    queryKey: ["products", user?.email, price],
     queryFn: async () => {
-      const { data } = await axiosPublic(`/getCartItem/?email=${user?.email}`);
+      const { data } = await axiosPublic(`/getCartItem/?email=${user?.email}&sortField=priceWithQuantity&sortOrder=${price}`);
       return data.result;
     },
   });
@@ -56,6 +58,10 @@ const Cart = () => {
     reload()
   }
 
+  const handleFilter = (e) =>{
+    setPrice(e.target.value)
+   }
+
   return (
     <div>
       <Helmet title="Avansi || User-Cart"/>
@@ -66,9 +72,9 @@ const Cart = () => {
         </div>
         <div className="p-6 flex items-center gap-2">
           <p className="text-sm">Price:</p>
-          <select className="select select-bordered text-black select-sm w-full max-w-xs">
-            <option>Low to high</option>
-            <option>High to low</option>
+          <select onChange={handleFilter} className="select select-bordered text-black select-sm w-full max-w-xs">
+            <option value={'asc'}>Low to high</option>
+            <option value={'desc'}>High to low</option>
           </select>
         </div>
       </div>

@@ -69,6 +69,21 @@ async function run() {
     const count = await cartsCollection.estimatedDocumentCount()
     res.send({result, count})
    })
+   //get cart items :
+   app.get("/api/v1/getCartItemWithSort", async(req,res)=>{
+    let sortObj = {};
+    const email = req.query.email; 
+    console.log(email);
+    const sortField = req.query.sortField;
+    console.log(sortField);
+    const sortOrder = req.query.sortOrder;
+
+    if(sortField && sortOrder){
+      sortObj[sortField]=sortOrder;
+    }
+    const result = await cartsCollection.find({email:email}).sort(sortObj).toArray()
+    res.send(result)
+   })
    //post cart items :
    app.post("/api/v1/saveToCart", async(req,res)=>{
     const item = req.body;

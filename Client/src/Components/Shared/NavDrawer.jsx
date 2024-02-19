@@ -18,13 +18,6 @@ const NavDrawer = () => {
     })
   };
   const [cartLength, setCartLength] = useState(0);
-  // const {data:cartLength, refetch:cartRefetch}=useQuery({
-  //   queryKey:["cartLength", user?.email],
-  //   queryFn: async()=>{
-  //     const {data}=await axiosPublic(`/getCartItem/${user?.email}`)
-  //     return data.result;
-  //   }
-  // })
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/getCartItem/${user?.email}`)

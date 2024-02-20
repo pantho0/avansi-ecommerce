@@ -58,7 +58,7 @@ const NavForMobileTablet = () => {
                     <summary className="bg-primary text-white hover:bg-accent">
                       All Category
                     </summary>
-                    <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
+                    <ul className=" bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
                       <li>
                         <a>Electronic</a>
                       </li>
@@ -85,7 +85,7 @@ const NavForMobileTablet = () => {
               <input
                 type="text"
                 placeholder="Search"
-                className="input input-bordered w-24 md:w-3/4"
+                className="input input-bordered w-full md:w-3/4"
               />
               
             </div>

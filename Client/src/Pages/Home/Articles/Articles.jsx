@@ -15,15 +15,15 @@ const Articles = () => {
   return (
     <Container>
       <div className="my-24">
-        <div className="flex justify-between ">
+        <div className="flex flex-col items-center md:flex-row justify-between ">
           <h2 className="text-3xl font-bold">Avansi&apos;s Article</h2>
           <Link to="/">
-            <button className="btn btn-outline border-primary btn-md px-8 hover:btn-primary">
+            <button className="btn btn-outline btn-xs md:border-primary md:btn-md px-8 hover:btn-primary">
               View All
             </button>
           </Link>
         </div>
-        <div className="py-8 grid justify-center md:grid-cols-4">
+        <div className="py-8 grid justify-center gap-4 md:grid-cols-4">
           {articles.map((article) => {
             return (
               <div key={article.title} className="card w-64 glass">
@@ -39,7 +39,7 @@ const Articles = () => {
                   <p>{article.date}</p>
                   <p>{article.details.slice(0,100)+'...'}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Learn now!</button>
+                    <button className="btn btn-xs btn-primary md:btn-md">Learn now!</button>
                   </div>
                 </div>
               </div>

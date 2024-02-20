@@ -6,10 +6,10 @@ const PopularProducts = () => {
   return (
     <Container>
       <div className="mt-16">
-        <div className="space-y-4">
-          <SectionTitle heading="Popular Products on Avansi" subHeading="Best selling products are here" />
-        </div>
-        <ProductsCard/>
+          {/* <div className="space-y-4">
+            <SectionTitle heading="Popular Products on Avansi" subHeading="Best selling products are here" />
+          </div> */}
+        {/* <ProductsCard/> */}
       </div>
     </Container>
   );

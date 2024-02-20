@@ -17,7 +17,7 @@ const FeaturedCategory = () => {
   return (
     <Container>
       <div className="my-50">
-        <div className="flex justify-between">
+        <div className=" md:flex justify-between">
           <h2 className="text-3xl font-bold">Featured Category</h2>
          <Link to='/'>
          <button className="btn btn-outline border-primary btn-md px-8 hover:btn-primary">

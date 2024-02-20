@@ -23,7 +23,7 @@ const Articles = () => {
             </button>
           </Link>
         </div>
-        <div className="py-8 grid grid-cols-4">
+        <div className="py-8 grid justify-center md:grid-cols-4">
           {articles.map((article) => {
             return (
               <div key={article.title} className="card w-64 glass">

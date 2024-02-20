@@ -15,7 +15,7 @@ const ProductsCard = () => {
     <div>
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="md:grid grid-cols-4 gap-4">
             {products.map((product) => {
               return (
                 <div

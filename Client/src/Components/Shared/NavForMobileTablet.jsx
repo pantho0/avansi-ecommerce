@@ -5,10 +5,9 @@ import Logo from "../Logo/Logo";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
-import NavForMobileTablet from "./NavForMobileTablet";
 
-const NavDrawer = () => {
-  const { user, logOut } = useAuth();
+const NavForMobileTablet = () => {
+    const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
 
   const signOut = () => {
@@ -21,97 +20,127 @@ const NavDrawer = () => {
       });
   };
 
-  return (
-    <>
-    <NavForMobileTablet/>
-    
-    <div className="hidden lg:block fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] shadow-md mb-50 z-20">
-      <div className="navbar bg-transparent w-[1200px] mx-auto">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+    return (
+        <div className="fixed lg:hidden w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] z-20">
+      <div className="drawer">
+        <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content flex flex-col">
+          {/* Navbar */}
+          <div className="navbar bg-transparent text-white">
+            <div className="flex-none lg:hidden">
+              <label
+                htmlFor="my-drawer-3"
+                aria-label="open sidebar"
+                className="btn btn-square btn-ghost"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="inline-block w-6 h-6 stroke-current"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+              </label>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
-            </ul>
+            <div className="px-2 mx-2">
+              <Logo />
+            </div>
+            <div className="flex-none hidden lg:flex-1 lg:block">
+              <ul className="menu menu-horizontal mr-4">
+                <li>
+                  <details>
+                    <summary className="bg-primary text-white hover:bg-accent">
+                      All Category
+                    </summary>
+                    <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
+                      <li>
+                        <a>Electronic</a>
+                      </li>
+                      <li>
+                        <a>Body Care</a>
+                      </li>
+                      <li>
+                        <details>
+                          <summary>Fashion</summary>
+                          <ul>
+                            <li>
+                              <a>Men</a>
+                            </li>
+                            <li>
+                              <a>Women</a>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered w-24 md:w-3/4"
+              />
+              
+            </div>
           </div>
-          <Logo />
+          {/* Page content here */}
+          {/* Content */}
         </div>
-        <div className="navbar-center hidden lg:flex w-1/2">
-    <ul className="menu menu-horizontal mr-4">
-      <li>
-        <details>
-          <summary className="bg-primary text-white hover:bg-accent">
-            All Category
-          </summary>
-          <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
+        <div className="drawer-side">
+          <label
+            htmlFor="my-drawer-3"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
+          <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-blue-200">
+            {/* Sidebar content here */}
             <li>
-              <a>Electronic</a>
+              <a>Sidebar Item 1</a>
             </li>
             <li>
-              <a>Body Care</a>
+              <a>Sidebar Item 2</a>
             </li>
             <li>
-              <details>
-                <summary>Fashion</summary>
-                <ul>
-                  <li>
-                    <a>Men</a>
-                  </li>
-                  <li>
-                    <a>Women</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-
-          <div className="form-control md:block w-full">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-full"
-            />
-          </div>
-        </div>
-        <div className="navbar-end ">
-          {user ? (
+                  <details>
+                    <summary className="bg-primary text-white hover:bg-accent">
+                      All Category
+                    </summary>
+                    <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
+                      <li>
+                        <a>Electronic</a>
+                      </li>
+                      <li>
+                        <a>Body Care</a>
+                      </li>
+                      <li>
+                        <details>
+                          <summary>Fashion</summary>
+                          <ul>
+                            <li>
+                              <a>Men</a>
+                            </li>
+                            <li>
+                              <a>Women</a>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+                <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered w-24 md:w-3/4"
+              />
+              {user ? (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -212,11 +241,11 @@ const NavDrawer = () => {
               </Link>
             </>
           )}
+          </ul>
         </div>
       </div>
     </div>
-    </>
-  );
+    );
 };
 
-export default NavDrawer;
+export default NavForMobileTablet;

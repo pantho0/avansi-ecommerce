@@ -48,99 +48,11 @@ const NavForMobileTablet = () => {
                 </svg>
               </label>
             </div>
-            <div className="px-2 mx-2">
+            <div className="">
               <Logo />
             </div>
-            <div className="flex-none hidden lg:flex-1 lg:block">
-              <ul className="menu menu-horizontal mr-4">
-                <li>
-                  <details>
-                    <summary className="bg-primary text-white hover:bg-accent">
-                      All Category
-                    </summary>
-                    <ul className=" bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
-                      <li>
-                        <a>Electronic</a>
-                      </li>
-                      <li>
-                        <a>Body Care</a>
-                      </li>
-                      <li>
-                        <details>
-                          <summary>Fashion</summary>
-                          <ul>
-                            <li>
-                              <a>Men</a>
-                            </li>
-                            <li>
-                              <a>Women</a>
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-              </ul>
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered w-full md:w-3/4"
-              />
-              
-            </div>
-          </div>
-          {/* Page content here */}
-          {/* Content */}
-        </div>
-        <div className="drawer-side">
-          <label
-            htmlFor="my-drawer-3"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-blue-200">
-            {/* Sidebar content here */}
-            <li>
-              <a>Sidebar Item 1</a>
-            </li>
-            <li>
-              <a>Sidebar Item 2</a>
-            </li>
-            <li>
-                  <details>
-                    <summary className="bg-primary text-white hover:bg-accent">
-                      All Category
-                    </summary>
-                    <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
-                      <li>
-                        <a>Electronic</a>
-                      </li>
-                      <li>
-                        <a>Body Care</a>
-                      </li>
-                      <li>
-                        <details>
-                          <summary>Fashion</summary>
-                          <ul>
-                            <li>
-                              <a>Men</a>
-                            </li>
-                            <li>
-                              <a>Women</a>
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-                <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered w-24 md:w-3/4"
-              />
-              {user ? (
+            <div>
+            {user ? (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -241,6 +153,74 @@ const NavForMobileTablet = () => {
               </Link>
             </>
           )}
+            </div>
+
+            <div className="flex-none hidden lg:flex-1 lg:block">
+              <ul className="menu menu-horizontal mr-4">
+                <li>
+                  <details>
+                    <summary className="bg-primary text-white hover:bg-accent">
+                      All Category
+                    </summary>
+                    <ul className=" bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
+                      <li>
+                        <a>Electronic</a>
+                      </li>
+                      <li>
+                        <a>Body Care</a>
+                      </li>
+                      <li>
+                        <details>
+                          <summary>Fashion</summary>
+                          <ul>
+                            <li>
+                              <a>Men</a>
+                            </li>
+                            <li>
+                              <a>Women</a>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered w-full md:w-3/4"
+              />
+              
+            </div>
+          </div>
+          {/* Page content here */}
+          {/* Content */}
+        </div>
+        <div className="drawer-side">
+          <label
+            htmlFor="my-drawer-3"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
+         
+          <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+            {/* Sidebar content here */}
+            <li>
+              <a>Electronics</a>
+            </li>
+            <li>
+              <a>Body Care</a>
+            </li>
+            <li>
+        <details>
+          <summary>Fashion</summary>
+          <ul className="p-2">
+            <li><a>Men</a></li>
+            <li><a>Women</a></li>
+          </ul>
+        </details>
+      </li>
           </ul>
         </div>
       </div>

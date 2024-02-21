@@ -19,7 +19,7 @@ const Home = () => {
             <FeaturedCategory/>
             <PopularProducts/>
             <AllProducts/>
-            {/* <Subscribe/> */}
+            <Subscribe/>
             <Articles/>
         </div>
     );

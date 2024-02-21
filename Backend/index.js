@@ -27,6 +27,7 @@ async function run() {
     const productsCollection = client.db('avansi').collection('products')
     const articlesCollection = client.db('avansi').collection('articles')
     const cartsCollection = client.db('avansi').collection('carts')
+    const usersCollection = client.db('avansi').collection('users')
 
     //All Products API with sort & filter methods
     app.get("/api/v1/products", async(req,res)=>{
@@ -56,11 +57,18 @@ async function run() {
       const result = await productsCollection.findOne(query)
       res.send(result);
     })
-   //All Artcles get api
+    //=================================================================================================================
+    //=================================================================================================================
+    //=================================================================================================================
+   //All Articles get api
    app.get("/api/v1/articles", async(req,res)=>{
       const result = await articlesCollection.find().toArray()
       res.send(result)
    })
+   //==================================================================================================================
+   //==================================================================================================================
+   //==================================================================================================================
+
   //  Cart Related API's
    //get cart items :
    app.get("/api/v1/getCartItem", async(req,res)=>{
@@ -75,8 +83,6 @@ async function run() {
     const result = await cartsCollection.find(query).sort(sortObj).toArray()
     res.send(result)
    })
-
-
    //post cart items :
    app.post("/api/v1/saveToCart", async(req,res)=>{
     const item = req.body;
@@ -129,24 +135,43 @@ async function run() {
     res.send(result)
     console.log(id);
 
- })
+     })
 //Total price in cart items :
-app.get("/api/v1/cartTotal/:email", async(req,res)=>{
-  const email = req.params.email;
-  const myCart = await cartsCollection.find({email:email}).toArray()
-  const totalPrice = myCart.reduce((acc,cart)=> acc+parseFloat(cart.priceWithQuantity) ,0)
-  res.send({total: totalPrice})
-})
-
+    app.get("/api/v1/cartTotal/:email", async(req,res)=>{
+    const email = req.params.email;
+    const myCart = await cartsCollection.find({email:email}).toArray()
+    const totalPrice = myCart.reduce((acc,cart)=> acc+parseFloat(cart.priceWithQuantity) ,0)
+    res.send({total: totalPrice})
+    })
 
    //delete cart items : 
-   app.delete("/api/v1/deleteCartItem/:id", async(req,res)=>{
+    app.delete("/api/v1/deleteCartItem/:id", async(req,res)=>{
     const id = req.params.id;
     const result = await cartsCollection.deleteOne({_id: new ObjectId(id)})
     res.send(result);
    })
-   
- 
+   //==================================================================================================================
+   //User Info store APi 
+   //==================================================================================================================
+   app.post("/api/v1/saveUserInfo", async(req, res)=>{
+    const userInfo = req.body;
+    const query = {email : userInfo.email}
+    const findUser = await usersCollection.findOne(query)
+    if(findUser?.email === userInfo.email){
+      return res.send({message: "User Already exist"})
+    }
+    const result = await usersCollection.insertOne(userInfo);
+    res.send(result);
+   })
+   //==================================================================================================================
+   //==================================================================================================================
+   //==================================================================================================================
+
+
+
+
+
+
 
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();

@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
+import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 const Login = () => {
   const {register, handleSubmit} = useForm();
   const {user,login, googleLogin} = useAuth();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate()
   const onSubmit = (data) =>{
     const email = data?.email;
@@ -27,6 +29,12 @@ const Login = () => {
   const handleGoogleLogin = () =>{
     googleLogin()
     .then(res=>{
+      const userInfo = {
+        email: res.user.email,
+        role: "user",
+      };
+      axiosPublic.post("/saveUserInfo", userInfo)
+        .then((res) => console.log(res?.data));
       console.log(res?.user?.email);
       navigate('/')
       toast.success('Login Success')

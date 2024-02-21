@@ -15,7 +15,7 @@ const Articles = () => {
   return (
     <Container>
       <div className="my-24">
-        <div className="flex flex-col items-center md:flex-row justify-between ">
+        <div className="flex flex-col items-center md:flex-row justify-between px-4 ">
           <h2 className="text-3xl font-bold">Avansi&apos;s Article</h2>
           <Link to="/">
             <button className="btn btn-outline btn-xs md:border-primary md:btn-md px-8 hover:btn-primary">
@@ -23,10 +23,10 @@ const Articles = () => {
             </button>
           </Link>
         </div>
-        <div className="py-8 grid justify-center gap-4 md:grid-cols-4">
+        <div className="py-8 grid justify-center md:grid-cols-3 px-4 lg:grid-cols-4 gap-4">
           {articles.map((article) => {
             return (
-              <div key={article.title} className="card w-64 glass">
+              <div key={article.title} className="card glass">
                 <figure className="h-[200px]">
                   <img
                     src={article?.image}

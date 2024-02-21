@@ -1,7 +1,7 @@
 
 
 const Container = ({children}) => {
-    return <div className="md:w-[1200px] mx-auto">{children}</div>
+    return <div className="lg:w-[1200px] mx-auto">{children}</div>
 };
 
 export default Container;

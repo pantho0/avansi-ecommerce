@@ -17,7 +17,7 @@ const FeaturedCategory = () => {
   return (
     <Container>
       <div className="my-50">
-        <div className="flex flex-col items-center md:flex-row justify-between">
+        <div className="flex flex-col items-center md:flex-row justify-between px-2">
           <h2 className="text-base md:text-3xl font-bold">Featured Category</h2>
          <Link to='/'>
          <button className="btn btn-xs md:btn-outline border-primary md:btn-md px-8 hover:btn-primary">
@@ -25,7 +25,7 @@ const FeaturedCategory = () => {
           </button>
          </Link>
         </div>
-        <div className="mt-8">
+        <div className="mt-8 px-2">
           <Swiper
             slidesPerView={1}
             spaceBetween={8}  

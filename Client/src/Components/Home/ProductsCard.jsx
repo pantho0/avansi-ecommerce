@@ -15,7 +15,7 @@ const ProductsCard = () => {
     <div>
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
             {products.map((product) => {
               return (
                 <div
@@ -40,7 +40,7 @@ const ProductsCard = () => {
                       ${product.price}
                     </p>
                   </div>
-                  <div className="card-actions w-1/2 mx-auto">
+                  <div className="card-actions justify-center md:justify-start">
                     <Link to={`/product/${product._id}`}><button className="btn btn-primary btn-sm w-full hover:btn-accent">Buy Now</button></Link>
                   </div>
                 </div>

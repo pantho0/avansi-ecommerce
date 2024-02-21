@@ -71,12 +71,12 @@ const Cart = () => {
   return (
     <div>
       <Helmet title="Avansi || User-Cart" />
-      <div className="flex flex-col text-center md:flex-row justify-between bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
-        <div className="md:p-6">
+      <div className="flex flex-col text-center p-4 lg:flex-row justify-between bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+        <div className="lg:p-6">
           <p className="text-2xl font-bold">Shopping Cart</p>
           <p className="text-sm text-white">Showing your choosed product</p>
         </div>
-        <div className="p-6 flex items-center gap-2">
+        <div className="flex items-center justify-center md:p-0 lg:gap-2 p-6">
           <p className="text-sm">Price:</p>
           <select
             onChange={handleFilter}
@@ -92,7 +92,7 @@ const Cart = () => {
       </div>
       {/* Cart Summary */}
       <div className="flex flex-col md:flex-row z-10">
-        <div className="min-h-screen md:w-[66%] md:min-h-screen bg-gary-300 m-5 shadow-2xl rounded-2xl">
+        <div className="min-h-screen  md:w-[67%] bg-gary-300 m-5 shadow-2xl rounded-2xl lg:w-[66%]">
           {products.length === 0 ? (
             <div>
               <p className="flex w-full items-center justify-center h-[calc(100vh-30vh)] font-bold">
@@ -152,8 +152,8 @@ const Cart = () => {
             </>
           )}
         </div>
-        <div className="flex-1 m-5  h-1/2 rounded-2xl shadow-2xl">
-          <div className="md:fixed md:w-[300px] bg-white rounded-lg">
+        <div className="md:min-w-[33%] lg:max-w-[35%] m-5 h-1/2 rounded-2xl shadow-2xl">
+          <div className="w-full md:fixed md:w-[250px] lg:w-[300px] bg-white rounded-lg">
             <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white rounded-tr-2xl rounded-tl-2xl">
               <p>Billing Summary</p>
             </div>

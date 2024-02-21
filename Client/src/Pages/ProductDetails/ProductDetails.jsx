@@ -17,7 +17,6 @@ import useCart from "../../Components/Hooks/useCart";
 const ProductDetails = () => {
   const {user} = useAuth();
   const [ ,refetch, ,reloadTotalPrice] = useCart();
-  console.log(reloadTotalPrice);
   const axiosPublic = useAxiosPublic()
   const [selectedColor, setColor] = useState('');
   const [selectedType, setType] = useState('')
@@ -88,9 +87,9 @@ const ProductDetails = () => {
     <Helmet title="Avansi || Product-Details"/>
     <div className="pt-20">
       <Container>
-        <div className="flex gap-16 mt-16">
+        <div className="flex flex-col gap-0 mt-2 md:flex-row md:gap-16 md:mt-16">
           {/* image */}
-          <div className="w-96">
+          <div className="w-full md:w-96">
             <Swiper
               pagination={{
                 dynamicBullets: true,
@@ -113,9 +112,9 @@ const ProductDetails = () => {
             </Swiper>
           </div>
           {/* description */}
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold">{name}</h2>
-            <div className="flex items-center gap-2">
+          <div className="space-y-1 text-center md:space-y-2 md:text-left">
+            <h2 className="text-xl md:text-3xl font-bold">{name}</h2>
+            <div className="md:flex items-center gap-2">
               <div className="rating">
                 <input
                   type="radio"
@@ -130,7 +129,7 @@ const ProductDetails = () => {
             <p className="text-slate-500">{description}</p>
             <div className="divider"></div>
             <h2>Product Variant :</h2>
-            <div className="flex gap-4">
+            <div className="flex justify-center gap-2 md:justify-start md:gap-4">
               <div>
                 <p>Type</p>
                 <select onChange={handleSelectType} className="select select-primary w-full max-w-xs">
@@ -152,15 +151,15 @@ const ProductDetails = () => {
                 </select>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col px-16 md:flex-row gap-2 md:px-0">
               <button className="btn btn-primary">Buy Now</button>
               <button onClick={()=>handleAddToCart(_id,name, price, selectedType, selectedColor)} className="btn btn-outline">Add To Cart</button>
             </div>
           </div>
         </div>
-        <div>
+        <div className="pl-2 md:pl-0">
           <div className="divider"></div>
-          <h4 className="text-2xl font-bold">About This Product </h4>
+          <h4 className="text-xl md:text-2xl font-bold">About This Product </h4>
           <div className="mt-6">
             <p className="font-bold">Name : {name}</p>
             <p>Category : {category}</p>
@@ -177,9 +176,9 @@ const ProductDetails = () => {
             </p>
           </div>
         </div>
-        <div>
+        <div className="pl-2 md:pl-0">
           <div className="divider"></div>
-          <h4 className="text-2xl font-bold">Reviews</h4>
+          <h4 className="text-xl md:text-2xl font-bold">Reviews</h4>
           <div className="mt-4">
             {reviews.map((review) => (
               <Swiper

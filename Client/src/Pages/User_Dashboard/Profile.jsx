@@ -6,7 +6,7 @@ const Profile = () => {
   return (
     <>
     <Helmet title="Avansi || User-Profile"/>
-    <div className="w-1/2 mx-auto">
+    <div className="flex min-h-screen items-center justify-center md:w-1/2 mx-auto">
       <div className="card bg-base-100 shadow-xl">
         <figure className="px-10 pt-10">
           <img

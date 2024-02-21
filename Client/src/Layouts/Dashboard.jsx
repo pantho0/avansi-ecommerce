@@ -8,9 +8,14 @@ import { MdDashboard } from "react-icons/md";
 import { PiShoppingCartFill } from "react-icons/pi";
 import { MdBorderColor } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
+import useRole from "../Components/Hooks/useRole";
+import { useState } from "react";
 
 const Dashboard = () => {
   const {logOut} = useAuth();
+  const isAdmin = useRole();
+  const [adminDashboard, setAdminDashboard] = useState(false)
+
   const signOut = () => {
     logOut();
   };

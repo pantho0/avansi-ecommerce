@@ -39,8 +39,8 @@ const Signup = () => {
           role: "user",
         };
         axiosPublic.post("/saveUserInfo", userInfo)
-          .then((res) => console.log(res?.data));
-          console.log(res?.user?.email);
+        .then((res) => console.log(res?.data));
+        console.log(res?.user?.email);
         navigate("/");
         toast.success("Login Success");
       })

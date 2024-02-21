@@ -163,6 +163,19 @@ async function run() {
     const result = await usersCollection.insertOne(userInfo);
     res.send(result);
    })
+
+   // user role checking of admin :
+   app.get("/api/v1/isAdmin", async(req,res)=>{
+    const userEmail = req.query.email;
+    const query = {email : userEmail}
+    const result = await usersCollection.findOne(query);
+    if(result?.role === 'admin'){
+      res.send(true);
+    }else{
+      res.send(false);
+    }
+   })
+
    //==================================================================================================================
    //==================================================================================================================
    //==================================================================================================================

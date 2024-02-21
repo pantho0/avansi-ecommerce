@@ -14,7 +14,7 @@ import Container from '../../../Components/Ui/Container/Container';
 const Banner = () => {
   return (
    <div>
-     <Container>
+     <>
       <div className='pt-16 pb-16'>
       <Swiper
         spaceBetween={30}
@@ -35,7 +35,7 @@ const Banner = () => {
         <SwiperSlide ><img src={banner_three} className='w-full' /></SwiperSlide>
       </Swiper>
     </div>
-    </Container>
+    </>
    </div>
   );
 };

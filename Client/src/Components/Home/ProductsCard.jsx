@@ -40,7 +40,7 @@ const ProductsCard = () => {
                       ${product.price}
                     </p>
                   </div>
-                  <div className="card-actions justify-center md:justify-start">
+                  <div className="card-actions justify-center md:justify-center">
                     <Link to={`/product/${product._id}`}><button className="btn btn-primary btn-sm w-full hover:btn-accent">Buy Now</button></Link>
                   </div>
                 </div>

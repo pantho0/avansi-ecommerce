@@ -4,18 +4,16 @@ import { MdMenuOpen } from "react-icons/md";
 import { IoMdHome } from "react-icons/io";
 import { TbLogout } from "react-icons/tb";
 import useAuth from "../Components/Hooks/useAuth";
-import { MdDashboard } from "react-icons/md";
-import { PiShoppingCartFill } from "react-icons/pi";
-import { MdBorderColor } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
 import useRole from "../Components/Hooks/useRole";
 import { useState } from "react";
+import { Switch } from "@headlessui/react";
+import UserDashboard from "../Components/Dashboard/UserDashboard";
+import AdminDashboard from "../Components/Dashboard/AdminDashboard";
 
 const Dashboard = () => {
-  const {logOut} = useAuth();
+  const [enabled, setEnabled] = useState(false);
+  const { logOut } = useAuth();
   const isAdmin = useRole();
-  const [adminDashboard, setAdminDashboard] = useState(false)
-
   const signOut = () => {
     logOut();
   };
@@ -48,35 +46,41 @@ const Dashboard = () => {
             <div className="flex justify-center mb-6">
               <div className="tooltip tooltip-primary" data-tip="Home">
                 <Link to="/">
-                <IoMdHome size={25} className="cursor-pointer text-accent" />
+                  <IoMdHome size={25} className="cursor-pointer text-accent" />
                 </Link>
               </div>
-              <div className="divider divider-primary divider-horizontal"></div> 
+              <div className="divider divider-primary divider-horizontal"></div>
               <div className="tooltip tooltip-primary" data-tip="Logout">
-                <TbLogout onClick={signOut} size={25} className="cursor-pointer text-accent" />
+                <TbLogout
+                  onClick={signOut}
+                  size={25}
+                  className="cursor-pointer text-accent"
+                />
               </div>
             </div>
+            { isAdmin &&
+              <div className="text-white flex flex-col items-center mb-4">
+              <Switch.Group>
+                <Switch.Label passive>Switch To Admin Dashboard</Switch.Label>
+                <Switch
+                  checked={enabled}
+                  onChange={setEnabled}
+                  className={`${enabled ? "bg-primary" : "bg-secondary"}
+          relative inline-flex h-[24px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                >
+                  <span className="sr-only">Use setting</span>
+                  <span
+                    aria-hidden="true"
+                    className={`${enabled ? "translate-x-5" : "translate-x-0"}
+            pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                  />
+                </Switch>
+              </Switch.Group>
+            </div>}
+            <div className="divider divider-primary"></div>
           </div>
-          <button className="btn btn-primary w-full rounded-none mt-2 ">
-            <MdDashboard size={20} />
-            Dashboard
-          </button>
-          <Link to="/dashboard/cart">
-          <button className="btn btn-primary w-full rounded-none mt-2 ">
-            <PiShoppingCartFill size={20} />
-            Cart
-          </button>
-          </Link>
-          <button className="btn btn-primary w-full rounded-none mt-2">
-            <MdBorderColor size={20} />
-            My Orders
-          </button>
-          <Link to="/dashboard/profile">
-            <button className="btn btn-primary w-full rounded-none mt-2 ">
-              <CgProfile size={20}/>
-              Profile
-            </button>
-          </Link>
+          {enabled ? "" : <UserDashboard />}
+          {enabled ? <AdminDashboard /> : ""}
         </ul>
       </div>
     </div>

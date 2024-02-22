@@ -44,6 +44,10 @@ export const router = createBrowserRouter([
             {
                 path : "cart",
                 element :<PrivateRoute><Cart/></PrivateRoute>, 
+            },
+            {
+                path : 'users',
+               
             }
         ]
     }

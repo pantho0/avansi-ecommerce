@@ -70,8 +70,6 @@ const ProductDetails = () => {
     if(data.insertedId){
       refetch()
       reloadTotalPrice()
-      setColor('')
-      setType('')
       toast.success("Product Added To Cart")
     }
 

@@ -27,10 +27,12 @@ const AdminDashboard = () => {
             <RiListUnordered size={20} />
             All Orders
           </button>
+          <Link to={'/dashboard/users'}>
           <button className="btn btn-primary w-full rounded-none mt-2">
             <PiUsersFourFill size={20} />
             All Users
           </button>
+          </Link>
           <Link to="/dashboard/profile">
             <button className="btn btn-primary w-full rounded-none mt-2 ">
               <CgProfile size={20} />

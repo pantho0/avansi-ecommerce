@@ -163,7 +163,11 @@ async function run() {
     const result = await usersCollection.insertOne(userInfo);
     res.send(result);
    })
-
+   // Load All users
+   app.get("/api/v1/allUsers", async(req,res)=>{
+      const result = await usersCollection.find().toArray();
+      res.send(result)
+   })
    // user role checking of admin :
    app.get("/api/v1/isAdmin", async(req,res)=>{
     const userEmail = req.query.email;

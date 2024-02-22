@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 const Signup = () => {
-  const { createUser, googleLogin } = useAuth();
+  const { createUser, googleLogin} = useAuth();
   const { register, handleSubmit } = useForm();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();

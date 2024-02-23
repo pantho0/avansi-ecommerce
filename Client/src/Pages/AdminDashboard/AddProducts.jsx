@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 const AddProducts = () => {
+    const [colors, setColors] = useState([])
   return (
     <div className="bg-white h-[100%]">
       <div className="text-center bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">

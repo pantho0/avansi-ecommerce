@@ -13,7 +13,7 @@ const AdminDashboard = () => {
             <MdDashboard size={20} />
             Dashboard
           </button>
-          <Link to="/dashboard/cart">
+          <Link to="/dashboard/addProducts">
             <button className="btn btn-primary w-full rounded-none mt-2 ">
               <IoBagAddSharp size={20} />
               Add Products

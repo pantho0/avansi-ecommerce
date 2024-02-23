@@ -7,8 +7,8 @@ import useAuth from "../Components/Hooks/useAuth";
 import useRole from "../Components/Hooks/useRole";
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
-import UserDashboard from "../Components/Dashboard/UserDashboard";
-import AdminDashboard from "../Components/Dashboard/AdminDashboard";
+import UserDashboard from "../Components/Dashboard/User/UserDashboard";
+import AdminDashboard from "../Components/Dashboard/Admin/AdminDashboard";
 
 const Dashboard = () => {
   const [enabled, setEnabled] = useState(false);

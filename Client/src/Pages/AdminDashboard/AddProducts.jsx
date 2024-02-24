@@ -3,20 +3,34 @@ import { useState } from "react";
 const AddProducts = () => {
   const [color, setColor] = useState("");
   const [colors, setColors] = useState([]);
-  const [variant, setVariant] = useState('');
-  const [variants, setVariants] = useState([])
-  console.log(variant);
+  const [variant, setVariant] = useState("");
+  const [variants, setVariants] = useState([]);
 
-  const handleAddVariant = () =>{
-    if(variant.trim() !== ''){
-      setVariants([...variants, variant])
-      setVariant('')
+  const parentCategory = [
+    "electronics",
+    "fashion and apparel",
+    "home and furniture",
+    "beauty and personal care",
+    "books and media",
+    "health and wellness",
+    "toys and game",
+    "sports and outdoor",
+    "food and groceries",
+    "art and craft",
+  ];
+
+  console.log(parentCategory);
+
+  const handleAddVariant = () => {
+    if (variant.trim() !== "") {
+      setVariants([...variants, variant]);
+      setVariant("");
     }
-  }
+  };
 
-  const clearVariant = () =>{
-    setVariants([])
-  }
+  const clearVariant = () => {
+    setVariants([]);
+  };
 
   const handleAddColor = () => {
     if (color.trim() !== "") {
@@ -25,13 +39,13 @@ const AddProducts = () => {
     }
   };
 
-  const clearAddColor = () =>{
-    setColors([])
-  }
+  const clearAddColor = () => {
+    setColors([]);
+  };
 
-  const handleAddProduct = (e)=>{
+  const handleAddProduct = (e) => {
     e.preventDefault();
-  }
+  };
   return (
     <div className="bg-white h-[100%]">
       <div className="text-center bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
@@ -55,15 +69,20 @@ const AddProducts = () => {
                 className="input input-bordered w-full bg-white"
               />
             </label>
-            <label className="form-control w-full">
+            <label className="form-control w-full ">
               <div className="label">
-                <span className="label-text">Product Category</span>
+                <span className="label-text">
+                  Parent Category
+                </span>
               </div>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full bg-white"
-              />
+              <select className="select select-bordered uppercase bg-white">
+                <option disabled selected>
+                  Pick one
+                </option>
+                {
+                  parentCategory.map(pc=><option className="uppercase" key={pc}>{pc}</option>)
+                }
+              </select>
             </label>
           </div>
           <div className="flex flex-col md:flex-row gap-2">
@@ -97,21 +116,33 @@ const AddProducts = () => {
                 <input
                   type="text"
                   value={variant}
-                  onChange={(e)=>setVariant(e.target.value)}
+                  onChange={(e) => setVariant(e.target.value)}
                   placeholder="Type here"
                   className="input input-bordered w-3/4 bg-white"
                 />
                 <div>
-                  <button onClick={clearVariant} className="btn btn-primary btn-md w-full">Clear</button>
+                  <button
+                    onClick={clearVariant}
+                    className="btn btn-primary btn-md w-full"
+                  >
+                    Clear
+                  </button>
                 </div>
                 <div className="">
-                  <button onClick={handleAddVariant} className="btn btn-primary btn-md w-full">Add</button>
+                  <button
+                    onClick={handleAddVariant}
+                    className="btn btn-primary btn-md w-full"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
               <div className="">
-                {
-                  variants.map(variant=><div key={variant} className="bg-green-100 mt-1 p-2"><p  >{variant}</p></div>)
-                }
+                {variants.map((variant) => (
+                  <div key={variant} className="bg-green-100 mt-1 p-2">
+                    <p>{variant}</p>
+                  </div>
+                ))}
               </div>
             </label>
 
@@ -121,33 +152,42 @@ const AddProducts = () => {
                   <span className="label-text">Colors</span>
                 </div>
                 <div className="flex items-center gap-2 ">
-                <input
-                  type="text"
-                  value={color}
-                  placeholder="Type here"
-                  onChange={(e) => setColor(e.target.value)}
-                  className="input input-bordered w-3/4 bg-white"
-                />
-                <div>
-                  <button onClick={clearAddColor} className="btn btn-primary btn-md w-full">Clear</button>
+                  <input
+                    type="text"
+                    value={color}
+                    placeholder="Type here"
+                    onChange={(e) => setColor(e.target.value)}
+                    className="input input-bordered w-3/4 bg-white"
+                  />
+                  <div>
+                    <button
+                      onClick={clearAddColor}
+                      className="btn btn-primary btn-md w-full"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <div className="">
+                    <button
+                      onClick={handleAddColor}
+                      className="btn btn-primary btn-md w-full"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
                 <div className="">
-                  <button onClick={handleAddColor} className="btn btn-primary btn-md w-full">Add</button>
+                  {colors.length > 0 && (
+                    <p className="bg-green-100 mt-1 p-2">{colors.join(", ")}</p>
+                  )}
                 </div>
-              </div>
-              <div className="">
-                {
-                  colors.length > 0 && <p className="bg-green-100 mt-1 p-2">{colors.join(', ')}</p>
-                }
-              </div>
-                
               </label>
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-2">
             <label className="form-control w-full">
               <div className="label">
-                <span className="label-text">Parent Category</span>
+                <span className="label-text">Sub Category</span>
               </div>
               <input
                 type="text"

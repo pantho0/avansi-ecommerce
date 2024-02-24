@@ -108,9 +108,9 @@ const AddProducts = () => {
                   <button onClick={handleAddVariant} className="btn btn-primary btn-md w-full">Add</button>
                 </div>
               </div>
-              <div className="px-2">
+              <div className="">
                 {
-                  variants.length > 0 && <p>{variants.join(', ')}</p>
+                  variants.map(variant=><div key={variant} className="bg-green-100 mt-1 p-2"><p  >{variant}</p></div>)
                 }
               </div>
             </label>
@@ -135,9 +135,9 @@ const AddProducts = () => {
                   <button onClick={handleAddColor} className="btn btn-primary btn-md w-full">Add</button>
                 </div>
               </div>
-              <div className="px-2">
+              <div className="">
                 {
-                  colors.length > 0 && <p>{colors.join(', ')}</p>
+                  colors.length > 0 && <p className="bg-green-100 mt-1 p-2">{colors.join(', ')}</p>
                 }
               </div>
                 

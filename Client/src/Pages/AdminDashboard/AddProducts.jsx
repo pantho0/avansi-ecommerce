@@ -1,25 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AddProducts = () => {
   const [color, setColor] = useState("");
   const [colors, setColors] = useState([]);
   const [variant, setVariant] = useState("");
   const [variants, setVariants] = useState([]);
+  const [categories, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [subCategory, setSubCategory] = useState([])
+  useEffect(()=>{
+    fetch('/categories.json')
+    .then(res=>res.json())
+    .then(data=>setCategory(data))
+  },[])
 
-  const parentCategory = [
-    "electronics",
-    "fashion and apparel",
-    "home and furniture",
-    "beauty and personal care",
-    "books and media",
-    "health and wellness",
-    "toys and game",
-    "sports and outdoor",
-    "food and groceries",
-    "art and craft",
-  ];
+  const handleCategory = (e)=>{
+    
+    const selectedCategory = e.target.value;
+    setSelectedCategory(selectedCategory);
 
-  console.log(parentCategory);
+    const category = categories.find(cat=> cat.name === selectedCategory)
+    setSubCategory(category ? category.subcategories : []);
+
+  }
 
   const handleAddVariant = () => {
     if (variant.trim() !== "") {
@@ -45,7 +48,20 @@ const AddProducts = () => {
 
   const handleAddProduct = (e) => {
     e.preventDefault();
+    const form = e.target;
+    const productName = form.name.value;
+    const parentCategory = form.parentCategory.value;
+    const subCategory = form.subCategory.value;
+    const variant = variants;
+    const color = colors; 
+
+    const productInfo = {
+      productName, parentCategory, subCategory, variant, color
+    }
+    console.log(productInfo);
   };
+
+
   return (
     <div className="bg-white h-[100%]">
       <div className="text-center bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
@@ -65,6 +81,7 @@ const AddProducts = () => {
               </div>
               <input
                 type="text"
+                name = 'name'
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
               />
@@ -75,33 +92,40 @@ const AddProducts = () => {
                   Parent Category
                 </span>
               </div>
-              <select className="select select-bordered uppercase bg-white">
+              <select name="parentCategory" onChange={handleCategory} className="select select-bordered uppercase bg-white">
                 <option disabled selected>
                   Pick one
                 </option>
                 {
-                  parentCategory.map(pc=><option className="uppercase" key={pc}>{pc}</option>)
+                  categories.map(cat=><option className="uppercase" key={cat.name}>{cat.name}</option>)
                 }
               </select>
             </label>
           </div>
           <div className="flex flex-col md:flex-row gap-2">
-            <label className="form-control w-full">
+          <label className="form-control w-full ">
               <div className="label">
-                <span className="label-text">Rating</span>
+                <span className="label-text">
+                  Sub Category
+                </span>
               </div>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full bg-white"
-              />
+              <select name="subCategory"  className="select select-bordered uppercase bg-white">
+                <option disabled selected>
+                  Pick one
+                </option>
+                {
+                  subCategory.map(subcat=><option className="uppercase" key={subcat}>{subcat}</option>)
+                }
+              </select>
             </label>
+            
             <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Price</span>
               </div>
               <input
-                type="text"
+                type="number"
+                name="price"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
               />
@@ -115,6 +139,7 @@ const AddProducts = () => {
               <div className="flex items-center gap-2 ">
                 <input
                   type="text"
+                  name="variant"
                   value={variant}
                   onChange={(e) => setVariant(e.target.value)}
                   placeholder="Type here"
@@ -154,6 +179,7 @@ const AddProducts = () => {
                 <div className="flex items-center gap-2 ">
                   <input
                     type="text"
+                    name="color"
                     value={color}
                     placeholder="Type here"
                     onChange={(e) => setColor(e.target.value)}
@@ -185,9 +211,9 @@ const AddProducts = () => {
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-2">
-            <label className="form-control w-full">
+          <label className="form-control w-full">
               <div className="label">
-                <span className="label-text">Sub Category</span>
+                <span className="label-text">Rating</span>
               </div>
               <input
                 type="text"

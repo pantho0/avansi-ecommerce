@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const AddProducts = () => {
   const [color, setColor] = useState("");
@@ -8,11 +9,15 @@ const AddProducts = () => {
   const [categories, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('')
   const [subCategory, setSubCategory] = useState([])
+
   useEffect(()=>{
     fetch('/categories.json')
     .then(res=>res.json())
     .then(data=>setCategory(data))
   },[])
+
+  const imgAPI = import.meta.env.VITE_IMGBB_API;
+  const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgAPI}`
 
   const handleCategory = (e)=>{
     
@@ -48,7 +53,7 @@ const AddProducts = () => {
     setColors([]);
   };
 
-  const handleAddProduct = (e) => {
+  const handleAddProduct = async(e) => {
     e.preventDefault();
     const form = e.target;
     const productName = form.name.value;
@@ -59,11 +64,17 @@ const AddProducts = () => {
     const description = form.description.value; 
     const rating = form.rating.value;
     const picture = form.picture.files[0];
-
+    const formData = new FormData();
+    formData.append('image', picture)
+    const {data} = await axios.post(imgHostingApi, formData)
+    const imageUrl = data.data.display_url;
     const productInfo = {
-      productName, parentCategory, subCategory, variant, color, description, rating, picture
+      productName, parentCategory, subCategory, variant, color, description, rating, imageUrl
     }
     console.log(productInfo);
+
+    
+    
   };
 
 

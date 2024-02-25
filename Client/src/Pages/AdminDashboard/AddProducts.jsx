@@ -24,7 +24,8 @@ const AddProducts = () => {
 
   }
 
-  const handleAddVariant = () => {
+  const handleAddVariant = (e) => {
+    e.preventDefault()
     if (variant.trim() !== "") {
       setVariants([...variants, variant]);
       setVariant("");
@@ -35,7 +36,8 @@ const AddProducts = () => {
     setVariants([]);
   };
 
-  const handleAddColor = () => {
+  const handleAddColor = (e) => {
+    e.preventDefault()
     if (color.trim() !== "") {
       setColors([...colors, color]);
       setColor("");
@@ -53,10 +55,12 @@ const AddProducts = () => {
     const parentCategory = form.parentCategory.value;
     const subCategory = form.subCategory.value;
     const variant = variants;
-    const color = colors; 
+    const color = colors;
+    const description = form.description.value; 
+    const rating = form.rating.value;
 
     const productInfo = {
-      productName, parentCategory, subCategory, variant, color
+      productName, parentCategory, subCategory, variant, color, description, rating
     }
     console.log(productInfo);
   };
@@ -217,28 +221,7 @@ const AddProducts = () => {
               </div>
               <input
                 type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full bg-white"
-              />
-            </label>
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">Product Specification</span>
-              </div>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full bg-white"
-              />
-            </label>
-          </div>
-          <div className="flex flex-col md:flex-row gap-2">
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">Product Description</span>
-              </div>
-              <input
-                type="text"
+                name = 'rating'
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
               />
@@ -253,6 +236,15 @@ const AddProducts = () => {
                 className="input input-bordered w-full bg-white"
               />
             </label>
+          </div>
+          <div className="flex flex-col md:flex-row gap-2">
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Product Description</span>
+              </div>
+              <textarea name="description" className="textarea textarea-bordered" placeholder="Bio"></textarea>
+            </label>
+
           </div>
           <div className="flex justify-center mt-6 mb-10">
             <button className="btn btn-primary hover:btn-accent cursor-pointer">

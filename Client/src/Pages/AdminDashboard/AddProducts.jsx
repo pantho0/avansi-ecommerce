@@ -58,9 +58,10 @@ const AddProducts = () => {
     const color = colors;
     const description = form.description.value; 
     const rating = form.rating.value;
+    const picture = form.picture.files[0];
 
     const productInfo = {
-      productName, parentCategory, subCategory, variant, color, description, rating
+      productName, parentCategory, subCategory, variant, color, description, rating, picture
     }
     console.log(productInfo);
   };
@@ -230,11 +231,7 @@ const AddProducts = () => {
               <div className="label">
                 <span className="label-text">Pictures</span>
               </div>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full bg-white"
-              />
+              <input type="file" name="picture" className="file-input file-input-bordered file-input-md w-full" />
             </label>
           </div>
           <div className="flex flex-col md:flex-row gap-2">

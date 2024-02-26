@@ -27,7 +27,7 @@ const ProductDetails = () => {
     price,
     description,
     variant,
-    colors,
+    color,
     rating,
     category,
     reviews,
@@ -143,8 +143,8 @@ const ProductDetails = () => {
                   <option >
                   Select Please
                   </option>
-                  {colors.map((color) => (
-                    <option key={color}>{color}</option>
+                  {color.map((col) => (
+                    <option key={col}>{col}</option>
                   ))}
                 </select>
               </div>
@@ -165,10 +165,10 @@ const ProductDetails = () => {
             <p>Variant: {variant}</p>
             <p>
               colors:
-              {colors.map((color, index) => (
-                <span key={color}>
+              {color.map((col, index) => (
+                <span key={col}>
                   {color}
-                  {index !== colors.length - 1 ? ", " : ""}
+                  {index !== col.length - 1 ? ", " : ""}
                 </span>
               ))}
             </p>

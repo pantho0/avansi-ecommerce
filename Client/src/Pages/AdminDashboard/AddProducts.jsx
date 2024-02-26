@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const AddProducts = () => {
   const [color, setColor] = useState("");
@@ -9,6 +11,7 @@ const AddProducts = () => {
   const [categories, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('')
   const [subCategory, setSubCategory] = useState([])
+  const axiosPublic = useAxiosPublic()
 
   useEffect(()=>{
     fetch('/categories.json')
@@ -56,22 +59,29 @@ const AddProducts = () => {
   const handleAddProduct = async(e) => {
     e.preventDefault();
     const form = e.target;
-    const productName = form.name.value;
-    const parentCategory = form.parentCategory.value;
-    const subCategory = form.subCategory.value;
+    const name = form.name.value;
+    const parent_category = form.parentCategory.value;
+    const category = form.subCategory.value;
     const variant = variants;
     const color = colors;
+    const price = form.price.value;
     const description = form.description.value; 
     const rating = form.rating.value;
     const picture = form.picture.files[0];
     const formData = new FormData();
     formData.append('image', picture)
     const {data} = await axios.post(imgHostingApi, formData)
-    const imageUrl = data.data.display_url;
+    const image = data.data.display_url;
+    const reviews = []
     const productInfo = {
-      productName, parentCategory, subCategory, variant, color, description, rating, imageUrl
+      name, parent_category, price, category, variant, color, description, rating, image, reviews
     }
     console.log(productInfo);
+
+    const {data:uploadResult} = await axiosPublic.post('/add_product', productInfo)
+    if(uploadResult.insertedId){
+      toast.success('Product Uploded')
+    }
 
     
     

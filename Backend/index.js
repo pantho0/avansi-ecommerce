@@ -50,6 +50,12 @@ async function run() {
         const result = await productsCollection.find(query).sort(sortObj).toArray()
         res.send(result)
     })
+    //save product to db from add product 
+    app.post('/api/v1/add_product', async(req,res)=>{
+      const product = req.body;
+      const result = await productsCollection.insertOne(product)
+      res.send(result);
+    })
     //Individual Product get api
     app.get("/api/v1/products/:id", async(req,res)=>{
       const id = req.params.id;

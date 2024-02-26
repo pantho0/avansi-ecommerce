@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import useCategories from "../../Components/Hooks/useCategories";
 
 const AddProducts = () => {
   const [color, setColor] = useState("");
   const [colors, setColors] = useState([]);
   const [variant, setVariant] = useState("");
   const [variants, setVariants] = useState([]);
-  const [categories, setCategory] = useState([]);
+  const [categories] = useCategories();
   const [selectedCategory, setSelectedCategory] = useState('')
   const [subCategory, setSubCategory] = useState([])
   const axiosPublic = useAxiosPublic()

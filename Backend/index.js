@@ -57,7 +57,7 @@ async function run() {
       res.send(result);
     })
     //Individual Product get api
-    app.get("/api/v1/products/:id", async(req,res)=>{
+    app.get("/api/v1/singleproducts/:id", async(req,res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
       const result = await productsCollection.findOne(query)

@@ -83,8 +83,6 @@ const AddProducts = () => {
       toast.success('Product Uploded')
     }
 
-    
-    
   };
 
 

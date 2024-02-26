@@ -19,10 +19,12 @@ const AdminDashboard = () => {
               Add Products
             </button>
           </Link>
+          <Link to={'/dashboard/inventory'}>
           <button className="btn btn-primary w-full rounded-none mt-2">
             <GrUpdate size={20} />
-            Update Products
+            Inventory
           </button>
+          </Link>
           <button className="btn btn-primary w-full rounded-none mt-2">
             <RiListUnordered size={20} />
             All Orders

@@ -63,6 +63,22 @@ async function run() {
       const result = await productsCollection.findOne(query)
       res.send(result);
     })
+
+    //update product api 
+    app.post('/api/v1/updateProduct/:id', async(req,res)=>{
+      const id = req.params.id;
+      const productInfo = req.body;
+      const filter = {_id: new ObjectId(id)};
+      const options = {upsert:true};
+      const updateDoc = {
+        $set :{
+          ...productInfo
+        }
+      }
+      const result = await productsCollection.updateOne(filter, updateDoc, options)
+      res.send(result)
+    })
+
     //=================================================================================================================
     //=================================================================================================================
     //=================================================================================================================

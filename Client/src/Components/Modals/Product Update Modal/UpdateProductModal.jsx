@@ -2,9 +2,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useCategories from "../../Hooks/useCategories";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
-export default function UpdateProductModal({ isOpen, closeModal, productId }) {
+export default function UpdateProductModal({ isOpen, closeModal, productId, inventoryReload }) {
   const [loadProduct, setLoadProduct] = useState([]);
   const [categories] = useCategories();
   const [selectedCategory, setSelectedCategory] = useState('')
@@ -14,6 +16,9 @@ export default function UpdateProductModal({ isOpen, closeModal, productId }) {
   const [variant, setVariant] = useState("");
   const [variants, setVariants] = useState([]);
   const axiosPublic = useAxiosPublic();
+
+  const imgAPI = import.meta.env.VITE_IMGBB_API;
+  const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgAPI}`
 
   const handleCategory = (e)=>{
     
@@ -50,12 +55,44 @@ export default function UpdateProductModal({ isOpen, closeModal, productId }) {
     setColors([]);
   };
 
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    const id = productId;
+    const form = e.target;
+    const name = form.name.value;
+    const parent_category = form.parentCategory.value;
+    const category = form.subCategory.value;
+    const variant = variants;
+    const color = colors;
+    const price = form.price.value;
+    const description = form.description.value; 
+    const rating = form.rating.value;
+    const picture = form.picture.files[0];
+    const formData = new FormData();
+    formData.append('image', picture)
+    const {data} = await axios.post(imgHostingApi, formData)
+    const image = data.data.display_url;
+    const reviews = []
+    const productInfo = {
+      name, parent_category, price, category, variant, color, description, rating, image, reviews
+    }
 
+
+    const {data:updateMessage} = await axiosPublic.post(`/updateProduct/${id}`, productInfo)
+    form.reset()
+    inventoryReload()
+    closeModal()
+    if(updateMessage.acknowledged){
+      toast.success('Product Updated')
+    }
+  }
 
 
   useEffect(() => {
     if (isOpen && productId) {
       setLoadProduct('')
+      setVariant('')
+      setColor('')
       axiosPublic(`/singleproducts/${productId}`)
         .then((res) =>{
           setLoadProduct(res.data)
@@ -101,7 +138,7 @@ export default function UpdateProductModal({ isOpen, closeModal, productId }) {
                     {loadProduct.name}
                   </Dialog.Title>
                     <div className="px-10 mt-10">
-                      <form >
+                      <form onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-2">
                           <label className="form-control w-full">
                             <div className="label">

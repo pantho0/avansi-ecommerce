@@ -16,7 +16,7 @@ const Inventory = () => {
     setIsOpen(false);
   };
 
-  const { data: products = [] } = useQuery({
+  const { data: products = [], refetch:inventoryReload } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const { data } = await axiosPublic("/products");
@@ -41,6 +41,7 @@ const Inventory = () => {
           isOpen={isOpen}
           closeModal={closeModal}
           productId={productId}
+          inventoryReload={inventoryReload}
         />
       </div>
       <div className="">

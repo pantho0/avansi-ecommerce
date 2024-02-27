@@ -18,8 +18,9 @@ const ProductDetails = () => {
   const {user} = useAuth();
   const [ ,refetch, ,reloadTotalPrice] = useCart();
   const axiosPublic = useAxiosPublic()
-  const [selectedColor, setColor] = useState('');
+  const [selectedColor, setColor] = useState([]);
   const [selectedType, setType] = useState('')
+
   const {
     _id,
     image,

@@ -4,6 +4,7 @@ import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import { LuFileEdit } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import UpdateProductModal from "../../Components/Modals/Product Update Modal/UpdateProductModal";
+import Swal from 'sweetalert2'
 
 const Inventory = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,8 +32,31 @@ const Inventory = () => {
   // const handleUpdate = () => {
   //   console.log("clicked update");
   // };
-  const handleDelete = () => {
-    console.log("clicked delete");
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      background:'#272253',
+      color:"#fff",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        const {data} = await axiosPublic.delete(`/deleteProduct/${id}`)
+        if(data.deletedCount>0){
+          inventoryReload()
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+        }
+        
+      }
+    });
   };
   return (
     <>
@@ -96,7 +120,7 @@ const Inventory = () => {
                         <div className="flex items-center gap-3">
                           <div className="avatar">
                             <div className="mask mask-squircle w-12 h-12">
-                              <img src={product?.image} />
+                              <img src={product?.images[0]} />
                             </div>
                           </div>
                           <div>
@@ -126,7 +150,7 @@ const Inventory = () => {
 
                           <div className="tooltip" data-tip="delete">
                             <MdDelete
-                              onClick={handleDelete}
+                              onClick={()=>handleDelete(product._id)}
                               size={20}
                               className="cursor-pointer"
                               color="red"

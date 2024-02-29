@@ -4,7 +4,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
-
 //middlewares
 app.use(cors())
 app.use(express.json())
@@ -56,6 +55,8 @@ async function run() {
       const result = await productsCollection.insertOne(product)
       res.send(result);
     })
+
+
     //Individual Product get api
     app.get("/api/v1/singleproducts/:id", async(req,res)=>{
       const id = req.params.id;
@@ -77,6 +78,14 @@ async function run() {
       }
       const result = await productsCollection.updateOne(filter, updateDoc, options)
       res.send(result)
+    })
+
+    //delete product api
+    app.delete('/api/v1/deleteProduct/:id', async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await productsCollection.deleteOne(query);
+      res.send(result);
     })
 
     //=================================================================================================================

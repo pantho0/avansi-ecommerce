@@ -4,6 +4,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useCategories from "../../Hooks/useCategories";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { uploadImage } from "../../api/api";
 
 
 export default function UpdateProductModal({ isOpen, closeModal, productId, inventoryReload }) {
@@ -15,6 +16,8 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
   const [colors, setColors] = useState([]);
   const [variant, setVariant] = useState("");
   const [variants, setVariants] = useState([]);
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage]=useState('')
   const axiosPublic = useAxiosPublic();
 
   const imgAPI = import.meta.env.VITE_IMGBB_API;
@@ -55,9 +58,8 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
     setColors([]);
   };
 
-  const handleSubmit = async(e) =>{
+  const handleAddProduct = async (e) => {
     e.preventDefault();
-    const id = productId;
     const form = e.target;
     const name = form.name.value;
     const parent_category = form.parentCategory.value;
@@ -65,27 +67,99 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
     const variant = variants;
     const color = colors;
     const price = form.price.value;
-    const description = form.description.value; 
+    const description = form.description.value;
     const rating = form.rating.value;
-    const picture = form.picture.files[0];
-    const formData = new FormData();
-    formData.append('image', picture)
-    const {data} = await axios.post(imgHostingApi, formData)
-    const image = data.data.display_url;
-    const reviews = []
-    const productInfo = {
-      name, parent_category, price, category, variant, color, description, rating, image, reviews
-    }
-
-
-    const {data:updateMessage} = await axiosPublic.post(`/updateProduct/${id}`, productInfo)
-    form.reset()
-    inventoryReload()
-    closeModal()
-    if(updateMessage.acknowledged){
-      toast.success('Product Updated')
-    }
+    const reviews = [
+      {
+    "user_name": "Bob",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-08",
+    "rating": 4,
+    "review_message": "Solid performance and premium build. A bit pricey though."
+  },
+  {
+    "user_name": "Alice",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-01-15",
+    "rating": 5,
+    "review_message": "Absolutely fantastic product! It exceeded all my expectations."
+  },
+  {
+    "user_name": "Emily",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-20",
+    "rating": 3,
+    "review_message": "Decent product, but I expected more features for the price."
+  },
+  {
+    "user_name": "John",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-12",
+    "rating": 4,
+    "review_message": "Great design and functionality. Could be more user-friendly."
+  },
+  {
+    "user_name": "Sarah",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-01-28",
+    "rating": 4,
+    "review_message": "Sturdy construction and excellent performance. Worth the investment."
+  },
+  {
+    "user_name": "David",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-05",
+    "rating": 2,
+    "review_message": "Disappointing quality for the price. Wouldn't recommend."
   }
+    ];
+    const productInfo = {
+      name,
+      parent_category,
+      price,
+      category,
+      variant,
+      images,
+      color,
+      description,
+      rating,
+      reviews,
+    };
+    console.log(productInfo);
+
+    const {data:uploadResult} = await axiosPublic.post(`/updateProduct/${productId}`, productInfo)
+    if(uploadResult.modifiedCount>0){
+      toast.success('Product Updated')
+      inventoryReload()
+      form.reset()
+    }
+  };
+
+  const handleSelectImg=(e)=>{
+    setSelectedImage(e.target.files[0])
+  }
+
+  //image upload api call
+  const uploadProductImage = async(image) => {
+    try{
+      const url = await uploadImage(image);
+      if(url){
+        toast.success('Product Image Uploaded')
+      }
+    setImages([...images, url]);
+    setSelectedImage('')
+    }catch(err){
+      toast.error('Image upload failed or you are trying to upload in the same field')
+    }
+    
+  };
+  
+  const handleImagesUpload = (e) =>{
+    e.preventDefault()
+    const image = selectedImage;
+    uploadProductImage(image)
+  }
+
 
 
   useEffect(() => {
@@ -138,7 +212,7 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
                     {loadProduct.name}
                   </Dialog.Title>
                     <div className="px-10 mt-10">
-                      <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleAddProduct}>
                         <div className="flex flex-col gap-2">
                           <label className="form-control w-full">
                             <div className="label">
@@ -305,17 +379,87 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
                               className="input input-bordered w-full bg-white"
                             />
                           </label>
-                          <label className="form-control w-full">
-                            <div className="label">
-                              <span className="label-text">Pictures</span>
-                            </div>
-                            <input
-                              type="file"
-                              name="picture"
-                              className="file-input file-input-bordered file-input-md w-full"
-                            />
-                          </label>
                         </div>
+                        <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
                         <div className="flex flex-col md:flex-row gap-2">
                           <label className="form-control w-full">
                             <div className="label">

@@ -26,7 +26,7 @@ const ProductsCard = () => {
                     <img
                       alt="ecommerce"
                       className="object-contain object-center w-full h-full block"
-                      src={product.image}
+                      src={product.images[0]}
                     />
                   </a>
                   <div className="mt-4">

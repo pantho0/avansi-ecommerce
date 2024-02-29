@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import {useState } from "react";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import useCategories from "../../Components/Hooks/useCategories";
+import { uploadImage } from "../../Components/api/api";
 
 const AddProducts = () => {
   const [color, setColor] = useState("");
@@ -10,31 +10,23 @@ const AddProducts = () => {
   const [variant, setVariant] = useState("");
   const [variants, setVariants] = useState([]);
   const [categories] = useCategories();
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [subCategory, setSubCategory] = useState([])
-  const axiosPublic = useAxiosPublic()
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedImage, setSelectedImage]=useState('')
+  const [subCategory, setSubCategory] = useState([]);
+  const [images, setImages] = useState([]);
+  const axiosPublic = useAxiosPublic();
 
-  useEffect(()=>{
-    fetch('/categories.json')
-    .then(res=>res.json())
-    .then(data=>setCategory(data))
-  },[])
 
-  const imgAPI = import.meta.env.VITE_IMGBB_API;
-  const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgAPI}`
-
-  const handleCategory = (e)=>{
-    
+  const handleCategory = (e) => {
     const selectedCategory = e.target.value;
     setSelectedCategory(selectedCategory);
 
-    const category = categories.find(cat=> cat.name === selectedCategory)
+    const category = categories.find((cat) => cat.name === selectedCategory);
     setSubCategory(category ? category.subcategories : []);
-
-  }
+  };
 
   const handleAddVariant = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (variant.trim() !== "") {
       setVariants([...variants, variant]);
       setVariant("");
@@ -46,7 +38,7 @@ const AddProducts = () => {
   };
 
   const handleAddColor = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (color.trim() !== "") {
       setColors([...colors, color]);
       setColor("");
@@ -57,7 +49,35 @@ const AddProducts = () => {
     setColors([]);
   };
 
-  const handleAddProduct = async(e) => {
+  
+  const handleSelectImg=(e)=>{
+    setSelectedImage(e.target.files[0])
+  }
+
+  //image upload api call
+  const uploadProductImage = async(image) => {
+    try{
+      const url = await uploadImage(image);
+      if(url){
+        toast.success('Product Image Uploaded')
+      }
+    setImages([...images, url]);
+    setSelectedImage('')
+    }catch(err){
+      toast.error('Image upload failed or you are trying to upload in the same field')
+    }
+    
+  };
+  
+  const handleImagesUpload = (e) =>{
+    e.preventDefault()
+    const image = selectedImage;
+    uploadProductImage(image)
+  }
+
+  // console.log(images); 
+
+  const handleAddProduct = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
@@ -66,26 +86,72 @@ const AddProducts = () => {
     const variant = variants;
     const color = colors;
     const price = form.price.value;
-    const description = form.description.value; 
+    const description = form.description.value;
     const rating = form.rating.value;
-    const picture = form.picture.files[0];
-    const formData = new FormData();
-    formData.append('image', picture)
-    const {data} = await axios.post(imgHostingApi, formData)
-    const image = data.data.display_url;
-    const reviews = []
+    const reviews = [
+      {
+    "user_name": "Bob",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-08",
+    "rating": 4,
+    "review_message": "Solid performance and premium build. A bit pricey though."
+  },
+  {
+    "user_name": "Alice",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-01-15",
+    "rating": 5,
+    "review_message": "Absolutely fantastic product! It exceeded all my expectations."
+  },
+  {
+    "user_name": "Emily",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-20",
+    "rating": 3,
+    "review_message": "Decent product, but I expected more features for the price."
+  },
+  {
+    "user_name": "John",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-12",
+    "rating": 4,
+    "review_message": "Great design and functionality. Could be more user-friendly."
+  },
+  {
+    "user_name": "Sarah",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-01-28",
+    "rating": 4,
+    "review_message": "Sturdy construction and excellent performance. Worth the investment."
+  },
+  {
+    "user_name": "David",
+    "image": "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    "date": "2024-02-05",
+    "rating": 2,
+    "review_message": "Disappointing quality for the price. Wouldn't recommend."
+  }
+    ];
     const productInfo = {
-      name, parent_category, price, category, variant, color, description, rating, image, reviews
-    }
+      name,
+      parent_category,
+      price,
+      category,
+      variant,
+      images,
+      color,
+      description,
+      rating,
+      reviews,
+    };
     console.log(productInfo);
 
     const {data:uploadResult} = await axiosPublic.post('/add_product', productInfo)
     if(uploadResult.insertedId){
       toast.success('Product Uploded')
+      form.reset()
     }
-
   };
-
 
   return (
     <div className="bg-white h-[100%]">
@@ -106,44 +172,51 @@ const AddProducts = () => {
               </div>
               <input
                 type="text"
-                name = 'name'
+                name="name"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
               />
             </label>
             <label className="form-control w-full ">
               <div className="label">
-                <span className="label-text">
-                  Parent Category
-                </span>
+                <span className="label-text">Parent Category</span>
               </div>
-              <select name="parentCategory" onChange={handleCategory} className="select select-bordered uppercase bg-white">
+              <select
+                name="parentCategory"
+                onChange={handleCategory}
+                className="select select-bordered uppercase bg-white"
+              >
                 <option disabled selected>
                   Pick one
                 </option>
-                {
-                  categories.map(cat=><option className="uppercase" key={cat.name}>{cat.name}</option>)
-                }
+                {categories.map((cat) => (
+                  <option className="uppercase" key={cat.name}>
+                    {cat.name}
+                  </option>
+                ))}
               </select>
             </label>
           </div>
           <div className="flex flex-col md:flex-row gap-2">
-          <label className="form-control w-full ">
+            <label className="form-control w-full ">
               <div className="label">
-                <span className="label-text">
-                  Sub Category
-                </span>
+                <span className="label-text">Sub Category</span>
               </div>
-              <select name="subCategory"  className="select select-bordered uppercase bg-white">
+              <select
+                name="subCategory"
+                className="select select-bordered uppercase bg-white"
+              >
                 <option disabled selected>
                   Pick one
                 </option>
-                {
-                  subCategory.map(subcat=><option className="uppercase" key={subcat}>{subcat}</option>)
-                }
+                {subCategory.map((subcat) => (
+                  <option className="uppercase" key={subcat}>
+                    {subcat}
+                  </option>
+                ))}
               </select>
             </label>
-            
+
             <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Price</span>
@@ -235,33 +308,111 @@ const AddProducts = () => {
               </label>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row gap-2">
-          <label className="form-control w-full">
+          <div className="flex flex-col md:flex-col gap-2">
+            <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Rating</span>
               </div>
               <input
                 type="text"
-                name = 'rating'
+                name="rating"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
               />
             </label>
-            <label className="form-control w-full">
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
               <div className="label">
                 <span className="label-text">Pictures</span>
               </div>
-              <input type="file" name="picture" className="file-input file-input-bordered file-input-md w-full" />
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
             </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
           </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label className="form-control w-[90%]">
+              <div className="label">
+                <span className="label-text">Pictures</span>
+              </div>
+              <input
+                name="picture"
+                onChange={handleSelectImg}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full"
+                multiple
+              />
+            </label>
+            <div>
+            <div className="label">
+                <span className="label-text">max:200kb</span>
+              </div>
+              <button onClick={handleImagesUpload} className="btn btn-primary">Add Image</button>
+            </div>
+          </div>
+
           <div className="flex flex-col md:flex-row gap-2">
             <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Product Description</span>
               </div>
-              <textarea name="description" className="textarea textarea-bordered" placeholder="Bio"></textarea>
+              <textarea
+                name="description"
+                className="textarea textarea-bordered"
+                placeholder="Bio"
+              ></textarea>
             </label>
-
           </div>
           <div className="flex justify-center mt-6 mb-10">
             <button className="btn btn-primary hover:btn-accent cursor-pointer">

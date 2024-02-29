@@ -23,7 +23,7 @@ const ProductDetails = () => {
 
   const {
     _id,
-    image,
+    images,
     name,
     price,
     description,
@@ -57,7 +57,7 @@ const ProductDetails = () => {
     }
     const item = {
       product_id : _id,
-      image : image,
+      image : images,
       name : name,
       price : parseFloat(price),
       quantity : 1,
@@ -96,19 +96,13 @@ const ProductDetails = () => {
               modules={[Pagination]}
               className="mySwiper"
             >
-              <SwiperSlide>
-                <img src={image} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={image} alt="" />
-              </SwiperSlide>
+              {
+                images.map(image=><SwiperSlide key={image}>
+                  <img className="w-[400px] h-[400px] object-cover" src={image} alt="" />
+                </SwiperSlide>)
+              }
             </Swiper>
+            
           </div>
           {/* description */}
           <div className="space-y-1 text-center md:space-y-2 md:text-left">
@@ -135,7 +129,9 @@ const ProductDetails = () => {
                   <option disabled selected>
                     Select Please
                   </option>
-                  <option>{variant}</option>
+                  {
+                    variant.map(v=><option key={v}>{v}</option>)  
+                  }
                 </select>
               </div>
               <div>
@@ -179,81 +175,41 @@ const ProductDetails = () => {
           <div className="divider"></div>
           <h4 className="text-xl md:text-2xl font-bold">Reviews</h4>
           <div className="mt-4">
-            {reviews.map((review) => (
-              <Swiper
-                key={review}
+            <Swiper
+                key={reviews}
                 pagination={{
                   dynamicBullets: true,
                 }}
                 modules={[Pagination]}
                 className="mySwiper"
               >
-                <SwiperSlide>
-                  <div className="text-center space-y-2 pb-9">
-                    <div className="flex justify-center">
-                      <Rating
-                        style={{ maxWidth: 100 }}
-                        value={review.rating}
-                        readOnly
-                      />
-                    </div>
-                    <div>
-                      <h6>{review.review_message}</h6>
-                      <p>{review.date}</p>
-                      <div className="avatar placeholder items-center gap-2">
-                        <div className="bg-neutral text-neutral-content rounded-full w-8">
-                          img
+           
+              
+                {
+                  reviews.map(review=><SwiperSlide key={review}>
+                    <div className="text-center space-y-2 pb-9">  
+                      <div className="flex justify-center">
+                        <Rating
+                          style={{ maxWidth: 100 }}
+                          value={review.rating}
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <h6>{review.review_message}</h6>
+                        <p>{review.date}</p>
+                        <div className="avatar placeholder items-center gap-2">
+                          <div className="bg-neutral text-neutral-content rounded-full w-8">
+                            <img src={review.image} alt="" />
+                          </div>
+                          <p>{review.user_name}</p>
                         </div>
-                        <p>{review.user_name}</p>
                       </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="text-center space-y-2 pb-9">
-                    <div className="flex justify-center">
-                      <Rating
-                        style={{ maxWidth: 100 }}
-                        value={review.rating}
-                        readOnly
-                      />
-                    </div>
-                    <div>
-                      <h6>{review.review_message}</h6>
-                      <p>{review.date}</p>
-                      <div className="avatar placeholder items-center gap-2">
-                        <div className="bg-neutral text-neutral-content rounded-full w-8">
-                          img
-                        </div>
-                        <p>{review.user_name}</p>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="text-center space-y-2 pb-9">
-                    <div className="flex justify-center">
-                      <Rating
-                        style={{ maxWidth: 100 }}
-                        value={review.rating}
-                        readOnly
-                      />
-                    </div>
-                    <div>
-                      <h6>{review.review_message}</h6>
-                      <p>{review.date}</p>
-                      <div className="avatar placeholder items-center gap-2">
-                        <div className="bg-neutral text-neutral-content rounded-full w-8">
-                          img
-                        </div>
-                        <p>{review.user_name}</p>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
+                  </SwiperSlide>)
+                }
                 
-              </Swiper>
-            ))}
+            </Swiper>
             <div className="divider"></div>
           </div>
         </div>

@@ -42,7 +42,8 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
     }
   };
 
-  const clearVariant = () => {
+  const clearVariant = (e) => {
+    e.preventDefault()
     setVariants([]);
   };
 
@@ -54,7 +55,8 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
     }
   };
 
-  const clearAddColor = () => {
+  const clearAddColor = (e) => {
+    e.preventDefault()
     setColors([]);
   };
 
@@ -66,7 +68,7 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
     const category = form.subCategory.value;
     const variant = variants;
     const color = colors;
-    const price = form.price.value;
+    const price = parseFloat(form.price.value);
     const description = form.description.value;
     const rating = form.rating.value;
     const reviews = [
@@ -125,12 +127,14 @@ export default function UpdateProductModal({ isOpen, closeModal, productId, inve
       rating,
       reviews,
     };
-    console.log(productInfo);
 
     const {data:uploadResult} = await axiosPublic.post(`/updateProduct/${productId}`, productInfo)
     if(uploadResult.modifiedCount>0){
       toast.success('Product Updated')
       inventoryReload()
+      setColors([])
+      setVariants([])
+      setImages([])
       form.reset()
     }
   };

@@ -33,7 +33,8 @@ const AddProducts = () => {
     }
   };
 
-  const clearVariant = () => {
+  const clearVariant = (e) => {
+    e.preventDefault()
     setVariants([]);
   };
 
@@ -45,7 +46,8 @@ const AddProducts = () => {
     }
   };
 
-  const clearAddColor = () => {
+  const clearAddColor = (e) => {
+    e.preventDefault()
     setColors([]);
   };
 
@@ -85,7 +87,7 @@ const AddProducts = () => {
     const category = form.subCategory.value;
     const variant = variants;
     const color = colors;
-    const price = form.price.value;
+    const price = parseFloat(form.price.value);
     const description = form.description.value;
     const rating = form.rating.value;
     const reviews = [
@@ -149,6 +151,9 @@ const AddProducts = () => {
     const {data:uploadResult} = await axiosPublic.post('/add_product', productInfo)
     if(uploadResult.insertedId){
       toast.success('Product Uploded')
+      setColors([])
+      setVariants([])
+      setImages([])
       form.reset()
     }
   };
@@ -175,6 +180,7 @@ const AddProducts = () => {
                 name="name"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
+                required
               />
             </label>
             <label className="form-control w-full ">
@@ -185,6 +191,7 @@ const AddProducts = () => {
                 name="parentCategory"
                 onChange={handleCategory}
                 className="select select-bordered uppercase bg-white"
+                required
               >
                 <option disabled selected>
                   Pick one
@@ -205,6 +212,7 @@ const AddProducts = () => {
               <select
                 name="subCategory"
                 className="select select-bordered uppercase bg-white"
+                required
               >
                 <option disabled selected>
                   Pick one
@@ -226,6 +234,7 @@ const AddProducts = () => {
                 name="price"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-white"
+                required
               />
             </label>
           </div>
@@ -411,6 +420,7 @@ const AddProducts = () => {
                 name="description"
                 className="textarea textarea-bordered"
                 placeholder="Bio"
+                required
               ></textarea>
             </label>
           </div>

@@ -153,7 +153,7 @@ const Cart = () => {
           )}
         </div>
         <div className="md:min-w-[33%] lg:m-5 h-1/2 rounded-2xl shadow-2xl">
-          <div className="w-full md:fixed md:w-[250px] lg:w-[300px] bg-white rounded-lg">
+          <div className="w-full md:w-full lg:w-full bg-white rounded-lg">
             <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white rounded-tr-2xl rounded-tl-2xl">
               <p>Billing Summary</p>
             </div>

@@ -20,7 +20,6 @@ const AddProducts = () => {
   const handleCategory = (e) => {
     const selectedCategory = e.target.value;
     setSelectedCategory(selectedCategory);
-
     const category = categories.find((cat) => cat.name === selectedCategory);
     setSubCategory(category ? category.subcategories : []);
   };

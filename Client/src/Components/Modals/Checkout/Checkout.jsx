@@ -2,8 +2,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import useDivisions from "../../Hooks/useDivisions";
+import PaymentMethods from "../../Dashboard/User/PaymentMethods";
 
 export default function Checkout({ isOpen, closeModal, priceTotal }) {
+  const [isCashOn, setIsCashOn] = useState(false)
   const { user } = useAuth();
   const [divisions] = useDivisions();
   console.log(divisions);
@@ -12,20 +14,20 @@ export default function Checkout({ isOpen, closeModal, priceTotal }) {
   // const [priceTotal, setPriceTotal] = useState(0);
 
   const price = priceTotal;
-  const [priceWithDeliveryCharge, setPriceWithDeliveryCharge] =useState(price);
+  const [priceWithDeliveryCharge, setPriceWithDeliveryCharge] = useState(price);
+
+   
+  
 
   const handleDivision = (e) => {
     e.preventDefault();
     const division = e.target.value;
     const singleDivision = divisions.find((div) => div.division === division);
-    console.log(singleDivision);
-    if(singleDivision){
-      setDistricts(singleDivision.districts)
-    }else{
-      setDistricts([])
-    } 
-    
-    
+    if (singleDivision) {
+      setDistricts(singleDivision.districts);
+    } else {
+      setDistricts([]);
+    }
   };
 
   const handleDeliveryCharge = (e) => {
@@ -36,12 +38,6 @@ export default function Checkout({ isOpen, closeModal, priceTotal }) {
     const totalCost = priceTotal + deliveryCharge;
     setPriceWithDeliveryCharge(totalCost);
   };
-
-  // useEffect(() => {
-  //   const district = divisions.find((div) => div.division === selectedDivision);
-  //   setDistricts(district ? district.districts : []);
-  // }, [divisions, selectedDivision]);
-
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -85,18 +81,18 @@ export default function Checkout({ isOpen, closeModal, priceTotal }) {
                       <p>{priceTotal?.toFixed(2)}</p>
                     </div>
                     <div className="flex justify-between px-4 pt-4 text-sm text-black font-medium">
-                <p>
-                  Grand Total Price <br />{" "}
-                  <span>
-                    <small className="text-red-600 font-bold">
-                      With delivery charge included (inside dhaka 80tk,
-                      <br /> outside 120tk),it will calculated when you select
-                      your delivery address
-                    </small>
-                  </span>
-                </p>
-                <p>{priceWithDeliveryCharge?.toFixed(2)}</p>
-              </div>
+                      <p>
+                        Grand Total Price <br />{" "}
+                        <span>
+                          <small className="text-red-600 font-bold">
+                            With delivery charge included (inside dhaka 80tk,
+                            <br /> outside 120tk),it will calculated when you
+                            select your delivery address
+                          </small>
+                        </span>
+                      </p>
+                      <p>{priceWithDeliveryCharge?.toFixed(2)}</p>
+                    </div>
                     <div>
                       <form className="px-4 pt-4">
                         <label className="input bg-white input-bordered flex items-center mb-2 gap-2">
@@ -156,6 +152,13 @@ export default function Checkout({ isOpen, closeModal, priceTotal }) {
                           className="textarea w-full textarea-bordered"
                           placeholder="Enter your details address"
                         ></textarea>
+                        <hr className="mt-6" />
+                        <PaymentMethods isCashOn={isCashOn} setIsCashOn={setIsCashOn} />
+                        <div className="w-full">
+                        <button disabled={!isCashOn} className="btn btn-primary w-full">
+                        <input type="submit" value="Confirm Order" />
+                        </button>
+                        </div>
                       </form>
                     </div>
                   </div>

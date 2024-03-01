@@ -4,10 +4,14 @@ import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useDivisions from "../../Components/Hooks/useDivisions";
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
+  const [divisions] = useDivisions();
+  const [selectedDivision, setSelectedDivision] = useState("");
+  const [districts, setDistricts] = useState([]);
   const [price, setPrice] = useState("");
   const { user } = useAuth();
   const { data: products = [], refetch } = useQuery({
@@ -68,6 +72,17 @@ const Cart = () => {
     setPrice(e.target.value);
   };
 
+  const handleDivision = (e) => {
+    e.preventDefault();
+    setSelectedDivision(e.target.value);
+    setDistricts("");
+  };
+
+  useEffect(() => {
+    const district = divisions.find((div) => div.division === selectedDivision);
+    setDistricts(district ? district.districts : []);
+  }, [divisions, selectedDivision]);
+  console.log(districts);
   return (
     <div>
       <Helmet title="Avansi || User-Cart" />
@@ -173,6 +188,54 @@ const Cart = () => {
             <div className="flex justify-between px-4 pt-4 text-sm text-black font-medium">
               <p>Grand Total Price</p>
               <p>{totalPrice?.total}</p>
+            </div>
+            <hr className="mt-6" />
+            <div>
+              <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white ">
+                <p>Shipping Address</p>
+              </div>
+              <div>
+                <form className="px-4 pt-4">
+                  <label className="input bg-white input-bordered flex items-center mb-2 gap-2">
+                    Name :
+                    <input
+                      readOnly
+                      defaultValue={user?.displayName}
+                      type="text"
+                      className="grow bg-white"
+                      placeholder="Daisy"
+                    />
+                  </label>
+                  <label className="input bg-white input-bordered flex items-center gap-2 mb-2">
+                    Email :
+                    <input
+                      readOnly
+                      defaultValue={user?.email}
+                      type="text"
+                      className="grow bg-white"
+                      placeholder="Daisy"
+                    />
+                  </label>
+                  <select
+                    onChange={handleDivision}
+                    className="select w-full mb-2"
+                  >
+                    <option disabled selected>
+                      Pick your division
+                    </option>
+                    {divisions.map((division) => (
+                      <option key={division.name}>{division.division}</option>
+                    ))}
+                  </select>
+                  <select className="select w-full">
+                    <option disabled selected>
+                      Pick your District
+                    </option>
+                    {districts &&
+                      districts.map((dis) => <option>{dis}</option>)}
+                  </select>
+                </form>
+              </div>
             </div>
             <div className="p-3 mt-4">
               <button className="btn btn-primary btn-md rounded-md w-full">

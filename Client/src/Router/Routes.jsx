@@ -11,6 +11,7 @@ import Cart from "../Pages/User_Dashboard/Cart";
 import Users from "../Pages/AdminDashboard/Users";
 import AddProducts from "../Pages/AdminDashboard/AddProducts";
 import Inventory from "../Pages/AdminDashboard/Inventory";
+import MyOrders from "../Pages/User_Dashboard/MyOrders";
 
 export const router = createBrowserRouter([
     {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
             {
                 path :'inventory',
                 element : <Inventory/>
+            },
+            {
+                path : 'myorders',
+                element : <MyOrders/>
             }
         ]
     }

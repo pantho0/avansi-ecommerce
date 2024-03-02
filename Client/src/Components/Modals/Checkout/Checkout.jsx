@@ -47,6 +47,7 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
     email : user?.email,
     products : products,
     status : 'Pending',
+    date : Date.now(),
     productsPrice :  priceTotal,
     totalPriceWithDelivery : priceWithDeliveryCharge,
     delivery_div : deliveryDiv,

@@ -16,10 +16,12 @@ const UserDashboard = () => {
               Cart
             </button>
           </Link>
+          <Link to="/dashboard/myorders">
           <button className="btn btn-primary w-full rounded-none mt-2">
             <MdBorderColor size={20} />
             My Orders
           </button>
+          </Link>
           <Link to="/dashboard/profile">
             <button className="btn btn-primary w-full rounded-none mt-2 ">
               <CgProfile size={20} />

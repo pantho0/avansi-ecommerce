@@ -185,8 +185,9 @@ async function run() {
    // payment info saving api
    app.get("/api/v1/viewOrders/:email", async(req,res)=>{
     const email = req.params.email;
+    console.log(email);
     const query = {email:email};
-    const result = await ordersCollection.find(query);
+    const result =await ordersCollection.find(query).toArray();
     res.send(result);
    }) 
    app.post("/api/v1/savePayment", async(req,res)=>{

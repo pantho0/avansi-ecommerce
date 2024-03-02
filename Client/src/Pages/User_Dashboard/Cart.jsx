@@ -37,6 +37,8 @@ const Cart = () => {
       return data;
     },
   });
+
+
   const { data: totalPrice = [], refetch: reload } = useQuery({
     queryKey: ["totalPrice", user?.email, priceTotal,],
     queryFn: async () => {
@@ -45,6 +47,8 @@ const Cart = () => {
       return data;
     },
   });
+
+  
 
   const handleDelete = async (id) => {
     console.log(id);
@@ -87,16 +91,11 @@ const Cart = () => {
     setPrice(e.target.value);
   };
 
-
-
-
- 
-
   return (
     <>
       <div className="z-0">
         {/* check out modal */}
-        <Checkout isOpen={isOpen} closeModal={closeModal} priceTotal={priceTotal} />
+        <Checkout isOpen={isOpen} closeModal={closeModal} priceTotal={priceTotal} products={products} />
       </div>
       <div className="z-50">
         <Helmet title="Avansi || User-Cart" />

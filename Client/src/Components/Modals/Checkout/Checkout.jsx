@@ -4,24 +4,23 @@ import useAuth from "../../Hooks/useAuth";
 import useDivisions from "../../Hooks/useDivisions";
 import PaymentMethods from "../../Dashboard/User/PaymentMethods";
 
-export default function Checkout({ isOpen, closeModal, priceTotal }) {
+export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
   const [isCashOn, setIsCashOn] = useState(false)
+  const [enabled, setEnabled] = useState(false);
   const { user } = useAuth();
   const [divisions] = useDivisions();
-  console.log(divisions);
   const [districts, setDistricts] = useState([]);
-  // const [selectedDivision, setSelectedDivision] = useState("");
-  // const [priceTotal, setPriceTotal] = useState(0);
-
+  const [deliveryDiv, setDeliveryDiv] = useState('')
+  const [deliveryDist, setDeliveryDist] = useState('')
+  const [mobileNo, setMobileNo] = useState('')
+  const [detailsAddress, setDetailAddress] = useState('')
   const price = priceTotal;
   const [priceWithDeliveryCharge, setPriceWithDeliveryCharge] = useState(price);
-
-   
-  
 
   const handleDivision = (e) => {
     e.preventDefault();
     const division = e.target.value;
+    setDeliveryDiv(division);
     const singleDivision = divisions.find((div) => div.division === division);
     if (singleDivision) {
       setDistricts(singleDivision.districts);
@@ -33,11 +32,41 @@ export default function Checkout({ isOpen, closeModal, priceTotal }) {
   const handleDeliveryCharge = (e) => {
     e.preventDefault();
     const dist = e.target.value;
+    setDeliveryDist(dist)
     const isInsideDhaka = dist === "Dhaka";
     const deliveryCharge = isInsideDhaka ? 80 : 120;
     const totalCost = priceTotal + deliveryCharge;
     setPriceWithDeliveryCharge(totalCost);
   };
+
+  //Save the payment info in db 
+  const paymentInfo = {
+    name : user?.displayName,
+    email : user?.email,
+    cartId : products.map(pro=>pro._id),
+    productId : products.map(pro=>pro.product_id),
+    status : 'Pending',
+    productsPrice :  priceTotal,
+    totalPriceWithDelivery : priceWithDeliveryCharge,
+    delivery_div : deliveryDiv,
+    delivery_dist :deliveryDist,
+    delivery_cell : mobileNo,
+    delivery_details: detailsAddress
+  }
+  //Managing State for Mobile No. & Details Address:
+  const handleMobile = (e) =>{
+    e.preventDefault();
+    setMobileNo(e.target.value)
+  }
+  const handleDetailsAddress = (e) =>{
+    e.preventDefault();
+    setDetailAddress(e.target.value);
+  }
+  console.log(paymentInfo);
+  //Submission for cash on delivery : 
+
+
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -144,18 +173,20 @@ export default function Checkout({ isOpen, closeModal, priceTotal }) {
                           Mobile :
                           <input
                             type="text"
+                            onChange={handleMobile}
                             className="grow bg-white"
                             placeholder="Enter your phone number"
                           />
                         </label>
                         <textarea
+                          onChange={handleDetailsAddress}
                           className="textarea w-full textarea-bordered"
                           placeholder="Enter your details address"
                         ></textarea>
-                        <hr className="mt-6" />
-                        <PaymentMethods isCashOn={isCashOn} setIsCashOn={setIsCashOn} />
+                        <hr className="mt-6 mb-4" />
+                        <PaymentMethods isCashOn={isCashOn} setIsCashOn={setIsCashOn} enabled={enabled} setEnabled={setEnabled} />
                         <div className="w-full">
-                        <button disabled={!isCashOn} className="btn btn-primary w-full">
+                        <button disabled={!enabled} className="btn btn-primary w-full">
                         <input type="submit" value="Confirm Order" />
                         </button>
                         </div>

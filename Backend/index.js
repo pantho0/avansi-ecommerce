@@ -27,6 +27,7 @@ async function run() {
     const articlesCollection = client.db('avansi').collection('articles')
     const cartsCollection = client.db('avansi').collection('carts')
     const usersCollection = client.db('avansi').collection('users')
+    const ordersCollection = client.db('avansi').collection('orders')
 
     //All Products API with sort & filter methods
     app.get("/api/v1/products", async(req,res)=>{
@@ -181,6 +182,22 @@ async function run() {
     const result = await cartsCollection.deleteOne({_id: new ObjectId(id)})
     res.send(result);
    })
+   // payment info saving api
+   app.get("/api/v1/viewOrders/:email", async(req,res)=>{
+    const email = req.params.email;
+    const query = {email:email};
+    const result = await ordersCollection.find(query);
+    res.send(result);
+   }) 
+   app.post("/api/v1/savePayment", async(req,res)=>{
+    const paymentInfo = req.body;
+    const email = req.body.email;
+    const result = await ordersCollection.insertOne(paymentInfo);
+    const query = {email:email}
+    const deleteCart = await cartsCollection.deleteMany(query);
+    res.send({result, deleteCart})
+   })
+
    //==================================================================================================================
    //User Info store APi 
    //==================================================================================================================

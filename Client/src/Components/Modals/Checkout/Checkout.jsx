@@ -3,11 +3,13 @@ import { Fragment, useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import useDivisions from "../../Hooks/useDivisions";
 import PaymentMethods from "../../Dashboard/User/PaymentMethods";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
   const [isCashOn, setIsCashOn] = useState(false)
   const [enabled, setEnabled] = useState(false);
   const { user } = useAuth();
+  const axiosPublic = useAxiosPublic();
   const [divisions] = useDivisions();
   const [districts, setDistricts] = useState([]);
   const [deliveryDiv, setDeliveryDiv] = useState('')
@@ -43,8 +45,7 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
   const paymentInfo = {
     name : user?.displayName,
     email : user?.email,
-    cartId : products.map(pro=>pro._id),
-    productId : products.map(pro=>pro.product_id),
+    products : products,
     status : 'Pending',
     productsPrice :  priceTotal,
     totalPriceWithDelivery : priceWithDeliveryCharge,
@@ -64,7 +65,11 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
   }
   console.log(paymentInfo);
   //Submission for cash on delivery : 
-
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    const {data} = await axiosPublic.post('/savePayment',paymentInfo)
+    console.log(data);
+  }
 
 
   return (
@@ -123,7 +128,7 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                       <p>{priceWithDeliveryCharge?.toFixed(2)}</p>
                     </div>
                     <div>
-                      <form className="px-4 pt-4">
+                      <form onSubmit={handleSubmit} className="px-4 pt-4">
                         <label className="input bg-white input-bordered flex items-center mb-2 gap-2">
                           Name :
                           <input

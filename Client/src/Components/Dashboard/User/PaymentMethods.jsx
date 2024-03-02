@@ -24,23 +24,25 @@ const PaymentMethods = ({ isCashOn, setIsCashOn, enabled, setEnabled }) => {
         </label>
       </div> */}
       <div className="text-white flex flex-row justify-between items-center mb-4">
-              <Switch.Group>
-                <Switch.Label passive className={'text-primary'}>Cash On Delivery</Switch.Label>
-                <Switch
-                  checked={enabled}
-                  onChange={setEnabled}
-                  className={`${enabled ? "bg-primary" : "bg-secondary"}
+        <Switch.Group>
+          <Switch.Label passive className={"text-primary"}>
+            Cash On Delivery
+          </Switch.Label>
+          <Switch
+            checked={enabled}
+            onChange={setEnabled}
+            className={`${enabled ? "bg-primary" : "bg-secondary"}
           relative inline-flex h-[24px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
-                >
-                  <span className="sr-only">Use setting</span>
-                  <span
-                    aria-hidden="true"
-                    className={`${enabled ? "translate-x-5" : "translate-x-0"}
+          >
+            <span className="sr-only">Use setting</span>
+            <span
+              aria-hidden="true"
+              className={`${enabled ? "translate-x-5" : "translate-x-0"}
             pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                  />
-                </Switch>
-              </Switch.Group>
-            </div>
+            />
+          </Switch>
+        </Switch.Group>
+      </div>
     </div>
   );
 };

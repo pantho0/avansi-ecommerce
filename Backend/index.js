@@ -203,6 +203,21 @@ async function run() {
     res.send({result, deleteCart})
    })
 
+   //Order Status update api 
+   app.patch('/api/v1/updateStatus/:id', async(req,res)=>{
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)}
+      const status = req.body;
+      const options = {upsert:true}
+      const updatedDoc = {
+        $set :{
+          status : status.status
+        }
+      }
+      const result = await ordersCollection.updateOne(filter, updatedDoc, options)
+      console.log(result);
+   })
+
    //==================================================================================================================
    //User Info store APi 
    //==================================================================================================================

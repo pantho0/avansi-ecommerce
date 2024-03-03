@@ -190,6 +190,10 @@ async function run() {
     const result =await ordersCollection.find(query).toArray();
     res.send(result);
    }) 
+   app.get("/api/v1/allOrders", async(req,res)=>{
+    const result =await ordersCollection.find().toArray();
+    res.send(result);
+   }) 
    app.post("/api/v1/savePayment", async(req,res)=>{
     const paymentInfo = req.body;
     const email = req.body.email;

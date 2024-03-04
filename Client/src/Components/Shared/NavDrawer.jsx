@@ -33,8 +33,16 @@ const NavDrawer = () => {
 
   const navLinks = (
     <>
-      <li><Link to="/categories" state={{category:'Fashion And Appearal'}}>Fashion And Appearal</Link></li>
+      <li><Link to="/categories" state={{category:'Fashion and Apparel'}}>Fashion and Apparel</Link></li>
       <li><Link to="/categories" state={{category:'Electronics'}}>Electronics</Link></li>
+      <li><Link to="/categories" state={{category:'Home and Furniture'}}>Home and Furniture</Link></li>
+      <li><Link to="/categories" state={{category:'Beauty and Personal Care'}}>Beauty and Personal Care</Link></li>
+      <li><Link to="/categories" state={{category:'Books and Media'}}>Books and Media</Link></li>
+      <li><Link to="/categories" state={{category:'Health and Wellness'}}>Health and Wellness</Link></li>
+      <li><Link to="/categories" state={{category:'Toys and Games'}}>Toys and Games</Link></li>
+      <li><Link to="/categories" state={{category:'Sports and Outdoors'}}>Sports and Outdoors</Link></li>
+      <li><Link to="/categories" state={{category:'Food and Groceries'}}>Food and Groceries</Link></li>
+      <li><Link to="/categories" state={{category:'Art and Crafts'}}>Art and Crafts</Link></li>
       {/* <li>
         <Link to="/categories">Fashion and Apparel</Link>
       </li>

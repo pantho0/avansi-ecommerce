@@ -2,17 +2,19 @@ import useAuth from "../Hooks/useAuth";
 import { LuLogIn } from "react-icons/lu";
 import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
 import NavForMobileTablet from "./NavForMobileTablet";
 import { useEffect, useState } from "react";
 
+
 const NavDrawer = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
   const [categories, setCategories] = useState([]);
-  console.log(categories);
+
+
   const signOut = () => {
     logOut()
       .then(() => {
@@ -31,33 +33,35 @@ const NavDrawer = () => {
 
   const navLinks = (
     <>
-      <li>
-        <Link to="/Fashion and Apparel">Fashion and Apparel</Link>
+      <li><Link to="/categories" state={{category:'Fashion And Appearal'}}>Fashion And Appearal</Link></li>
+      <li><Link to="/categories" state={{category:'Electronics'}}>Electronics</Link></li>
+      {/* <li>
+        <Link to="/categories">Fashion and Apparel</Link>
       </li>
       <li>
-        <Link to="/Electronics">Electronics</Link>
+        <Link to="/categories">Electronics</Link>
       </li>
       <li>
-        <Link to="/Home and Furniture">Home and Furniture</Link>
+        <Link to="/categories">Home and Furniture</Link>
       </li>
       <li>
-        <Link to="/Beauty and Personal Care">Beauty and Personal Care</Link>
+        <Link to="/categories">Beauty and Personal Care</Link>
       </li>
       <li>
-        <Link to="/Health and Wellness">Health and Wellness</Link>
+        <Link to="/categories">Health and Wellness</Link>
       </li>
       <li>
-        <Link to="/Toys and Games">Toys and Games</Link>
+        <Link to="/categories">Toys and Games</Link>
       </li>
       <li>
-        <Link to="/Sports and Outdoors">Sports and Outdoors</Link>
+        <Link to="/categories">Sports and Outdoors</Link>
       </li>
       <li>
-        <Link to="/Food and Groceries">Food and Groceries</Link>
+        <Link to="/categories">Food and Groceries</Link>
       </li>
       <li>
-        <Link to="/Art and Crafts">Art and Crafts</Link>
-      </li>
+        <Link to="/categories">Art and Crafts</Link>
+      </li> */}
     </>
   );
 

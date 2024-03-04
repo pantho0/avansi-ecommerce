@@ -13,6 +13,8 @@ import AddProducts from "../Pages/AdminDashboard/AddProducts";
 import Inventory from "../Pages/AdminDashboard/Inventory";
 import MyOrders from "../Pages/User_Dashboard/MyOrders";
 import AllOrders from "../Pages/AdminDashboard/AllOrders";
+import Cateories from "../Pages/Categories/Cateories";
+
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +37,10 @@ export const router = createBrowserRouter([
                 path : "product/:id",
                 element : <ProductDetails/>,
                 loader:({params}) => fetch(`http://localhost:5000/api/v1/singleproducts/${params.id}`)
+            },
+            {
+                path : "categories",
+                element : <Cateories/>
             }
         ]
     },

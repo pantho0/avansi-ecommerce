@@ -6,11 +6,13 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
 import NavForMobileTablet from "./NavForMobileTablet";
+import { useEffect, useState } from "react";
 
 const NavDrawer = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
-
+  const [categories, setCategories] = useState([]);
+  console.log(categories);
   const signOut = () => {
     logOut()
       .then(() => {
@@ -20,6 +22,44 @@ const NavDrawer = () => {
         toast.error(error?.message);
       });
   };
+
+  useEffect(() => {
+    fetch("/categories.json")
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
+
+  const navLinks = (
+    <>
+      <li>
+        <Link to="/Fashion and Apparel">Fashion and Apparel</Link>
+      </li>
+      <li>
+        <Link to="/Electronics">Electronics</Link>
+      </li>
+      <li>
+        <Link to="/Home and Furniture">Home and Furniture</Link>
+      </li>
+      <li>
+        <Link to="/Beauty and Personal Care">Beauty and Personal Care</Link>
+      </li>
+      <li>
+        <Link to="/Health and Wellness">Health and Wellness</Link>
+      </li>
+      <li>
+        <Link to="/Toys and Games">Toys and Games</Link>
+      </li>
+      <li>
+        <Link to="/Sports and Outdoors">Sports and Outdoors</Link>
+      </li>
+      <li>
+        <Link to="/Food and Groceries">Food and Groceries</Link>
+      </li>
+      <li>
+        <Link to="/Art and Crafts">Art and Crafts</Link>
+      </li>
+    </>
+  );
 
   return (
     <>
@@ -53,10 +93,11 @@ const NavDrawer = () => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
-                <li>
+                {navLinks}
+                {/* <li>
                   <a>Item 1</a>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <a>Parent</a>
                   <ul className="p-2">
                     <li>
@@ -69,7 +110,7 @@ const NavDrawer = () => {
                 </li>
                 <li>
                   <a>Item 3</a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <Logo />
@@ -82,7 +123,8 @@ const NavDrawer = () => {
                     All Category
                   </summary>
                   <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
-                    <li>
+                    {navLinks}
+                    {/* <li>
                       <a>Electronic</a>
                     </li>
                     <li>
@@ -100,7 +142,7 @@ const NavDrawer = () => {
                           </li>
                         </ul>
                       </details>
-                    </li>
+                    </li> */}
                   </ul>
                 </details>
               </li>

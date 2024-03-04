@@ -5,10 +5,12 @@ import Logo from "../Logo/Logo";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
+import { useEffect, useState } from "react";
 
 const NavForMobileTablet = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
+  const [categories, setCategories] = useState([])
 
   const signOut = () => {
     logOut()
@@ -19,6 +21,12 @@ const NavForMobileTablet = () => {
         toast.error(error?.message);
       });
   };
+
+  useEffect(()=>{
+    fetch('/categories.json')
+    .then(res=>res.json())
+    .then(data=>setCategories(data))
+  },[])
 
   return (
     <div className="fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] z-20 lg:hidden  ">
@@ -172,7 +180,13 @@ const NavForMobileTablet = () => {
 
           <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
             {/* Sidebar content here */}
-            <li>
+            {
+                  categories.map((category,idx)=><li key={idx}>
+                    <a>{category.name}</a>
+                  </li>)
+                }
+
+            {/* <li>
               <a>Electronics</a>
             </li>
             <li>
@@ -190,7 +204,7 @@ const NavForMobileTablet = () => {
                   </li>
                 </ul>
               </details>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

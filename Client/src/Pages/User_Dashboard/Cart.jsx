@@ -7,11 +7,12 @@ import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import useDivisions from "../../Components/Hooks/useDivisions";
 import Checkout from "../../Components/Modals/Checkout/Checkout";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
-  
-  
+  const location = useLocation()
+  console.log(location.search);
   
   const [price, setPrice] = useState("");
   const { user } = useAuth();

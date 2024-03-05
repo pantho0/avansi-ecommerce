@@ -2,6 +2,7 @@ import { Link, useLocation} from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import LodaingState from "../../Components/Loading State/LodaingState";
 
 
 const Cateories = () => {
@@ -32,11 +33,11 @@ const Cateories = () => {
   }, [axiosPublic, category, loading])
 
   if(loading){
-    return <div className="h-screen flex justify-center items-center"><p>Loading Data</p></div>
+    return <LodaingState/>
   }
   return (
     
-    <div>
+    <div className="min-h-screen pt-20">
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
           <div className="grid grid-cols-1 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">

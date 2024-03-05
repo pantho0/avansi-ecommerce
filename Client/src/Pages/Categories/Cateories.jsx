@@ -1,7 +1,6 @@
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 

@@ -2,7 +2,7 @@ import useAuth from "../Hooks/useAuth";
 import { LuLogIn } from "react-icons/lu";
 import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
 import NavForMobileTablet from "./NavForMobileTablet";
@@ -13,7 +13,15 @@ const NavDrawer = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+  
 
+  const handleSearch = () =>{
+    if(searchText.trim().length !== 0){
+      navigate('/searchResult', {state: searchText})
+    }
+  }
 
   const signOut = () => {
     logOut()
@@ -43,33 +51,6 @@ const NavDrawer = () => {
       <li><Link to="/categories" state={{category:'Sports and Outdoors'}}>Sports and Outdoors</Link></li>
       <li><Link to="/categories" state={{category:'Food and Groceries'}}>Food and Groceries</Link></li>
       <li><Link to="/categories" state={{category:'Art and Crafts'}}>Art and Crafts</Link></li>
-      {/* <li>
-        <Link to="/categories">Fashion and Apparel</Link>
-      </li>
-      <li>
-        <Link to="/categories">Electronics</Link>
-      </li>
-      <li>
-        <Link to="/categories">Home and Furniture</Link>
-      </li>
-      <li>
-        <Link to="/categories">Beauty and Personal Care</Link>
-      </li>
-      <li>
-        <Link to="/categories">Health and Wellness</Link>
-      </li>
-      <li>
-        <Link to="/categories">Toys and Games</Link>
-      </li>
-      <li>
-        <Link to="/categories">Sports and Outdoors</Link>
-      </li>
-      <li>
-        <Link to="/categories">Food and Groceries</Link>
-      </li>
-      <li>
-        <Link to="/categories">Art and Crafts</Link>
-      </li> */}
     </>
   );
 
@@ -106,23 +87,6 @@ const NavDrawer = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 {navLinks}
-                {/* <li>
-                  <a>Item 1</a>
-                </li> */}
-                {/* <li>
-                  <a>Parent</a>
-                  <ul className="p-2">
-                    <li>
-                      <a>Submenu 1</a>
-                    </li>
-                    <li>
-                      <a>Submenu 2</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a>Item 3</a>
-                </li> */}
               </ul>
             </div>
             <Logo />
@@ -136,25 +100,6 @@ const NavDrawer = () => {
                   </summary>
                   <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
                     {navLinks}
-                    {/* <li>
-                      <a>Electronic</a>
-                    </li>
-                    <li>
-                      <a>Body Care</a>
-                    </li>
-                    <li>
-                      <details>
-                        <summary>Fashion</summary>
-                        <ul>
-                          <li>
-                            <a>Men</a>
-                          </li>
-                          <li>
-                            <a>Women</a>
-                          </li>
-                        </ul>
-                      </details>
-                    </li> */}
                   </ul>
                 </details>
               </li>
@@ -165,6 +110,12 @@ const NavDrawer = () => {
                 type="text"
                 placeholder="Search"
                 className="input input-bordered w-24 md:w-full"
+                onChange={(e)=>setSearchText(e.target.value)}
+                onKeyDown={(e)=>{
+                  if(e.key === "Enter"){
+                    handleSearch()
+                  }
+                }}
               />
             </div>
           </div>

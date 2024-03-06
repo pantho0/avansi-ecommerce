@@ -9,12 +9,14 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../Utils/Login & Signup/firebase.config";
+import useAxiosPublic from "../Components/Hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
 const provider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic()
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -42,12 +44,13 @@ const AuthProvider = ({ children }) => {
       console.log("checking the user from auth state", currentUser?.email);
       if (currentUser) {
         setLoading(false);
+        axiosPublic.post('/jwt', {email : currentUser?.email})
       }
     });
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,

@@ -221,7 +221,12 @@ async function run() {
    // payment info saving api
    app.get("/api/v1/viewOrders/:email", verifyToken, async(req,res)=>{
     const email = req.params.email;
-    console.log(email);
+    const tokenEmail = req.user.email;
+    console.log(tokenEmail);
+    if(email !== tokenEmail){
+      return res.status(403).send({message:"forbidden"})
+    }
+    console.log('params email',email);
     const query = {email:email};
     const result =await ordersCollection.find(query).toArray();
     res.send(result);

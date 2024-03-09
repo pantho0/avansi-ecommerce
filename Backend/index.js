@@ -64,6 +64,22 @@ async function run() {
       res.send({success:true})
     })
 
+    app.get('/api/v1/logout', async(req,res)=>{
+      try{
+        res.clearCookie('token', {
+          maxAge : 0,
+          secure : process.env.NODE_ENV === "production",
+          sameSite : process.env.NODE_ENV === "production" ? 'none' : 'strict'
+        })
+        .send({success: true})
+        console.log('logout successful');
+      }catch (err){
+        res.status(500).send(err)
+      }
+    })
+
+
+
 
     //All Products API with sort & filter methods
     app.get("/api/v1/products", async(req,res)=>{

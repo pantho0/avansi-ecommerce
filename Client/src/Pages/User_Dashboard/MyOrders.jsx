@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Components/Hooks/useAuth";
-import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+// import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import { useEffect, useState } from "react";
+import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 
 const MyOrders = () => {
     const {user} = useAuth();
     const email = user?.email;
-    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure()
+    // const axiosPublic = useAxiosPublic();
     const {data:orders=[]} = useQuery({
         queryKey:['orders', user?.email, email],
         queryFn : async()=>{
-            const {data} = await axiosPublic(`/viewOrders/${email}`)
+            const {data} = await axiosSecure(`/viewOrders/${email}`)
             console.log(data);
             return data; 
         }

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+// import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import useDivisions from "../../Components/Hooks/useDivisions";
 import Checkout from "../../Components/Modals/Checkout/Checkout";
 import { useLocation, useSearchParams } from "react-router-dom";
+import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 
 const Cart = () => {
-  const axiosPublic = useAxiosPublic();
+  // const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const location = useLocation()
   console.log(location.search);
   
@@ -32,9 +34,7 @@ const Cart = () => {
   const { data: products = [], refetch } = useQuery({
     queryKey: ["products", user?.email, price],
     queryFn: async () => {
-      const { data } = await axiosPublic(
-        `/getCartItem/?email=${user?.email}&sortField=priceWithQuantity&sortOrder=${price}`
-      );
+      const { data } = await axiosSecure(`/getCartItem/?email=${user?.email}&sortField=priceWithQuantity&sortOrder=${price}`);
       return data;
     },
   });
@@ -43,7 +43,7 @@ const Cart = () => {
   const { data: totalPrice = [], refetch: reload } = useQuery({
     queryKey: ["totalPrice", user?.email, priceTotal,],
     queryFn: async () => {
-      const { data } = await axiosPublic(`/cartTotal/${user.email}`);
+      const { data } = await axiosSecure(`/cartTotal/${user.email}`);
       setPriceTotal(data.total);
       return data;
     },
@@ -53,7 +53,7 @@ const Cart = () => {
 
   const handleDelete = async (id) => {
     console.log(id);
-    const { data } = await axiosPublic.delete(`/deleteCartItem/${id}`);
+    const { data } = await axiosSecure.delete(`/deleteCartItem/${id}`);
     if (data.deletedCount > 0) {
       refetch();
       reload();
@@ -65,7 +65,7 @@ const Cart = () => {
     const quantityInfo = {
       quantity: quantity,
     };
-    const { data } = await axiosPublic.patch(
+    const { data } = await axiosSecure.patch(
       `/quantityPrice/${id}`,
       quantityInfo
     );
@@ -80,7 +80,7 @@ const Cart = () => {
     const quantityInfo = {
       quantity: quantity,
     };
-    const { data } = await axiosPublic.patch(
+    const { data } = await axiosSecure.patch(
       `/quantityPriceDecrease/${id}`,
       quantityInfo
     );

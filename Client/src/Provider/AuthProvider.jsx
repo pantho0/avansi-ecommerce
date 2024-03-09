@@ -45,6 +45,8 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         setLoading(false);
         axiosPublic.post('/jwt', {email : currentUser?.email})
+      }else{
+        axiosPublic('/logout')
       }
     });
     return () => {

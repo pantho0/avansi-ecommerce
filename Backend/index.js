@@ -99,7 +99,14 @@ async function run() {
         if(sortField && sortObj){
           sortObj[sortField] = sortOrder;
         }
-        const result = await productsCollection.find(query).sort(sortObj).toArray()
+
+        //Pagination :
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit);
+
+        const skip = (page-1)*limit;
+
+        const result = await productsCollection.find(query).skip(skip).limit(limit).sort(sortObj).toArray()
         res.send(result)
     })
 

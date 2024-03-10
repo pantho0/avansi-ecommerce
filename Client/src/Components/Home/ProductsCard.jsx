@@ -5,13 +5,21 @@ import { useEffect, useState } from "react";
 
 const ProductsCard = () => {
   const [totalProducts, setTotalProducts] = useState([])
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
   console.log(currentPage);
+  const limit = 12;
+  const pages = Math.ceil(totalProducts/limit);
+
+  const numberofButtons = [...Array(pages).keys()];
+
+  const handlePageButton = (btn) =>{
+    setCurrentPage  (btn+1);
+  } 
   const axiosPublic = useAxiosPublic();
   const { data: products = [] } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", currentPage],
     queryFn: async () => {
-      const res = await axiosPublic.get("/products");
+      const res = await axiosPublic.get(`/products?page=${currentPage}&limit=${limit}`);
       return res.data;
     },
   });
@@ -20,14 +28,7 @@ const ProductsCard = () => {
     axiosPublic('/productCount')
     .then(res=>setTotalProducts(res.data.total))
   },[axiosPublic])
-
-  const pages = Math.ceil(totalProducts/12);
-
-  const numberofButtons = [...Array(pages).keys()];
-
-  const handlePageButton = (btn) =>{
-    setCurrentPage  (btn);
-  } 
+ 
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -77,7 +78,7 @@ const ProductsCard = () => {
                     type="radio"
                     name="options"
                     aria-label={pageBtn+1}
-                    checked = {pageBtn === currentPage}
+                    checked
                   />
                   )
                 }

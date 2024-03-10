@@ -11,6 +11,12 @@ const ProductsCard = () => {
       return res.data;
     }
   })
+
+  const pages = 10;
+
+  const numberofButtons = [...Array(pages).keys()];
+  console.log(numberofButtons);
+
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -46,6 +52,9 @@ const ProductsCard = () => {
                 </div>
               );
             })}
+          </div>
+          <div>
+            Buttons
           </div>
         </div>
       </section>

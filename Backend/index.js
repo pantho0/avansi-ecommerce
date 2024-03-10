@@ -102,6 +102,11 @@ async function run() {
         const result = await productsCollection.find(query).sort(sortObj).toArray()
         res.send(result)
     })
+
+    app.get('/api/v1/productCount', async(req,res)=>{
+      const result = await productsCollection.estimatedDocumentCount();
+      res.send({total : result})
+    })
     //save product to db from add product 
     app.post('/api/v1/add_product', async(req,res)=>{
       const product = req.body;

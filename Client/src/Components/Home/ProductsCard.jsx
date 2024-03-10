@@ -1,22 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const ProductsCard = () => {
-  const axiosPublic = useAxiosPublic()
-  const {data:products=[]} = useQuery({
-    queryKey : ['products'],
-    queryFn : async() =>{
-      const res = await axiosPublic.get('/products')
+  const [totalProducts, setTotalProducts] = useState([])
+  const [currentPage, setCurrentPage] = useState(0)
+  console.log(currentPage);
+  const axiosPublic = useAxiosPublic();
+  const { data: products = [] } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/products");
       return res.data;
-    }
-  })
+    },
+  });
 
-  const pages = 10;
+  useEffect(()=>{
+    axiosPublic('/productCount')
+    .then(res=>setTotalProducts(res.data.total))
+  },[axiosPublic])
+
+  const pages = Math.ceil(totalProducts/12);
 
   const numberofButtons = [...Array(pages).keys()];
-  console.log(numberofButtons);
 
+  const handlePageButton = (btn) =>{
+    setCurrentPage  (btn);
+  } 
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -26,7 +37,7 @@ const ProductsCard = () => {
               return (
                 <div
                   key={product.name}
-                 className="shadow-lg mx-4 rounded-md p-4 md:p-4"
+                  className="shadow-lg mx-4 rounded-md p-4 md:p-4"
                 >
                   <a className="block relative h-48 rounded overflow-hidden">
                     <img
@@ -47,14 +58,30 @@ const ProductsCard = () => {
                     </p>
                   </div>
                   <div className="card-actions justify-center md:justify-center">
-                    <Link to={`/product/${product._id}`}><button className="btn btn-primary btn-sm w-full hover:btn-accent">Buy Now</button></Link>
+                    <Link to={`/product/${product._id}`}>
+                      <button className="btn btn-primary btn-sm w-full hover:btn-accent">
+                        Buy Now
+                      </button>
+                    </Link>
                   </div>
                 </div>
               );
             })}
           </div>
-          <div>
-            Buttons
+          <div className="flex justify-center">
+              <div className="join">
+                {
+                  numberofButtons.map(pageBtn =><input key={pageBtn}
+                    onClick={()=>handlePageButton(pageBtn)}
+                    className="join-item btn btn-square"
+                    type="radio"
+                    name="options"
+                    aria-label={pageBtn+1}
+                    checked = {pageBtn === currentPage}
+                  />
+                  )
+                }
+              </div>
           </div>
         </div>
       </section>

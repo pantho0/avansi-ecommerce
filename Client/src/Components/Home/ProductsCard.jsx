@@ -2,35 +2,45 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import LodaingState from "../Loading State/LodaingState";
 
 const ProductsCard = () => {
-  const [totalProducts, setTotalProducts] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [totalProducts, setTotalProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   console.log(currentPage);
   const limit = 12;
-  const pages = Math.ceil(totalProducts/limit);
+  const pages = Math.ceil(totalProducts / limit);
 
   const numberofButtons = [...Array(pages).keys()];
 
-  const handlePageButton = (btn) =>{
-    setCurrentPage  (btn+1);
-  } 
+  const handlePageButton = (btn) => {
+    setCurrentPage(btn + 1);
+  };
   const axiosPublic = useAxiosPublic();
-  const { data: products = [] } = useQuery({
+  const { data: products = [], isPending } = useQuery({
     queryKey: ["products", currentPage],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/products?page=${currentPage}&limit=${limit}`);
+      const res = await axiosPublic.get(
+        `/products?page=${currentPage}&limit=${limit}`
+      );
       return res.data;
     },
   });
 
-  useEffect(()=>{
-    axiosPublic('/productCount')
-    .then(res=>setTotalProducts(res.data.total))
-  },[axiosPublic])
- 
+  useEffect(() => {
+    axiosPublic("/productCount").then((res) =>
+      setTotalProducts(res.data.total)
+    );
+  }, [axiosPublic]);
+
+
+
+
+  if(isPending){
+    return <LodaingState/>
+  }
   return (
-    <div>
+    <div className="min-h-screen">
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
           <div className="grid grid-cols-1 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -70,19 +80,19 @@ const ProductsCard = () => {
             })}
           </div>
           <div className="flex justify-center">
-              <div className="join">
-                {
-                  numberofButtons.map(pageBtn =><input key={pageBtn}
-                    onClick={()=>handlePageButton(pageBtn)}
-                    className="join-item btn btn-square"
-                    type="radio"
-                    name="options"
-                    aria-label={pageBtn+1}
-                    checked
-                  />
-                  )
-                }
-              </div>
+            <div className="join">
+              {numberofButtons.map((pageBtn) => (
+                <input
+                  key={pageBtn}
+                  onClick={() => handlePageButton(pageBtn)}
+                  className="join-item btn btn-square"
+                  type="radio"
+                  name="options"
+                  aria-label={pageBtn + 1}
+                  checked={pageBtn + 1 === currentPage}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LodaingState from "../Loading State/LodaingState";
 
-const ProductsCard = () => {
-  const [totalProducts, setTotalProducts] = useState([]);
+const PopularProductsCard = () => {
+    const [totalProducts, setTotalProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 12;
   const pages = Math.ceil(totalProducts / limit);
@@ -38,8 +38,10 @@ const ProductsCard = () => {
   if(isLoading){
     return <LodaingState/>
   }
-  return (
-    <div className="min-h-screen">
+
+
+    return (
+        <div className="min-h-screen">
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
           <div className="grid grid-cols-1 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -96,7 +98,7 @@ const ProductsCard = () => {
         </div>
       </section>
     </div>
-  );
+    );
 };
 
-export default ProductsCard;
+export default PopularProductsCard;

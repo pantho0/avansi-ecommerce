@@ -6,7 +6,7 @@ import {RiseLoader } from "react-spinners"
 
 const PrivateRoute = ({children}) => {
     const {user, loading} = useAuth()
-    
+
     if(loading){
         return <RiseLoader color="#8C0327"  className="w-full h-screen flex justify-center items-center"/>
     }

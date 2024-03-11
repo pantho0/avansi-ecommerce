@@ -15,6 +15,7 @@ import MyOrders from "../Pages/User_Dashboard/MyOrders";
 import AllOrders from "../Pages/AdminDashboard/AllOrders";
 import Cateories from "../Pages/Categories/Cateories";
 import SearchResult from "../Pages/SearchResult/SearchResult";
+import AdminRoute from "./AdminRoute";
 
 
 export const router = createBrowserRouter([
@@ -63,7 +64,7 @@ export const router = createBrowserRouter([
             },
             {
                 path : 'users',
-                element : <Users/>
+                element : <AdminRoute><Users/></AdminRoute>
             },
             {
                 path : 'addProducts',

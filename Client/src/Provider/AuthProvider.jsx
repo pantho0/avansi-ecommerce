@@ -39,13 +39,13 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setLoading(true);
       setUser(currentUser);
       console.log("checking the user from auth state", currentUser?.email);
       if (currentUser) {
         setLoading(false);
         axiosPublic.post('/jwt', {email : currentUser?.email})
       }else{
+        setLoading(false)
         axiosPublic('/logout')
       }
     });

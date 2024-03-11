@@ -30,6 +30,8 @@ const verifyToken = (req,res, next) =>{
 }
 
 
+
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.guubgk2.mongodb.net/?retryWrites=true&w=majority`;
 
 
@@ -49,6 +51,8 @@ async function run() {
     const cartsCollection = client.db('avansi').collection('carts')
     const usersCollection = client.db('avansi').collection('users')
     const ordersCollection = client.db('avansi').collection('orders')
+
+
 
 
     //Json webtoken 
@@ -78,7 +82,19 @@ async function run() {
       }
     })
 
-
+    //verify admin middleware
+    const verifyAdmin = async(req,res,next)=>{
+      const email = req.user?.email;
+      const query = {email: email}
+      const user = await usersCollection.findOne(query);
+      const isAdmin = user?.role === "admin";
+      if(!isAdmin){
+        return res.status(401).send({message : "Unauthorized"})
+      }else{
+        next()
+      }
+      
+  }
 
 
     //All Products API with sort & filter methods
@@ -115,7 +131,7 @@ async function run() {
       res.send({total : result})
     })
     //save product to db from add product 
-    app.post('/api/v1/add_product', async(req,res)=>{
+    app.post('/api/v1/add_product', verifyToken, verifyAdmin, async(req,res)=>{
       const product = req.body;
       const result = await productsCollection.insertOne(product)
       res.send(result);
@@ -131,7 +147,7 @@ async function run() {
     })
 
     //update product api 
-    app.post('/api/v1/updateProduct/:id', async(req,res)=>{
+    app.post('/api/v1/updateProduct/:id', verifyToken, verifyAdmin, async(req,res)=>{
       const id = req.params.id;
       const productInfo = req.body;
       const filter = {_id: new ObjectId(id)};
@@ -146,7 +162,7 @@ async function run() {
     })
 
     //delete product api
-    app.delete('/api/v1/deleteProduct/:id', async(req,res)=>{
+    app.delete('/api/v1/deleteProduct/:id', verifyToken, verifyAdmin, async(req,res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
       const result = await productsCollection.deleteOne(query);
@@ -188,13 +204,13 @@ async function run() {
     }
    })
    //post cart items :
-   app.post("/api/v1/saveToCart", async(req,res)=>{
+   app.post("/api/v1/saveToCart",verifyToken, async(req,res)=>{
     const item = req.body;
     const result = await cartsCollection.insertOne(item)
     res.send(result)
    })
    //for increase quantity
-   app.patch("/api/v1/quantityPrice/:id", async(req,res)=>{
+   app.patch("/api/v1/quantityPrice/:id", verifyToken, async(req,res)=>{
       const id = req.params.id;
       const quantityInfo = req.body;
       const newQuantity = quantityInfo.quantity+1;
@@ -215,7 +231,7 @@ async function run() {
       res.send(result)
    })
    //for decrease quantity
-   app.patch("/api/v1/quantityPriceDecrease/:id", async(req,res)=>{
+   app.patch("/api/v1/quantityPriceDecrease/:id", verifyToken, async(req,res)=>{
     const id = req.params.id;
     const quantityInfo = req.body;
     if(quantityInfo.quantity < 2){
@@ -241,7 +257,7 @@ async function run() {
 
      })
 //Total price in cart items :
-    app.get("/api/v1/cartTotal/:email", async(req,res)=>{
+    app.get("/api/v1/cartTotal/:email", verifyToken, async(req,res)=>{
     const email = req.params.email;
     const myCart = await cartsCollection.find({email:email}).toArray()
     const totalPrice = myCart.reduce((acc,cart)=> acc+parseFloat(cart.priceWithQuantity) ,0)
@@ -249,7 +265,7 @@ async function run() {
     })
 
    //delete cart items : 
-    app.delete("/api/v1/deleteCartItem/:id", async(req,res)=>{
+    app.delete("/api/v1/deleteCartItem/:id", verifyToken, async(req,res)=>{
     const id = req.params.id;
     const result = await cartsCollection.deleteOne({_id: new ObjectId(id)})
     res.send(result);
@@ -257,8 +273,7 @@ async function run() {
    // payment info saving api
    app.get("/api/v1/viewOrders/:email", verifyToken, async(req,res)=>{
     const email = req.params.email;
-    const tokenEmail = req.user.email;
-    console.log(tokenEmail);
+    const tokenEmail = req.user?.email;
     if(email !== tokenEmail){
       return res.status(403).send({message:"forbidden"})
     }
@@ -267,6 +282,7 @@ async function run() {
     const result =await ordersCollection.find(query).toArray();
     res.send(result);
    }) 
+
    app.get("/api/v1/allOrders", async(req,res)=>{
     const result =await ordersCollection.find().toArray();
     res.send(result);

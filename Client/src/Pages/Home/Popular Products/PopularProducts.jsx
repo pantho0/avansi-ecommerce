@@ -1,5 +1,4 @@
 import PopularProductsCard from "../../../Components/Home/PopularProductsCard";
-import ProductsCard from "../../../Components/Home/ProductsCard";
 import SectionTitle from "../../../Components/Section Title/SectionTitle";
 import Container from "../../../Components/Ui/Container/Container";
 

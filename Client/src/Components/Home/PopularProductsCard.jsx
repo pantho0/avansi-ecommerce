@@ -80,7 +80,7 @@ const PopularProductsCard = () => {
               );
             })}
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center my-4">
             <div className="join">
               {numberofButtons.map((pageBtn) => (
                 <input

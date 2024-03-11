@@ -167,8 +167,13 @@ async function run() {
 
   //  Cart Related API's
    //get cart items :
-   app.get("/api/v1/getCartItem", async(req,res)=>{
-    const email = req.query.email;
+   app.get("/api/v1/getCartItem", verifyToken, async(req,res)=>{
+    try{
+      const email = req.query.email;
+    const tokenEmail = req.user?.email;
+    if(email !== tokenEmail){
+      res.status(403).send({message:'Forbidden'})
+    }
     const query = {email:email}
     let sortObj = {};
     const sortField = req.query.sortField;
@@ -178,6 +183,9 @@ async function run() {
     }
     const result = await cartsCollection.find(query).sort(sortObj).toArray()
     res.send(result)
+    }catch(error){
+      console.log(error);
+    }
    })
    //post cart items :
    app.post("/api/v1/saveToCart", async(req,res)=>{

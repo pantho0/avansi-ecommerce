@@ -17,7 +17,7 @@ const ProductsCard = () => {
     setCurrentPage(btn + 1);
   };
   const axiosPublic = useAxiosPublic();
-  const { data: products = [], isPending } = useQuery({
+  const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", currentPage],
     queryFn: async () => {
       const res = await axiosPublic.get(
@@ -36,7 +36,7 @@ const ProductsCard = () => {
 
 
 
-  if(isPending){
+  if(isLoading){
     return <LodaingState/>
   }
   return (

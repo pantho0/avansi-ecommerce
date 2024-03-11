@@ -1,11 +1,11 @@
 
+
 import { BounceLoader } from "react-spinners";
 
 
 
 const LodaingState = () => {
-
-
+  
   return (
     <div className="min-h-screen flex justify-center items-center">
       <BounceLoader

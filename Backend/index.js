@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 const app = express();
 const port = process.env.PORT || 5000;
 //middlewares
@@ -26,6 +27,43 @@ const verifyToken = (req,res, next) =>{
     }
     req.user = decoded;
     next()
+  })
+}
+console.log(process.env.GMAIL);
+//Mail sending api (with nodemailer)
+const sendMail = (emailAddress, emailData) =>{
+  const transporter = nodemailer.createTransport({
+    service : 'gmail',
+    host : 'smtp.gmail.com',
+    port : 587,
+    auth : {
+      user : process.env.GMAIL ,
+      pass : process.env.PASS
+    }
+  })
+  //verifying that nodemailer is working or not
+  transporter.verify((error, success)=>{
+    if(error){
+      console.log(error)
+    }else{
+      console.log('service is ready to take our email', success)
+    }
+  })
+
+  //mailbody which will be send
+  const mailBody = {
+    from : process.env.GMAIL,
+    to : emailAddress,
+    subject : emailData.subject,
+    html: `<p>${emailData.message}</p>`
+  }
+
+  transporter.sendMail(mailBody, (error, info)=>{
+    if(error){
+      console.log(error);
+    }else{
+      console.log('Email Sent '+info.response);
+    }
   })
 }
 

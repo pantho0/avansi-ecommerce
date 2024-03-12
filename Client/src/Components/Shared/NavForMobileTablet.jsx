@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const NavForMobileTablet = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
 
   const signOut = () => {
     logOut()
@@ -22,11 +22,11 @@ const NavForMobileTablet = () => {
       });
   };
 
-  useEffect(()=>{
-    fetch('/categories.json')
-    .then(res=>res.json())
-    .then(data=>setCategories(data))
-  },[])
+  useEffect(() => {
+    fetch("/categories.json")
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
 
   return (
     <div className="fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] z-20 lg:hidden  ">
@@ -151,20 +151,7 @@ const NavForMobileTablet = () => {
                   </ul>
                 </div>
               ) : (
-                <>
-                  <Link to="/login">
-                    <button className="btn btn-accent btn-sm text-white ml-2 mr-2">
-                      Login
-                      <LuLogIn size={20} />
-                    </button>
-                  </Link>
-                  <Link to="/signup">
-                    <button className="btn btn-primary btn-sm text-white">
-                      SignUp
-                      <FaUserCheck size={20} />
-                    </button>
-                  </Link>
-                </>
+                <></>
               )}
             </div>
           </div>
@@ -180,31 +167,27 @@ const NavForMobileTablet = () => {
 
           <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
             {/* Sidebar content here */}
+            {categories.map((category, idx) => (
+              <li key={idx}>
+                <a>{category.name}</a>
+              </li>
+            ))}
             {
-                  categories.map((category,idx)=><li key={idx}>
-                    <a>{category.name}</a>
-                  </li>)
-                }
-
-            {/* <li>
-              <a>Electronics</a>
-            </li>
-            <li>
-              <a>Body Care</a>
-            </li>
-            <li>
-              <details>
-                <summary>Fashion</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Men</a>
-                  </li>
-                  <li>
-                    <a>Women</a>
-                  </li>
-                </ul>
-              </details>
-            </li> */}
+              !user && <div className="flex flex-col justify-center items-center gap-2">
+              <Link to="/login">
+                <button className="btn btn-accent btn-sm text-white">
+                  Login
+                  <LuLogIn size={20} />
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="btn btn-primary btn-sm text-white">
+                  SignUp
+                  <FaUserCheck size={20} />
+                </button>
+              </Link>
+            </div>
+            }
           </ul>
         </div>
       </div>

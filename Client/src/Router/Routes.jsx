@@ -68,19 +68,19 @@ export const router = createBrowserRouter([
             },
             {
                 path : 'addProducts',
-                element : <AddProducts/>
+                element : <AdminRoute><AddProducts/></AdminRoute>
             },
             {
                 path :'inventory',
-                element : <Inventory/>
+                element : <AdminRoute><Inventory/></AdminRoute>
             },
             {
                 path : 'myorders',
-                element : <MyOrders/>
+                element : <PrivateRoute><MyOrders/></PrivateRoute>
             }, 
             {
                 path : 'allorders',
-                element : <AllOrders/>
+                element : <AdminRoute><AllOrders/></AdminRoute>
             }
         ]
     }

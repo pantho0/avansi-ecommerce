@@ -55,7 +55,7 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
     delivery_cell : mobileNo,
     delivery_details: detailsAddress,
     subject : 'Order Successful',
-    message : 'Your order has been placed.'
+    message : 'Your order has been placed. Please visit this link to track your product http://localhost:5173/dashboard/myorders'
   }
   //Managing State for Mobile No. & Details Address:
   const handleMobile = (e) =>{

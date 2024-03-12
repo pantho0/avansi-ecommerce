@@ -42,17 +42,17 @@ const ProductsCard = () => {
     <div className="min-h-screen">
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
-          <div className="grid grid-cols-1 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
             {products.map((product) => {
               return (
                 <div
                   key={product.name}
                   className="shadow-lg mx-4 rounded-md p-4 md:p-4"
                 >
-                  <a className="block relative h-48 rounded overflow-hidden">
+                  <a className="block relative h-[120px] md:h-48 rounded overflow-hidden">
                     <img
                       alt="ecommerce"
-                      className="object-contain object-center w-full h-full block"
+                      className="object-contain object-center w-[120px] h-[120px] md:w-full md:h-full block"
                       src={product.images[0]}
                     />
                   </a>
@@ -60,7 +60,7 @@ const ProductsCard = () => {
                     <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
                       {product.parent_category}
                     </h3>
-                    <h2 className="text-gray-900 title-font text-lg font-medium">
+                    <h2 className="text-gray-900 title-font text-sm md:text-lg font-medium">
                       {product.name}
                     </h2>
                     <p className="mt-1 text-primary font-bold">

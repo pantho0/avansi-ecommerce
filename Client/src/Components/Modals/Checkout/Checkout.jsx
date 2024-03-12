@@ -53,7 +53,9 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
     delivery_div : deliveryDiv,
     delivery_dist :deliveryDist,
     delivery_cell : mobileNo,
-    delivery_details: detailsAddress
+    delivery_details: detailsAddress,
+    subject : 'Order Successful',
+    message : 'Your order has been placed.'
   }
   //Managing State for Mobile No. & Details Address:
   const handleMobile = (e) =>{

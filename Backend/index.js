@@ -328,7 +328,11 @@ async function run() {
    app.post("/api/v1/savePayment", async(req,res)=>{
     const paymentInfo = req.body;
     const email = req.body.email;
+    const emailData = req.body;
     const result = await ordersCollection.insertOne(paymentInfo);
+    if(result.insertedId){
+      sendMail(email,emailData)
+    }
     const query = {email:email}
     const deleteCart = await cartsCollection.deleteMany(query);
     res.send({result, deleteCart})

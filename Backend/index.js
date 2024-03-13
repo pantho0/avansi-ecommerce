@@ -272,7 +272,7 @@ async function run() {
       res.send(result);
     });
     //for increase quantity
-    app.patch("/api/v1/quantityPrice/:id", verifyToken, async (req, res) => {
+    app.patch("/api/v1/quantityPrice/:id", async (req, res) => {
       const id = req.params.id;
       const quantityInfo = req.body;
       const newQuantity = quantityInfo.quantity + 1;
@@ -332,6 +332,10 @@ async function run() {
     //Total price in cart items :
     app.get("/api/v1/cartTotal/:email", verifyToken, async (req, res) => {
       const email = req.params.email;
+      const tokenEmail = req.user?.email;
+      if(email !== tokenEmail){
+        return res.status(403).send({message:"forbidden"})
+      }
       const myCart = await cartsCollection.find({ email: email }).toArray();
       const totalPrice = myCart.reduce(
         (acc, cart) => acc + parseFloat(cart.priceWithQuantity),
@@ -353,19 +357,22 @@ async function run() {
       if (email !== tokenEmail) {
         return res.status(403).send({ message: "forbidden" });
       }
-      console.log("params email", email);
       const query = { email: email };
       const result = await ordersCollection.find(query).toArray();
       res.send(result);
     });
 
-    app.get("/api/v1/allOrders", async (req, res) => {
+    app.get("/api/v1/allOrders", verifyToken, verifyAdmin, async (req, res) => {
       const result = await ordersCollection.find().toArray();
       res.send(result);
     });
-    app.post("/api/v1/savePayment", async (req, res) => {
+    app.post("/api/v1/savePayment", verifyToken, async (req, res) => {
       const paymentInfo = req.body;
       const email = req.body.email;
+      const tokenEmail = req.user?.email;
+      if(email !== tokenEmail){
+        return res.status(403).send({message : "forbidden"})
+      }
       const emailData = req.body;
       const result = await ordersCollection.insertOne(paymentInfo);
       if (result.insertedId) {
@@ -409,7 +416,7 @@ async function run() {
       res.send(result);
     });
     // Load All users
-    app.get("/api/v1/allUsers", async (req, res) => {
+    app.get("/api/v1/allUsers", verifyToken, verifyAdmin, async (req, res) => {
       const result = await usersCollection.find().toArray();
       res.send(result);
     });

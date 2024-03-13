@@ -51,7 +51,7 @@ const PopularProductsCard = () => {
                   key={product.name}
                   className="shadow-lg mx-4 rounded-md p-4 md:p-4"
                 >
-                  <a className="block relative w-[120px] h-[120px] md:h-48 rounded overflow-hidden">
+                  <a className="block relative h-[120px] md:h-48 rounded overflow-hidden">
                     <img
                       alt="ecommerce"
                       className="object-contain object-center w-[120px] h-[120px] md:w-full md:h-full block"

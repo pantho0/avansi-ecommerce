@@ -16,6 +16,7 @@ import AllOrders from "../Pages/AdminDashboard/AllOrders";
 import Cateories from "../Pages/Categories/Cateories";
 import SearchResult from "../Pages/SearchResult/SearchResult";
 import AdminRoute from "./AdminRoute";
+import DashboardAdmin from "../Pages/AdminDashboard/DashboardAdmin";
 
 
 export const router = createBrowserRouter([
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
             {
                 path : 'allorders',
                 element : <AdminRoute><AllOrders/></AdminRoute>
+            },
+            {
+                path : 'adminDashboard',
+                element : <AdminRoute><DashboardAdmin/></AdminRoute>
             }
         ]
     }

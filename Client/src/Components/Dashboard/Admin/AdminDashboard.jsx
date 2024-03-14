@@ -9,10 +9,12 @@ import { PiUsersFourFill } from "react-icons/pi";
 const AdminDashboard = () => {
   return (
     <>
-      <button className="btn btn-primary w-full rounded-none mt-2 ">
-        <MdDashboard size={20} />
-        Dashboard
-      </button>
+      <Link to="/dashboard/adminDashboard">
+        <button className="btn btn-primary w-full rounded-none mt-2 ">
+          <MdDashboard size={20} />
+          Dashboard
+        </button>
+      </Link>
       <Link to="/dashboard/addProducts">
         <button className="btn btn-primary w-full rounded-none mt-2 ">
           <IoBagAddSharp size={20} />

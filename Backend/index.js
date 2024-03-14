@@ -364,6 +364,8 @@ async function run() {
 
     app.get("/api/v1/allOrders", verifyToken, verifyAdmin, async (req, res) => {
       const result = await ordersCollection.find().toArray();
+      const totalSales = result.reduce((acc,currentValue)=> acc+currentValue?.productsPrice,0)
+      console.log(totalSales);
       res.send(result);
     });
     app.post("/api/v1/savePayment", verifyToken, async (req, res) => {

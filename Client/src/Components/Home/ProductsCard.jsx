@@ -46,14 +46,14 @@ const ProductsCard = () => {
             {products.map((product) => {
               return (
                 <div
-                  key={product.name}
+                  key={product?.name}
                   className="shadow-lg mx-4 rounded-md p-4 md:p-4"
                 >
                   <a className="block relative h-[120px] md:h-28 rounded overflow-hidden">
                     <img
                       alt="ecommerce"
                       className="object-contain object-center w-[120px] h-[120px] md:w-full md:h-full block"
-                      src={product.images[0]}
+                      src={product?.images[0]}
                     />
                   </a>
                   <div className="mt-4">
@@ -61,14 +61,14 @@ const ProductsCard = () => {
                       {product.parent_category}
                     </h3>
                     <h2 className="text-gray-900 title-font text-sm md:text-lg font-medium">
-                      {product.name}
+                      {product?.name}
                     </h2>
                     <p className="mt-1 text-primary font-bold">
-                      ${product.price}
+                      ${product?.price}
                     </p>
                   </div>
                   <div className="card-actions justify-center md:justify-center">
-                    <Link to={`/product/${product._id}`}>
+                    <Link to={`/product/${product?._id}`}>
                       <button className="btn btn-primary btn-sm w-full hover:btn-accent">
                         Buy Now
                       </button>

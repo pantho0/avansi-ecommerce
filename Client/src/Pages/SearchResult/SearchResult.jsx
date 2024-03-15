@@ -72,7 +72,7 @@ const SearchResult = () => {
             </div>
           ) : (
             <div className="h-screen flex justify-center items-center">
-              <p> No Product Found </p>
+              <p className="text-black"> No Product Found </p>
             </div>
           )}
         </div>

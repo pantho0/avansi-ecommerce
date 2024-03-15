@@ -192,7 +192,7 @@ const NavDrawer = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10"
+                  className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white"
                 >
                   <li>
                     <Link to="/dashboard/profile">

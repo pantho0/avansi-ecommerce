@@ -398,12 +398,14 @@ async function run() {
 
     ////Admin-Stats
     app.get('/api/v1/admin-stats', async(req,res)=>{
-      const pending = {status:'Pending'}
-      const delivered = {status: "Shipped"}
+      const pending = {status:'Pending'};
+      const delivered = {status: "Shipped"};
       const pendingOrders = await ordersCollection.find(pending).toArray();
       const deliveredOrders = await ordersCollection.find(delivered).toArray();
-      const totalSales = deliveredOrders.reduce((acc,currentSale)=> acc+currentSale?.productsPrice ,0)
-      console.log('generating total sales after deliver',totalSales);
+      const totalSales = deliveredOrders.reduce((acc,currentSale)=> acc+currentSale?.productsPrice ,0);
+      const totalPendingOrders = pendingOrders.length;
+      const totalDeliveredOrders = deliveredOrders.length;
+      res.send({totalSalesCount:totalSales, totalPendingOrders, totalDeliveredOrders})
     })
 
     //==================================================================================================================

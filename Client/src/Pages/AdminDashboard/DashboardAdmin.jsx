@@ -1,4 +1,8 @@
+import useStats from "../../Components/Hooks/useStats";
+
 const DashboardAdmin = () => {
+  const stats = useStats()
+  console.log(stats);
   return (
     <div>
       <div>
@@ -20,7 +24,7 @@ const DashboardAdmin = () => {
               </svg>
             </div>
             <div className="stat-title">Total Sales</div>
-            <div className="stat-value">31K</div>
+            <div className="stat-value">{stats?.totalSalesCount}</div>
             <div className="stat-desc">Jan 1st - Feb 1st</div>
           </div>
           <div className="stat">
@@ -40,7 +44,7 @@ const DashboardAdmin = () => {
               </svg>
             </div>
             <div className="stat-title">Pending Orders</div>
-            <div className="stat-value">4,200</div>
+            <div className="stat-value">{stats?.totalPendingOrders}</div>
             <div className="stat-desc">↗︎ 400 (22%)</div>
           </div>
           <div className="stat">
@@ -80,7 +84,7 @@ const DashboardAdmin = () => {
               </svg>
             </div>
             <div className="stat-title">Delivered</div>
-            <div className="stat-value">1,200</div>
+            <div className="stat-value">{stats.totalDeliveredOrders}</div>
             <div className="stat-desc">↘︎ 90 (14%)</div>
           </div>
           <div className="stat">

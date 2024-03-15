@@ -10,7 +10,24 @@ import { useEffect, useState } from "react";
 const NavForMobileTablet = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
+
+
+  const navLinks = (
+    <>
+      <li><Link to="/categories" state={{category:'Fashion and Apparel'}}>Fashion and Apparel</Link></li>
+      <li><Link to="/categories" state={{category:'Electronics'}}>Electronics</Link></li>
+      <li><Link to="/categories" state={{category:'Home and Furniture'}}>Home and Furniture</Link></li>
+      <li><Link to="/categories" state={{category:'Beauty and Personal Care'}}>Beauty and Personal Care</Link></li>
+      <li><Link to="/categories" state={{category:'Books and Media'}}>Books and Media</Link></li>
+      <li><Link to="/categories" state={{category:'Health and Wellness'}}>Health and Wellness</Link></li>
+      <li><Link to="/categories" state={{category:'Toys and Games'}}>Toys and Games</Link></li>
+      <li><Link to="/categories" state={{category:'Sports and Outdoors'}}>Sports and Outdoors</Link></li>
+      <li><Link to="/categories" state={{category:'Food and Groceries'}}>Food and Groceries</Link></li>
+      <li><Link to="/categories" state={{category:'Art and Crafts'}}>Art and Crafts</Link></li>
+    </>
+  );
+
 
   const signOut = () => {
     logOut()
@@ -22,11 +39,11 @@ const NavForMobileTablet = () => {
       });
   };
 
-  useEffect(() => {
-    fetch("/categories.json")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
-  }, []);
+  // useEffect(() => {
+  //   fetch("/categories.json")
+  //     .then((res) => res.json())
+  //     .then((data) => setCategories(data));
+  // }, []);
 
   return (
     <div className="fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] z-20 lg:hidden  ">
@@ -167,11 +184,7 @@ const NavForMobileTablet = () => {
 
           <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
             {/* Sidebar content here */}
-            {categories.map((category, idx) => (
-              <li key={idx}>
-                <a>{category.name}</a>
-              </li>
-            ))}
+            {navLinks}
             {
               !user && <div className="flex flex-col justify-center items-center gap-2">
               <Link to="/login">

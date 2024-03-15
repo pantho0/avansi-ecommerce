@@ -30,7 +30,6 @@ const verifyToken = (req, res, next) => {
     next();
   });
 };
-console.log(process.env.GMAIL);
 //Mail sending api (with nodemailer)
 const sendMail = (emailAddress, emailData) => {
   const transporter = nodemailer.createTransport({
@@ -109,7 +108,6 @@ async function run() {
             sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
           })
           .send({ success: true });
-        console.log("logout successful");
       } catch (err) {
         res.status(500).send(err);
       }
@@ -223,17 +221,12 @@ async function run() {
       }
     );
 
-    //=================================================================================================================
-    //=================================================================================================================
-    //=================================================================================================================
+
     //All Articles get api
     app.get("/api/v1/articles", async (req, res) => {
       const result = await articlesCollection.find().toArray();
       res.send(result);
     });
-    //==================================================================================================================
-    //==================================================================================================================
-    //==================================================================================================================
 
     //  Cart Related API's
     //get cart items :
@@ -326,7 +319,6 @@ async function run() {
           options
         );
         res.send(result);
-        console.log(id);
       }
     );
     //Total price in cart items :
@@ -364,10 +356,11 @@ async function run() {
 
     app.get("/api/v1/allOrders", verifyToken, verifyAdmin, async (req, res) => {
       const result = await ordersCollection.find().toArray();
-      const totalSales = result.reduce((acc,currentValue)=> acc+currentValue?.productsPrice,0)
-      console.log(totalSales);
+      // const totalSales = result.reduce((acc,currentValue)=> acc+currentValue?.productsPrice,0)
+      // console.log(totalSales);
       res.send(result);
     });
+    
     app.post("/api/v1/savePayment", verifyToken, async (req, res) => {
       const paymentInfo = req.body;
       const email = req.body.email;
@@ -401,8 +394,17 @@ async function run() {
         updatedDoc,
         options
       );
-      console.log(result);
     });
+
+    ////Admin-Stats
+    app.get('/api/v1/admin-stats', async(req,res)=>{
+      const pending = {status:'Pending'}
+      const delivered = {status: "Shipped"}
+      const pendingOrders = await ordersCollection.find(pending).toArray();
+      const deliveredOrders = await ordersCollection.find(delivered).toArray();
+      const totalSales = deliveredOrders.reduce((acc,currentSale)=> acc+currentSale?.productsPrice ,0)
+      console.log('generating total sales after deliver',totalSales);
+    })
 
     //==================================================================================================================
     //User Info store APi

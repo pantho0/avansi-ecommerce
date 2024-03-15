@@ -1,8 +1,18 @@
+import { useEffect, useState } from "react";
 import useStats from "../../Components/Hooks/useStats";
+import useUsers from "../../Components/Hooks/useUsers";
+import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 const DashboardAdmin = () => {
+  const [totalProducts, setTotalProducts] = useState(0)
+  const axiosPublic = useAxiosPublic()
   const stats = useStats()
-  console.log(stats);
+  const users = useUsers()
+  useEffect(() => {
+    axiosPublic("/productCount").then((res) =>
+      setTotalProducts(res.data.total)
+    );
+  }, [axiosPublic, setTotalProducts]);
   return (
     <div>
       <div>
@@ -64,7 +74,7 @@ const DashboardAdmin = () => {
               </svg>
             </div>
             <div className="stat-title">Inventory</div>
-            <div className="stat-value">1,200</div>
+            <div className="stat-value">{totalProducts}</div>
             <div className="stat-desc">↘︎ 90 (14%)</div>
           </div>
           <div className="stat">
@@ -104,7 +114,7 @@ const DashboardAdmin = () => {
               </svg>
             </div>
             <div className="stat-title">Total Users</div>
-            <div className="stat-value">1,200</div>
+            <div className="stat-value">{users.length}</div>
             <div className="stat-desc">↘︎ 90 (14%)</div>
           </div>
         </div>

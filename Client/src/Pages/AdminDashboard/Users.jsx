@@ -1,15 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import useUsers from "../../Components/Hooks/useUsers";
 
 const Users = () => {
-    const axiosPublic = useAxiosPublic()
-    const {data:users=[]} = useQuery({
-        queryKey: ['users'],
-        queryFn: async()=>{
-            const {data} = await axiosPublic('/allUsers')
-            return data
-        }
-    })
+    const users = useUsers();
     return (
         <div>
            <div className="overflow-x-auto">

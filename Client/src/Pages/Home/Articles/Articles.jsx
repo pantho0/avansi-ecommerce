@@ -19,7 +19,7 @@ const Articles = () => {
           <h2 className="text-3xl font-bold">Avansi&apos;s Article</h2>
           <Link to="/">
             <button className="btn btn-outline btn-xs md:border-primary md:btn-md px-8 hover:btn-primary">
-              View All
+              View All Articles
             </button>
           </Link>
         </div>

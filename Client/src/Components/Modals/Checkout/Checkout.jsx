@@ -6,16 +6,16 @@ import PaymentMethods from "../../Dashboard/User/PaymentMethods";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
-  const [isCashOn, setIsCashOn] = useState(false)
+  const [isCashOn, setIsCashOn] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const [divisions] = useDivisions();
   const [districts, setDistricts] = useState([]);
-  const [deliveryDiv, setDeliveryDiv] = useState('')
-  const [deliveryDist, setDeliveryDist] = useState('')
-  const [mobileNo, setMobileNo] = useState('')
-  const [detailsAddress, setDetailAddress] = useState('')
+  const [deliveryDiv, setDeliveryDiv] = useState("");
+  const [deliveryDist, setDeliveryDist] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [detailsAddress, setDetailAddress] = useState("");
   const price = priceTotal;
   const [priceWithDeliveryCharge, setPriceWithDeliveryCharge] = useState(price);
 
@@ -34,46 +34,61 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
   const handleDeliveryCharge = (e) => {
     e.preventDefault();
     const dist = e.target.value;
-    setDeliveryDist(dist)
+    setDeliveryDist(dist);
     const isInsideDhaka = dist === "Dhaka";
     const deliveryCharge = isInsideDhaka ? 80 : 120;
     const totalCost = priceTotal + deliveryCharge;
     setPriceWithDeliveryCharge(totalCost);
   };
 
-  //Save the payment info in db 
+  //Save the payment info in db
   const paymentInfo = {
-    name : user?.displayName,
-    email : user?.email,
-    products : products,
-    status : 'Pending',
-    date : Date.now(),
-    productsPrice :  priceTotal,
-    totalPriceWithDelivery : priceWithDeliveryCharge,
-    delivery_div : deliveryDiv,
-    delivery_dist :deliveryDist,
-    delivery_cell : mobileNo,
+    name: user?.displayName,
+    email: user?.email,
+    products: products,
+    status: "Pending",
+    date: Date.now(),
+    productsPrice: priceTotal,
+    totalPriceWithDelivery: priceWithDeliveryCharge,
+    delivery_div: deliveryDiv,
+    delivery_dist: deliveryDist,
+    delivery_cell: mobileNo,
     delivery_details: detailsAddress,
-    subject : 'Order Successful',
-    message : 'Your order has been placed. Please visit this link to track your product http://localhost:5173/dashboard/myorders'
-  }
+    subject: "Order Successful",
+    message:
+      "Your order has been placed. Please visit this link to track your product http://localhost:5173/dashboard/myorders",
+  };
   //Managing State for Mobile No. & Details Address:
-  const handleMobile = (e) =>{
+  const handleMobile = (e) => {
     e.preventDefault();
-    setMobileNo(e.target.value)
-  }
-  const handleDetailsAddress = (e) =>{
+    setMobileNo(e.target.value);
+  };
+  const handleDetailsAddress = (e) => {
     e.preventDefault();
     setDetailAddress(e.target.value);
-  }
-  console.log(paymentInfo);
-  //Submission for cash on delivery : 
-  const handleSubmit = async(e) =>{
+  };
+  // console.log(paymentInfo);
+  //Submission for cash on delivery :
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {data} = await axiosPublic.post('/savePayment',paymentInfo)
-    console.log(data);
-  }
-
+    if (enabled) {
+      const { data } = await axiosPublic.post("/savePayment", paymentInfo);
+      // console.log(data);
+    } else {
+      fetch("http://localhost:5000/api/v1/payment", {
+        // mode: "no-cors",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(paymentInfo),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          window.location.replace(result.url);
+        });
+    }
+  };
 
   return (
     <>
@@ -192,11 +207,28 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                           placeholder="Enter your details address"
                         ></textarea>
                         <hr className="mt-6 mb-4" />
-                        <PaymentMethods isCashOn={isCashOn} setIsCashOn={setIsCashOn} enabled={enabled} setEnabled={setEnabled} />
+                        <PaymentMethods
+                          isCashOn={isCashOn}
+                          setIsCashOn={setIsCashOn}
+                          enabled={enabled}
+                          setEnabled={setEnabled}
+                        />
                         <div className="w-full">
-                        <button disabled={!enabled} className="btn btn-primary w-full">
-                        <input type="submit" value="Confirm Order" />
-                        </button>
+                          <button
+                            disabled={!enabled}
+                            className="btn btn-primary w-full mb-2"
+                          >
+                            <input
+                              type="submit"
+                              value="Confirm Via Cash On Delivery"
+                            />
+                          </button>
+                          <button
+                            disabled={enabled}
+                            className="btn btn-primary w-full"
+                          >
+                            <input type="submit" value="Pay Now" />
+                          </button>
                         </div>
                       </form>
                     </div>

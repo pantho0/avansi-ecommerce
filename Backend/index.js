@@ -4,21 +4,31 @@ var jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const generateUniqueId = require("generate-unique-id");
 const nodemailer = require("nodemailer");
+const SSLCommerzPayment = require("sslcommerz-lts");
 const app = express();
 const port = process.env.PORT || 5000;
 //middlewares
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://task-flare.web.app",
+      "https://www.rajshopping.com",
+    ],
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
+const store_id = process.env.STORE_ID;
+const store_passwd = process.env.STORE_PASS;
+const is_live = false; //true for live, false for sandbox
+
 const verifyToken = (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies?.token;
   if (!token) {
     return res.status(401).send({ message: "Unauthorized" });
   }
@@ -84,12 +94,13 @@ async function run() {
     const cartsCollection = client.db("avansi").collection("carts");
     const usersCollection = client.db("avansi").collection("users");
     const ordersCollection = client.db("avansi").collection("orders");
+    // process.env.NODE_ENV === "production" ? "none" :
 
     //Json webtoken
     app.post("/api/v1/jwt", async (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "365d",
+        expiresIn: "30m",
       });
       res.cookie("token", token, {
         httpOnly: true,
@@ -98,7 +109,7 @@ async function run() {
       });
       res.send({ success: true });
     });
-
+    // process.env.NODE_ENV === "production" ? "none" :
     app.get("/api/v1/logout", async (req, res) => {
       try {
         res
@@ -221,7 +232,6 @@ async function run() {
       }
     );
 
-
     //All Articles get api
     app.get("/api/v1/articles", async (req, res) => {
       const result = await articlesCollection.find().toArray();
@@ -234,6 +244,7 @@ async function run() {
       try {
         const email = req.query.email;
         const tokenEmail = req.user?.email;
+        console.log(tokenEmail);
         if (email !== tokenEmail) {
           res.status(403).send({ message: "Forbidden" });
         }
@@ -258,8 +269,8 @@ async function run() {
       const item = req.body;
       const tokenEmail = req.user?.email;
       const cartUserEmail = item?.email;
-      if(tokenEmail !== cartUserEmail){
-        return res.status(401).send({message: 'Unauthorized'})
+      if (tokenEmail !== cartUserEmail) {
+        return res.status(401).send({ message: "Unauthorized" });
       }
       const result = await cartsCollection.insertOne(item);
       res.send(result);
@@ -325,8 +336,8 @@ async function run() {
     app.get("/api/v1/cartTotal/:email", verifyToken, async (req, res) => {
       const email = req.params.email;
       const tokenEmail = req.user?.email;
-      if(email !== tokenEmail){
-        return res.status(403).send({message:"forbidden"})
+      if (email !== tokenEmail) {
+        return res.status(403).send({ message: "forbidden" });
       }
       const myCart = await cartsCollection.find({ email: email }).toArray();
       const totalPrice = myCart.reduce(
@@ -343,12 +354,12 @@ async function run() {
       res.send(result);
     });
     // payment info saving api
-    app.get("/api/v1/viewOrders/:email", verifyToken, async (req, res) => {
+    app.get("/api/v1/viewOrders/:email", async (req, res) => {
       const email = req.params.email;
-      const tokenEmail = req.user?.email;
-      if (email !== tokenEmail) {
-        return res.status(403).send({ message: "forbidden" });
-      }
+      // const tokenEmail = req.user?.email;
+      // if (email !== tokenEmail) {
+      //   return res.status(403).send({ message: "forbidden" });
+      // }
       const query = { email: email };
       const result = await ordersCollection.find(query).toArray();
       res.send(result);
@@ -360,13 +371,13 @@ async function run() {
       // console.log(totalSales);
       res.send(result);
     });
-    
+
     app.post("/api/v1/savePayment", verifyToken, async (req, res) => {
       const paymentInfo = req.body;
       const email = req.body.email;
       const tokenEmail = req.user?.email;
-      if(email !== tokenEmail){
-        return res.status(403).send({message : "forbidden"})
+      if (email !== tokenEmail) {
+        return res.status(403).send({ message: "forbidden" });
       }
       const emailData = req.body;
       const result = await ordersCollection.insertOne(paymentInfo);
@@ -376,6 +387,90 @@ async function run() {
       const query = { email: email };
       const deleteCart = await cartsCollection.deleteMany(query);
       res.send({ result, deleteCart });
+    });
+
+    //pay with sslcommerz
+
+    app.post("/api/v1/payment", async (req, res) => {
+      const tranId = generateUniqueId({ length: 12, useLetters: true });
+      const paymentInfo = req.body;
+      // console.log(paymentInfo);
+      const data = {
+        total_amount: paymentInfo.totalPriceWithDelivery,
+        currency: "BDT",
+        tran_id: tranId, // use unique tran_id for each api call
+        success_url: `http://localhost:5000/api/v1/payment-success/${tranId}`,
+        fail_url: `http://localhost:5000/api/v1/payment-failed/${tranId}`,
+        cancel_url: "http://localhost:3030/cancel",
+        ipn_url: "http://localhost:3030/ipn",
+        shipping_method: "Courier",
+        product_name: "ECOM PRODUCT",
+        product_category: "ECOM PRODUCT",
+        product_profile: "general",
+        cus_name: "Customer Name",
+        cus_email: paymentInfo.email,
+        cus_add1: "Dhaka",
+        cus_add2: "Dhaka",
+        cus_city: "Dhaka",
+        cus_state: "Dhaka",
+        cus_postcode: "1000",
+        cus_country: "Bangladesh",
+        cus_phone: "01711111111",
+        cus_fax: "01711111111",
+        ship_name: "Customer Name",
+        ship_add1: "Dhaka",
+        ship_add2: "Dhaka",
+        ship_city: "Dhaka",
+        ship_state: "Dhaka",
+        ship_postcode: 1000,
+        ship_country: "Bangladesh",
+      };
+
+      const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+      sslcz.init(data).then((apiResponse) => {
+        // Redirect the user to payment gateway
+        let GatewayPageURL = apiResponse.GatewayPageURL;
+        res.send({ url: GatewayPageURL });
+      });
+
+      const finalizeOrder = {
+        ...paymentInfo,
+        paidStatus: false,
+        tranId: tranId,
+      };
+
+      const result = await ordersCollection.insertOne(finalizeOrder);
+
+      app.post("/api/v1/payment-success/:tranId", async (req, res) => {
+        // console.log(req.params.tranId);
+        const result = await ordersCollection.updateOne(
+          { tranId: req.params.tranId },
+          {
+            $set: {
+              paidStatus: true,
+            },
+          }
+        );
+        if (result.modifiedCount > 0) {
+          res.redirect(
+            `http://localhost:5173/payment-success/${req.params.tranId}`
+          );
+          const deleteCart = await cartsCollection.deleteMany({
+            email: paymentInfo.email,
+          });
+        }
+      });
+
+      app.post("/api/v1/payment-failed/:tranId", async (req, res) => {
+        const result = await ordersCollection.deleteOne({
+          tranId: req.params.tranId,
+        });
+        if (result.deletedCount) {
+          res.redirect(
+            `http://localhost:5173/payment-failed/${req.params.tranId}`
+          );
+        }
+      });
     });
 
     //Order Status update api
@@ -397,16 +492,23 @@ async function run() {
     });
 
     ////Admin-Stats
-    app.get('/api/v1/admin-stats', async(req,res)=>{
-      const pending = {status:'Pending'};
-      const delivered = {status: "Shipped"};
+    app.get("/api/v1/admin-stats", async (req, res) => {
+      const pending = { status: "Pending" };
+      const delivered = { status: "Shipped" };
       const pendingOrders = await ordersCollection.find(pending).toArray();
       const deliveredOrders = await ordersCollection.find(delivered).toArray();
-      const totalSales = deliveredOrders.reduce((acc,currentSale)=> acc+currentSale?.productsPrice ,0);
+      const totalSales = deliveredOrders.reduce(
+        (acc, currentSale) => acc + currentSale?.productsPrice,
+        0
+      );
       const totalPendingOrders = pendingOrders.length;
       const totalDeliveredOrders = deliveredOrders.length;
-      res.send({totalSalesCount:totalSales, totalPendingOrders, totalDeliveredOrders})
-    })
+      res.send({
+        totalSalesCount: totalSales,
+        totalPendingOrders,
+        totalDeliveredOrders,
+      });
+    });
 
     //==================================================================================================================
     //User Info store APi
@@ -443,12 +545,12 @@ async function run() {
     //==================================================================================================================
 
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();

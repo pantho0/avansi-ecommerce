@@ -4,10 +4,13 @@ import useAuth from "../../Hooks/useAuth";
 import useDivisions from "../../Hooks/useDivisions";
 import PaymentMethods from "../../Dashboard/User/PaymentMethods";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
   const [isCashOn, setIsCashOn] = useState(false);
   const [enabled, setEnabled] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const [divisions] = useDivisions();
@@ -73,7 +76,10 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
     e.preventDefault();
     if (enabled) {
       const { data } = await axiosPublic.post("/savePayment", paymentInfo);
-      // console.log(data);
+      if (data?.result?.insertedId) {
+        toast.success("Order Placed");
+        navigate("/dashboard/myorders");
+      }
     } else {
       fetch("http://localhost:5000/api/v1/payment", {
         // mode: "no-cors",

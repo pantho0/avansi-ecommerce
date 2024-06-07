@@ -11,15 +11,15 @@ const AllOrders = () => {
     },
   });
 
-  const handleAction = async(e, id) =>{
-    e.preventDefault()
+  const handleAction = async (e, id) => {
+    e.preventDefault();
     const status = e.target.value;
     const action = {
-      status : status,
-    }
-    const {data} = await axiosPublic.patch(`/updateStatus/${id}`, action)
+      status: status,
+    };
+    const { data } = await axiosPublic.patch(`/updateStatus/${id}`, action);
     console.log(data);
-  }
+  };
   return (
     <div>
       <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-center bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
@@ -41,7 +41,7 @@ const AllOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, idx) => (
+            {[...orders].reverse().map((order, idx) => (
               <tr key={idx}>
                 <th>{new Date(order?.date).toLocaleString()}</th>
                 <td>
@@ -87,15 +87,22 @@ const AllOrders = () => {
                   </button>
                 </th>
                 <th>
-                  <select onChange={(e)=>handleAction(e, order._id)} className="select select-bordered w-full max-w-xs">
+                  <select
+                    onChange={(e) => handleAction(e, order._id)}
+                    className="select select-bordered w-full max-w-xs"
+                  >
                     <option disabled selected>
-                     Select an action
+                      Select an action
                     </option>
-                    <option value='Pending'>Pending</option>
-                    <option  value='Product Picked Up From Warehouse'>Product Picked Up From Warehouse</option>
-                    <option value='Assigned To Delivery Man'>Assigned To Delivery Man</option>
-                    <option value='Shipped'>Shipped</option>
-                    <option  value='Cancelled'>Cancelled</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Product Picked Up From Warehouse">
+                      Product Picked Up From Warehouse
+                    </option>
+                    <option value="Assigned To Delivery Man">
+                      Assigned To Delivery Man
+                    </option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Cancelled">Cancelled</option>
                   </select>
                 </th>
               </tr>

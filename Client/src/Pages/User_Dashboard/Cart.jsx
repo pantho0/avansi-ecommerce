@@ -4,22 +4,17 @@ import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
-import useDivisions from "../../Components/Hooks/useDivisions";
+import { useState } from "react";
 import Checkout from "../../Components/Modals/Checkout/Checkout";
-import { useLocation, useSearchParams } from "react-router-dom";
 import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 
 const Cart = () => {
   // const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
-  const location = useLocation()
-  console.log(location.search);
-  
+
   const [price, setPrice] = useState("");
   const { user } = useAuth();
   const [priceTotal, setPriceTotal] = useState(0);
-
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -34,22 +29,21 @@ const Cart = () => {
   const { data: products = [], refetch } = useQuery({
     queryKey: ["products", user?.email, price],
     queryFn: async () => {
-      const { data } = await axiosSecure(`/getCartItem/?email=${user?.email}&sortField=priceWithQuantity&sortOrder=${price}`);
+      const { data } = await axiosSecure(
+        `/getCartItem/?email=${user?.email}&sortField=priceWithQuantity&sortOrder=${price}`
+      );
       return data;
     },
   });
 
-
   const { data: totalPrice = [], refetch: reload } = useQuery({
-    queryKey: ["totalPrice", user?.email, priceTotal,],
+    queryKey: ["totalPrice", user?.email, priceTotal],
     queryFn: async () => {
       const { data } = await axiosSecure(`/cartTotal/${user.email}`);
       setPriceTotal(data.total);
       return data;
     },
   });
-
-  
 
   const handleDelete = async (id) => {
     console.log(id);
@@ -96,7 +90,12 @@ const Cart = () => {
     <>
       <div className="z-0">
         {/* check out modal */}
-        <Checkout isOpen={isOpen} closeModal={closeModal} priceTotal={priceTotal} products={products} />
+        <Checkout
+          isOpen={isOpen}
+          closeModal={closeModal}
+          priceTotal={priceTotal}
+          products={products}
+        />
       </div>
       <div className="z-50">
         <Helmet title="Avansi || User-Cart" />
@@ -217,7 +216,7 @@ const Cart = () => {
                 <p>{priceWithDeliveryCharge?.toFixed(2)}</p>
               </div> */}
               <hr className="mt-6" />
-              
+
               <div className="p-3 mt-4">
                 <button
                   onClick={() => setIsOpen(true)}

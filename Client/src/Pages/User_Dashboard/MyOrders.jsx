@@ -1,23 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Components/Hooks/useAuth";
-// import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
-import { useEffect, useState } from "react";
 import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 
 const MyOrders = () => {
-    const {user} = useAuth();
-    const email = user?.email;
-    const axiosSecure = useAxiosSecure()
-    // const axiosPublic = useAxiosPublic();
-    const {data:orders=[]} = useQuery({
-        queryKey:['orders', user?.email, email],
-        queryFn : async()=>{
-            const {data} = await axiosSecure(`/viewOrders/${email}`)
-            console.log(data);
-            return data; 
-        }
-    })
-
+  const { user } = useAuth();
+  const email = user?.email;
+  const axiosSecure = useAxiosSecure();
+  // const axiosPublic = useAxiosPublic();
+  const { data: orders = [] } = useQuery({
+    queryKey: ["orders", user?.email, email],
+    queryFn: async () => {
+      const { data } = await axiosSecure(`/viewOrders/${email}`);
+      return data;
+    },
+  });
 
   return (
     <div>
@@ -28,48 +24,46 @@ const MyOrders = () => {
         </div>
       </div>
       <div>
-      <div className="overflow-x-auto">
-  <table className="table">
-    {/* head */}
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Product Name</th>
-        <th>Division</th>
-        <th>District</th>
-        <th>Address Line</th>
-        <th>Mobile</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        orders.map(order =><tr key={order._id}>
-            <th>{new Date(order?.date).toLocaleString()}</th>
-            <td>{order.products && order.products.length>0 ? (
-                order.products.map((pro, idx)=><div key={idx}>
-                    <p>Name : {pro.name}</p>
-                    <p>Quantity : {pro.quantity}</p>
-                </div>
-                
-                
-                
-                )
-            )
-            :(<p>No product found</p>)}</td>
-            <td>{order?.delivery_div}</td>
-            <td>{order?.delivery_dist}</td>
-            <td>{order?.delivery_details}</td>
-            <td>{order?.delivery_cell}</td>
-            <td>{order?.status}</td>
-            
-          </tr>)
-      }
-      
-      
-    </tbody>
-  </table>
-</div>
+        <div className="overflow-x-auto">
+          <table className="table">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Product Name</th>
+                <th>Division</th>
+                <th>District</th>
+                <th>Address Line</th>
+                <th>Mobile</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...orders].reverse().map((order) => (
+                <tr key={order._id}>
+                  <th>{new Date(order?.date).toLocaleString()}</th>
+                  <td>
+                    {order.products && order.products.length > 0 ? (
+                      order.products.map((pro, idx) => (
+                        <div key={idx}>
+                          <p>Name : {pro.name}</p>
+                          <p>Quantity : {pro.quantity}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No product found</p>
+                    )}
+                  </td>
+                  <td>{order?.delivery_div}</td>
+                  <td>{order?.delivery_dist}</td>
+                  <td>{order?.delivery_details}</td>
+                  <td>{order?.delivery_cell}</td>
+                  <td>{order?.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

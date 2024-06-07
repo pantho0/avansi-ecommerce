@@ -354,12 +354,12 @@ async function run() {
       res.send(result);
     });
     // payment info saving api
-    app.get("/api/v1/viewOrders/:email", async (req, res) => {
+    app.get("/api/v1/viewOrders/:email", verifyToken, async (req, res) => {
       const email = req.params.email;
-      // const tokenEmail = req.user?.email;
-      // if (email !== tokenEmail) {
-      //   return res.status(403).send({ message: "forbidden" });
-      // }
+      const tokenEmail = req.user?.email;
+      if (email !== tokenEmail) {
+        return res.status(403).send({ message: "forbidden" });
+      }
       const query = { email: email };
       const result = await ordersCollection.find(query).toArray();
       res.send(result);

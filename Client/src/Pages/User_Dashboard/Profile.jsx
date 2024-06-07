@@ -30,7 +30,7 @@ const Profile = () => {
     <>
       <Helmet title="Avansi || User-Profile" />
       <div className="flex min-h-screen items-center justify-center md:w-1/2 mx-auto">
-        <div className="card bg-blue-100 mx-6 px-4 rounded-md">
+        <div className="card  mx-6 px-4 rounded-md py-6">
           <figure className="px-10 pt-10">
             <img
               src={
@@ -39,7 +39,7 @@ const Profile = () => {
                   : "https://w7.pngwing.com/pngs/39/283/png-transparent-user-user-people-linear-icon-user-infographic-people-monochrome-thumbnail.png"
               }
               alt="Shoes"
-              className="rounded-full w-[50%] h-[50%]"
+              className="rounded-full w-[150px] h-[150px]"
             />
           </figure>
           <div className="card-body items-center text-center">
@@ -47,11 +47,40 @@ const Profile = () => {
             <p>Role : USER</p>
             <p>Account Created At : {user?.metadata?.creationTime} </p>
           </div>
-          <form onSubmit={handleUpdate}>
-            <input type="text" name="name" />
-            <input type="file" name="image" id="" />
-            <input type="submit" value="submit now" />
-          </form>
+          <div className="divider"></div>
+          <div>
+            <h5 className="py-2 text-2xl font-bold text-center">
+              Update Youre Profile here!!
+            </h5>
+            <form onSubmit={handleUpdate}>
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text">What is your name?</span>
+                </div>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                />
+              </label>
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text">Upload Image</span>
+                </div>
+                <input
+                  type="file"
+                  name="image"
+                  className="file-input file-input-bordered file-input-success w-full"
+                />
+              </label>
+              <input
+                type="submit"
+                value="Update"
+                className="btn btn-primary w-full mt-8"
+              />
+            </form>
+          </div>
         </div>
       </div>
     </>

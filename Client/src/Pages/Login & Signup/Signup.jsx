@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 const Signup = () => {
-  const { createUser, googleLogin} = useAuth();
+  const { createUser, googleLogin } = useAuth();
   const { register, handleSubmit } = useForm();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -21,8 +21,9 @@ const Signup = () => {
       .then((res) => {
         if (res?.user?.email) {
           toast.success("Signup Success");
-          axiosPublic.post("/saveUserInfo", userInfo)
-          .then((res) => console.log(res?.data));
+          axiosPublic
+            .post("/saveUserInfo", userInfo)
+            .then((res) => console.log(res?.data));
           navigate("/");
         }
       })
@@ -38,8 +39,9 @@ const Signup = () => {
           email: res.user.email,
           role: "user",
         };
-        axiosPublic.post("/saveUserInfo", userInfo)
-        .then((res) => console.log(res?.data));
+        axiosPublic
+          .post("/saveUserInfo", userInfo)
+          .then((res) => console.log(res?.data));
         console.log(res?.user?.email);
         navigate("/");
         toast.success("Login Success");

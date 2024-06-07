@@ -81,18 +81,28 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
         navigate("/dashboard/myorders");
       }
     } else {
-      fetch("http://localhost:5000/api/v1/payment", {
-        // mode: "no-cors",
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(paymentInfo),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          window.location.replace(result.url);
-        });
+      if (deliveryDiv === "" || deliveryDiv === "Pick Your division") {
+        return toast.error("Select Your Division");
+      } else if (deliveryDist === "" || deliveryDist === "Pick Your District") {
+        return toast.error("Select Your District");
+      } else if (mobileNo === "" || mobileNo.length < 11) {
+        return toast.error(
+          "Phone number can not be empty or less than 11 characters"
+        );
+      } else {
+        fetch("http://localhost:5000/api/v1/payment", {
+          // mode: "no-cors",
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(paymentInfo),
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            window.location.replace(result.url);
+          });
+      }
     }
   };
 
@@ -157,10 +167,14 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                           Name :
                           <input
                             readOnly
-                            defaultValue={user?.displayName}
+                            defaultValue={
+                              user?.displayName
+                                ? user?.displayName
+                                : user?.email.split("@")[0]
+                            }
                             type="text"
                             className="grow bg-white"
-                            placeholder="Daisy"
+                            placeholder=""
                           />
                         </label>
                         <label className="input bg-white input-bordered flex items-center gap-2 mb-2">

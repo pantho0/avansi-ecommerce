@@ -452,12 +452,12 @@ async function run() {
           }
         );
         if (result.modifiedCount > 0) {
+          await cartsCollection.deleteMany({
+            email: paymentInfo.email,
+          });
           res.redirect(
             `http://localhost:5173/payment-success/${req.params.tranId}`
           );
-          const deleteCart = await cartsCollection.deleteMany({
-            email: paymentInfo.email,
-          });
         }
       });
 

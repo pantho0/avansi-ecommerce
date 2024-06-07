@@ -219,6 +219,7 @@ const Cart = () => {
 
               <div className="p-3 mt-4">
                 <button
+                  disabled={products?.length === 0}
                   onClick={() => setIsOpen(true)}
                   className="btn btn-primary btn-md rounded-md w-full"
                 >

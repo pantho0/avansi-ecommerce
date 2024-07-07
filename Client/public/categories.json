@@ -1,152 +1,24 @@
- [
-      {
-        "name": "Fashion and Apparel",
-        "subcategories": [
-          "Men's Clothing",
-          "Women's Clothing",
-          "Kids' Clothing",
-          "Shoes",
-          "Accessories",
-          "Activewear",
-          "Formal Wear",
-          "Undergarments",
-          "Swimwear",
-          "Maternity Wear"
-        ]
-      },
-      {
-        "name": "Electronics",
-        "subcategories": [
-          "Smartphones",
-          "Laptops",
-          "Tablets",
-          "Cameras",
-          "Audio Devices",
-          "Wearable Technology",
-          "Gaming Consoles and Accessories",
-          "Home Appliances",
-          "Smart Home Devices",
-          "Computer Accessories"
-        ]
-      },
-      {
-        "name": "Home and Furniture",
-        "subcategories": [
-          "Living Room Furniture",
-          "Bedroom Furniture",
-          "Dining Room Furniture",
-          "Home Office Furniture",
-          "Storage Solutions",
-          "Home Decor",
-          "Lighting Fixtures",
-          "Outdoor Furniture"
-        ]
-      },
-      {
-        "name": "Beauty and Personal Care",
-        "subcategories": [
-          "Skincare",
-          "Makeup",
-          "Haircare",
-          "Fragrances",
-          "Bath and Body",
-          "Men's Grooming",
-          "Oral Care",
-          "Beauty Tools",
-          "Natural and Organic Beauty Products",
-          "Beauty Supplements and Vitamins"
-        ]
-      },
-      {
-        "name": "Books and Media",
-        "subcategories": [
-          "Fiction Books",
-          "Non-fiction Books",
-          "Children's Books",
-          "E-books",
-          "Audiobooks",
-          "Movies",
-          "Music",
-          "Video Games",
-          "Educational Software and Courses",
-          "Magazines and Periodicals"
-        ]
-      },
-      {
-        "name": "Health and Wellness",
-        "subcategories": [
-          "Vitamins and Supplements",
-          "Fitness Equipment",
-          "Sports Nutrition",
-          "Yoga and Meditation Accessories",
-          "Massagers and Relaxation Tools",
-          "Personal Care Products",
-          "Health Monitors",
-          "Mobility Aids",
-          "Natural Remedies and Herbal Supplements",
-          "Sleep Aids and Relaxation Products"
-        ]
-      },
-      {
-        "name": "Toys and Games",
-        "subcategories": [
-          "Action Figures and Dolls",
-          "Building Toys",
-          "Board Games",
-          "Puzzles",
-          "Outdoor Play Equipment",
-          "Ride-On Toys",
-          "Stuffed Animals and Plush Toys",
-          "Educational Toys and STEM Kits",
-          "Remote Control Toys",
-          "Arts and Crafts Kits"
-        ]
-      },
-      {
-        "name": "Sports and Outdoors",
-        "subcategories": [
-          "Athletic Apparel",
-          "Sports Equipment",
-          "Camping Gear",
-          "Hiking and Backpacking Gear",
-          "Cycling Equipment",
-          "Water Sports Gear",
-          "Fitness Accessories",
-          "Outdoor Clothing",
-          "Hunting and Fishing Gear",
-          "Team Sports Equipment"
-        ]
-      },
-      {
-        "name": "Food and Groceries",
-        "subcategories": [
-          "Fresh Produce",
-          "Dairy and Eggs",
-          "Meat and Seafood",
-          "Packaged Foods",
-          "Beverages",
-          "Baking Ingredients and Supplies",
-          "Condiments and Sauces",
-          "Organic and Natural Foods",
-          "International Foods",
-          "Specialty Diets"
-        ]
-      },
-      {
-        "name": "Art and Crafts",
-        "subcategories": [
-          "Drawing and Painting Supplies",
-          "Crafting Materials",
-          "Knitting and Crochet Supplies",
-          "Sewing and Needlecraft Supplies",
-          "Scrapbooking and Papercraft Supplies",
-          "DIY Home Decor Kits",
-          "Jewelry Making Supplies",
-          "Pottery and Ceramic Supplies",
-          "Calligraphy and Lettering Tools",
-          "Art Books and Instructional Materials"
-        ]
-      }
+[
+  {
+    "name": "Men's Collections",
+    "subcategories": [
+      "T-Shirt",
+      "Pant",
+      "Shoes",
+      "Watch",
+      "Formal Wear",
+      "Undergarments"
     ]
-
-  
+  },
+  {
+    "name": "Women's Collections",
+    "subcategories": [
+      "T-Shirt",
+      "Tops",
+      "Bottoms",
+      "Shoes",
+      "Bags",
+      "Accessories"
+    ]
+  }
+]

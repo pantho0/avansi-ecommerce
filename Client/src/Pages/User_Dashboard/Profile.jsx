@@ -28,7 +28,7 @@ const Profile = () => {
   };
   return (
     <>
-      <Helmet title="Avansi || User-Profile" />
+      <Helmet title="Avansi Fashion || User-Profile" />
       <div className="flex min-h-screen items-center justify-center md:w-1/2 mx-auto">
         <div className="card  mx-6 px-4 rounded-md py-6">
           <figure className="px-10 pt-10">
@@ -77,7 +77,7 @@ const Profile = () => {
               <input
                 type="submit"
                 value="Update"
-                className="btn btn-primary w-full mt-8"
+                className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black w-full mt-8"
               />
             </form>
           </div>

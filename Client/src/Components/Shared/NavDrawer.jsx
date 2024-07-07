@@ -2,12 +2,11 @@ import useAuth from "../Hooks/useAuth";
 import { LuLogIn } from "react-icons/lu";
 import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
 import NavForMobileTablet from "./NavForMobileTablet";
 import { useEffect, useState } from "react";
-
 
 const NavDrawer = () => {
   const { user, logOut } = useAuth();
@@ -15,13 +14,12 @@ const NavDrawer = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
-  
 
-  const handleSearch = () =>{
-    if(searchText.trim().length !== 0){
-      navigate('/searchResult', {state: searchText})
+  const handleSearch = () => {
+    if (searchText.trim().length !== 0) {
+      navigate("/searchResult", { state: searchText });
     }
-  }
+  };
 
   const signOut = () => {
     logOut()
@@ -41,16 +39,34 @@ const NavDrawer = () => {
 
   const navLinks = (
     <>
-      <li><Link to="/categories" state={{category:'Fashion and Apparel'}}>Fashion and Apparel</Link></li>
-      <li><Link to="/categories" state={{category:'Electronics'}}>Electronics</Link></li>
-      <li><Link to="/categories" state={{category:'Home and Furniture'}}>Home and Furniture</Link></li>
-      <li><Link to="/categories" state={{category:'Beauty and Personal Care'}}>Beauty and Personal Care</Link></li>
-      <li><Link to="/categories" state={{category:'Books and Media'}}>Books and Media</Link></li>
-      <li><Link to="/categories" state={{category:'Health and Wellness'}}>Health and Wellness</Link></li>
-      <li><Link to="/categories" state={{category:'Toys and Games'}}>Toys and Games</Link></li>
-      <li><Link to="/categories" state={{category:'Sports and Outdoors'}}>Sports and Outdoors</Link></li>
-      <li><Link to="/categories" state={{category:'Food and Groceries'}}>Food and Groceries</Link></li>
-      <li><Link to="/categories" state={{category:'Art and Crafts'}}>Art and Crafts</Link></li>
+      <>
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "text-white hover:no-underline"
+                : " text-white hover:text-green-500 hover:no-underline"
+            }
+            to="/categories"
+            state={{ category: "Men's Collections" }}
+          >
+            Men&apos;s Collection
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "text-white hover:no-underline"
+                : " text-white hover:text-green-500 hover:no-underline"
+            }
+            to="/categories"
+            state={{ category: "Women's Collections" }}
+          >
+            Women&apos;s Collection
+          </NavLink>
+        </li>
+      </>
     </>
   );
 
@@ -58,7 +74,7 @@ const NavDrawer = () => {
     <>
       <NavForMobileTablet />
 
-      <div className="hidden lg:block fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] shadow-md mb-50 z-20">
+      <div className="hidden lg:block fixed w-full bg-black shadow-md mb-50 z-20">
         <div className="navbar bg-transparent w-[1200px] mx-auto">
           <div className="navbar-start">
             <div className="dropdown">
@@ -92,28 +108,43 @@ const NavDrawer = () => {
             <Logo />
           </div>
           <div className="navbar-center hidden lg:flex w-1/2">
-            <ul className="menu menu-horizontal mr-4">
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn m-1 w-32 bg-green-900   hover:bg-accent text-white border-none"
+              >
+                All Category
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu  p-2 shadow text-white rounded-box  w-96 bg-black"
+              >
+                {navLinks}
+              </ul>
+            </div>
+            {/* <ul className="menu menu-horizontal mr-4">
               <li>
                 <details>
                   <summary className="bg-primary text-white hover:bg-accent">
                     All Category
                   </summary>
-                  <ul className="z-10 w-96 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-200">
+                  <ul className="z-10 w-96 bg-black text-base-200">
                     {navLinks}
                   </ul>
                 </details>
               </li>
-            </ul>
+            </ul> */}
 
             <div className="form-control md:block w-full">
               <input
                 type="text"
                 placeholder="Search"
                 className="input input-bordered w-24 md:w-full"
-                onChange={(e)=>setSearchText(e.target.value)}
-                onKeyDown={(e)=>{
-                  if(e.key === "Enter"){
-                    handleSearch()
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
                   }
                 }}
               />
@@ -142,7 +173,7 @@ const NavDrawer = () => {
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                       />
                     </svg>
-                    <span className="badge badge-sm bg-primary border-none text-white indicator-item">
+                    <span className="badge badge-sm bg-green-900  border-none text-white indicator-item">
                       {cartData?.length}
                     </span>
                   </div>
@@ -151,7 +182,7 @@ const NavDrawer = () => {
                   tabIndex={0}
                   className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
                 >
-                  <div className="card-body bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+                  <div className="card-body bg-black text-white">
                     <span className="font-bold text-lg">
                       {" "}
                       {cartData?.length} Items
@@ -161,7 +192,7 @@ const NavDrawer = () => {
                     </span>
                     <div className="card-actions">
                       <Link to="/dashboard/cart" className="w-full">
-                        <button className="btn btn-primary btn-block">
+                        <button className="btn btn-primary bg-green-900 border-none hover:bg-accent btn-block">
                           View cart
                         </button>
                       </Link>
@@ -192,7 +223,7 @@ const NavDrawer = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white"
+                  className="menu menu-sm dropdown-content mt-3  p-2 shadow  rounded-box w-52 z-10 bg-black text-white"
                 >
                   <li>
                     <Link to="/dashboard/profile">
@@ -201,9 +232,6 @@ const NavDrawer = () => {
                         <span className="badge">New</span>
                       </div>
                     </Link>
-                  </li>
-                  <li>
-                    <a>Settings</a>
                   </li>
                   <li>
                     <a onClick={signOut}>Logout</a>
@@ -219,7 +247,7 @@ const NavDrawer = () => {
                   </button>
                 </Link>
                 <Link to="/signup">
-                  <button className="btn btn-primary btn-sm text-white">
+                  <button className="btn btn-primary bg-green-900 border-none hover:bg-indigo-500  btn-sm text-white">
                     SignUp
                     <FaUserCheck size={20} />
                   </button>

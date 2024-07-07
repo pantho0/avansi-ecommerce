@@ -1,44 +1,50 @@
-import { Link, useLocation } from "react-router-dom";
-
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
-import LodaingState from "../../Components/Loading State/LodaingState";
+import LodaingState from "../Loading State/LodaingState";
 import { TbCurrencyTaka } from "react-icons/tb";
 
-const Cateories = () => {
-  const location = useLocation();
-  const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState(null);
-  const [products, setProducts] = useState([]);
+const WomenProduct = () => {
+  const [totalProducts, setTotalProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 12;
+  const pages = Math.ceil(totalProducts / limit);
+
+  const numberofButtons = [...Array(pages).keys()];
+
+  const handlePageButton = (btn) => {
+    setCurrentPage(btn + 1);
+  };
   const axiosPublic = useAxiosPublic();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const categoryFromState = location.state && location.state.category;
-    if (categoryFromState) {
-      setCategory(categoryFromState);
-      setLoading(false);
-    }
-  }, [location.state]);
-
-  useEffect(() => {
-    if (!loading && category !== null) {
-      axiosPublic(`/products?parent_category=${category}`).then((data) =>
-        setProducts(data.data)
+  const { data: products = [], isFetching } = useQuery({
+    queryKey: ["products", currentPage],
+    queryFn: async () => {
+      const res = await axiosPublic.get(
+        `/products?parent_category=Women's Collections`
       );
-    }
-  }, [axiosPublic, category, loading]);
+      return res.data;
+    },
+  });
 
-  if (loading) {
+  useEffect(() => {
+    axiosPublic("/productCount").then((res) =>
+      setTotalProducts(res.data.total)
+    );
+  }, [axiosPublic]);
+
+  if (isFetching) {
     return <LodaingState />;
   }
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
-          {products && products.length > 0 ? (
-            <div className="grid grid-cols-2 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {products.map((product) => {
+          <div className="grid grid-cols-2 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[...products]
+              .reverse()
+              .slice(0, 16)
+              .map((product) => {
                 return (
                   <Link
                     key={product._id}
@@ -70,24 +76,24 @@ const Cateories = () => {
                     </div>
                   </Link>
                   // <div
-                  //   key={product.name}
+                  //   key={product?.name}
                   //   className="shadow-lg mx-4 rounded-md p-4 md:p-4"
                   // >
                   //   <a className="block relative h-[120px] md:h-28 rounded overflow-hidden">
                   //     <img
                   //       alt="ecommerce"
-                  //       className="object-contain object-center w-[120px] h-[120px] md:w-full md:h-full block"
-                  //       src={product.images[0]}
+                  //       className="object-contain object-center w-[120px] h-[120px] md:object-contain md:object-center md:w-full md:h-full block"
+                  //       src={product?.images[0]}
                   //     />
                   //   </a>
                   //   <div className="mt-4">
                   //     <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
                   //       {product.parent_category}
                   //     </h3>
-                  //     <h2 className="text-gray-900 title-font font-medium text-sm md:text-lg">
-                  //       {product.name}
+                  //     <h2 className="text-gray-900 title-font text-sm md:text-lg font-medium">
+                  //       {product?.name}
                   //     </h2>
-                  //     <p className="mt-1  text-green-800 font-bold">
+                  //     <p className="mt-1 text-green-800 font-bold">
                   //       <span className="flex justify-center items-center">
                   //         <TbCurrencyTaka size={18} />
                   //         {product.price}
@@ -95,8 +101,8 @@ const Cateories = () => {
                   //     </p>
                   //   </div>
                   //   <div className="card-actions justify-center md:justify-center">
-                  //     <Link to={`/product/${product._id}`}>
-                  //       <button className="btn btn-primary bg-green-900 border-none btn-sm w-full text-white hover:bg-indigo-500">
+                  //     <Link to={`/product/${product?._id}`}>
+                  //       <button className="btn btn-primary bg-green-900 border-none text-white btn-sm w-full hover:bg-indigo-500">
                   //         Buy Now
                   //       </button>
                   //     </Link>
@@ -104,16 +110,33 @@ const Cateories = () => {
                   // </div>
                 );
               })}
+          </div>
+          <div className="flex justify-center mt-8">
+            <Link to="/categories" state={{ category: "Women's Collections" }}>
+              <button className="btn btn-primary bg-green-900 border-none hover:bg-indigo-500">
+                Show All
+              </button>
+            </Link>
+          </div>
+          {/* <div className="flex justify-center my-4">
+            <div className="join">
+              {numberofButtons.map((pageBtn) => (
+                <input
+                  key={pageBtn}
+                  onClick={() => handlePageButton(pageBtn)}
+                  className="join-item btn btn-square"
+                  type="radio"
+                  name="options"
+                  aria-label={pageBtn + 1}
+                  checked={pageBtn + 1 === currentPage}
+                />
+              ))}
             </div>
-          ) : (
-            <div className="h-screen flex justify-center items-center">
-              <p>No Products Found</p>
-            </div>
-          )}
+          </div> */}
         </div>
       </section>
     </div>
   );
 };
 
-export default Cateories;
+export default WomenProduct;

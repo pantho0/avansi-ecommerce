@@ -7,7 +7,7 @@ import ViewOrderModal from "../../Components/Modals/viewOrder/ViewOrderModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const MyOrders = () => {
+const OrderAll = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [productId, setProductId] = useState("");
 
@@ -25,7 +25,7 @@ const MyOrders = () => {
   const { data: orders = [], refetch } = useQuery({
     queryKey: ["orders", user?.email, email],
     queryFn: async () => {
-      const { data } = await axiosSecure(`/viewOrders/${email}`);
+      const { data } = await axiosSecure("/allOrders");
       return data;
     },
   });
@@ -44,6 +44,7 @@ const MyOrders = () => {
         isOpen={isOpen}
         closeModal={closeModal}
         productId={productId}
+        refetch={refetch()}
       />
       <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-center bg-black text-white">
         <div className="lg:p-6">
@@ -69,6 +70,18 @@ const MyOrders = () => {
               {[...orders].reverse().map((order) => (
                 <tr key={order._id}>
                   <th>{new Date(order?.date).toLocaleString()}</th>
+                  {/* <td>
+                    {order.products && order.products.length > 0 ? (
+                      order.products.map((pro, idx) => (
+                        <div key={idx}>
+                          <p>Name : {pro.name}</p>
+                          <p>Quantity : {pro.quantity}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No product found</p>
+                    )}
+                  </td> */}
                   <td>{order?.tranId ? order.tranId : "COD"}</td>
                   <td>{order?.paidStatus ? "PAID" : "COD"}</td>
                   <td>{order?.status}</td>
@@ -100,4 +113,4 @@ const MyOrders = () => {
   );
 };
 
-export default MyOrders;
+export default OrderAll;

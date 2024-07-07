@@ -4,9 +4,10 @@ import { MdDeleteSweep } from "react-icons/md";
 import useAuth from "../../Components/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkout from "../../Components/Modals/Checkout/Checkout";
 import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const Cart = () => {
   // const axiosPublic = useAxiosPublic();
@@ -17,8 +18,9 @@ const Cart = () => {
   const [priceTotal, setPriceTotal] = useState(0);
 
   let [isOpen, setIsOpen] = useState(false);
-
+  const [paymentTrigger, setPaymentTrigger] = useState(false);
   function closeModal() {
+    setPaymentTrigger(false);
     setIsOpen(false);
   }
 
@@ -86,6 +88,10 @@ const Cart = () => {
     setPrice(e.target.value);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="z-0">
@@ -95,11 +101,13 @@ const Cart = () => {
           closeModal={closeModal}
           priceTotal={priceTotal}
           products={products}
+          paymentTrigger={paymentTrigger}
+          setPaymentTrigger={setPaymentTrigger}
         />
       </div>
       <div className="z-50">
-        <Helmet title="Avansi || User-Cart" />
-        <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-between bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+        <Helmet title="Avansi Fashion || User-Cart" />
+        <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-between bg-black text-white">
           <div className="lg:p-6">
             <p className="text-2xl font-bold">Shopping Cart</p>
             <p className="text-sm text-white">Showing your choosed product</p>
@@ -182,20 +190,29 @@ const Cart = () => {
           </div>
           <div className="md:min-w-[33%] lg:m-5 h-1/2 rounded-2xl shadow-2xl">
             <div className="w-full md:w-full lg:w-full bg-white rounded-lg">
-              <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white rounded-tr-2xl rounded-tl-2xl">
+              <div className="text-center p-4 bg-black text-white rounded-tr-2xl rounded-tl-2xl">
                 <p>Billing Summary</p>
               </div>
               <div className="flex justify-between px-4 pt-4 text-sm text-gray-500">
                 <p>Total Price</p>
-                <p>{totalPrice?.total?.toFixed(2)}</p>
+                <p className="flex items-center">
+                  <TbCurrencyTaka />
+                  {totalPrice?.total?.toFixed(2)}
+                </p>
               </div>
               <div className="flex justify-between px-4 pt-4 text-sm text-gray-500">
                 <p>Total Price Discount</p>
-                <p>$0.0</p>
+                <p className="flex items-center">
+                  <TbCurrencyTaka />
+                  0.0
+                </p>
               </div>
               <div className="flex justify-between px-4 pt-4 text-sm text-gray-500">
                 <p>Vat & Tax</p>
-                <p>$0.0</p>
+                <p className="flex items-center">
+                  <TbCurrencyTaka />
+                  0.0
+                </p>
               </div>
               <hr className="mt-6" />
               <div className="flex justify-between px-4 pt-4 text-sm text-black font-medium">
@@ -221,7 +238,7 @@ const Cart = () => {
                 <button
                   disabled={products?.length === 0}
                   onClick={() => setIsOpen(true)}
-                  className="btn btn-primary btn-md rounded-md w-full"
+                  className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black btn-md rounded-md w-full"
                 >
                   Check Out
                 </button>

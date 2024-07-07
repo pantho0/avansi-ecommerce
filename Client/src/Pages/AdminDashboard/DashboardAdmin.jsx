@@ -4,10 +4,10 @@ import useUsers from "../../Components/Hooks/useUsers";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 
 const DashboardAdmin = () => {
-  const [totalProducts, setTotalProducts] = useState(0)
-  const axiosPublic = useAxiosPublic()
-  const stats = useStats()
-  const users = useUsers()
+  const [totalProducts, setTotalProducts] = useState(0);
+  const axiosPublic = useAxiosPublic();
+  const stats = useStats();
+  const users = useUsers();
   useEffect(() => {
     axiosPublic("/productCount").then((res) =>
       setTotalProducts(res.data.total)
@@ -15,8 +15,8 @@ const DashboardAdmin = () => {
   }, [axiosPublic, setTotalProducts]);
   return (
     <div>
-      <div>
-        <div className="stats shadow w-full">
+      <div className="px-8 mt-2">
+        <div className="stats shadow w-full bg-purple-100">
           <div className="stat">
             <div className="stat-figure text-secondary">
               <svg

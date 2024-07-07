@@ -2,7 +2,7 @@ import useAuth from "../Hooks/useAuth";
 import { LuLogIn } from "react-icons/lu";
 import { FaUserCheck } from "react-icons/fa6";
 import Logo from "../Logo/Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../Hooks/useCart";
 import { useEffect, useState } from "react";
@@ -11,23 +11,28 @@ const NavForMobileTablet = () => {
   const { user, logOut } = useAuth();
   const [cartData, , totalPrice] = useCart();
   // const [categories, setCategories] = useState([]);
-
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+  const handleSearch = () => {
+    if (searchText.trim().length !== 0) {
+      navigate("/searchResult", { state: searchText });
+    }
+  };
 
   const navLinks = (
     <>
-      <li><Link to="/categories" state={{category:'Fashion and Apparel'}}>Fashion and Apparel</Link></li>
-      <li><Link to="/categories" state={{category:'Electronics'}}>Electronics</Link></li>
-      <li><Link to="/categories" state={{category:'Home and Furniture'}}>Home and Furniture</Link></li>
-      <li><Link to="/categories" state={{category:'Beauty and Personal Care'}}>Beauty and Personal Care</Link></li>
-      <li><Link to="/categories" state={{category:'Books and Media'}}>Books and Media</Link></li>
-      <li><Link to="/categories" state={{category:'Health and Wellness'}}>Health and Wellness</Link></li>
-      <li><Link to="/categories" state={{category:'Toys and Games'}}>Toys and Games</Link></li>
-      <li><Link to="/categories" state={{category:'Sports and Outdoors'}}>Sports and Outdoors</Link></li>
-      <li><Link to="/categories" state={{category:'Food and Groceries'}}>Food and Groceries</Link></li>
-      <li><Link to="/categories" state={{category:'Art and Crafts'}}>Art and Crafts</Link></li>
+      <li>
+        <Link to="/categories" state={{ category: "Men's Collections" }}>
+          Men&apos;s Collection
+        </Link>
+      </li>
+      <li>
+        <Link to="/categories" state={{ category: "Women's Collections" }}>
+          Women&apos;s Collection
+        </Link>
+      </li>
     </>
   );
-
 
   const signOut = () => {
     logOut()
@@ -46,7 +51,7 @@ const NavForMobileTablet = () => {
   // }, []);
 
   return (
-    <div className="fixed w-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] z-20 lg:hidden  ">
+    <div className="fixed w-full bg-black z-20 lg:hidden  ">
       <div className="drawer">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
@@ -108,7 +113,7 @@ const NavForMobileTablet = () => {
                     tabIndex={0}
                     className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
                   >
-                    <div className="card-body bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+                    <div className="card-body bg-black text-white">
                       <span className="font-bold text-lg">
                         {" "}
                         {cartData?.length} Items
@@ -149,7 +154,7 @@ const NavForMobileTablet = () => {
                   </div>
                   <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e]"
+                    className="menu menu-sm dropdown-content mt-3  p-2 shadow bg-base-100 rounded-box w-52 z-10 bg-black"
                   >
                     <li>
                       <Link to="/dashboard/profile">
@@ -158,9 +163,6 @@ const NavForMobileTablet = () => {
                           <span className="badge">New</span>
                         </div>
                       </Link>
-                    </li>
-                    <li>
-                      <a>Settings</a>
                     </li>
                     <li>
                       <a onClick={signOut}>Logout</a>
@@ -182,25 +184,50 @@ const NavForMobileTablet = () => {
             className="drawer-overlay"
           ></label>
 
-          <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+          <ul className="menu p-4 min-h-full w-8/12 md:w-4/12  bg-black text-white">
             {/* Sidebar content here */}
             {navLinks}
-            {
-              !user && <div className="flex flex-col justify-center items-center gap-2">
-              <Link to="/login">
-                <button className="btn btn-accent btn-sm text-white">
-                  Login
-                  <LuLogIn size={20} />
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button className="btn btn-primary btn-sm text-white">
-                  SignUp
-                  <FaUserCheck size={20} />
-                </button>
-              </Link>
+            <div className="divider divider-primary">Search</div>
+            <div className="form-control md:block w-full px-4 py-4">
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered w-full text-black md:w-full"
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+              />
+              <input
+                onClick={handleSearch}
+                type="submit"
+                value="Search"
+                className="btn btn-primary mt-2"
+              />
             </div>
-            }
+
+            {!user && (
+              <>
+                {" "}
+                <div className="divider divider-primary">Login/Signup</div>
+                <div className="flex flex-col justify-center items-center gap-2">
+                  <Link to="/login">
+                    <button className="btn btn-accent btn-sm text-white">
+                      Login
+                      <LuLogIn size={20} />
+                    </button>
+                  </Link>
+                  <Link to="/signup">
+                    <button className="btn btn-primary btn-sm text-white">
+                      SignUp
+                      <FaUserCheck size={20} />
+                    </button>
+                  </Link>
+                </div>
+              </>
+            )}
           </ul>
         </div>
       </div>

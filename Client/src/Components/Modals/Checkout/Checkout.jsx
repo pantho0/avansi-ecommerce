@@ -6,10 +6,19 @@ import PaymentMethods from "../../Dashboard/User/PaymentMethods";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { TbCurrencyTaka } from "react-icons/tb";
 
-export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
+export default function Checkout({
+  isOpen,
+  closeModal,
+  priceTotal,
+  products,
+  paymentTrigger,
+  setPaymentTrigger,
+}) {
   const [isCashOn, setIsCashOn] = useState(false);
   const [enabled, setEnabled] = useState(false);
+
   const navigate = useNavigate();
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
@@ -44,7 +53,6 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
     setPriceWithDeliveryCharge(totalCost);
   };
 
-  //Save the payment info in db
   const paymentInfo = {
     name: user?.displayName,
     email: user?.email,
@@ -59,21 +67,41 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
     delivery_details: detailsAddress,
     subject: "Order Successful",
     message:
-      "Your order has been placed. Please visit this link to track your product http://localhost:5173/dashboard/myorders",
+      "Thanks! Your order has been placed. Please visit this link to track your product https://feedback-global-fashion.web.app/dashboard/myorders ",
   };
-  //Managing State for Mobile No. & Details Address:
+
   const handleMobile = (e) => {
     e.preventDefault();
     setMobileNo(e.target.value);
   };
+
   const handleDetailsAddress = (e) => {
     e.preventDefault();
     setDetailAddress(e.target.value);
   };
-  // console.log(paymentInfo);
-  //Submission for cash on delivery :
+
+  const validateFields = () => {
+    if (deliveryDiv === "" || deliveryDiv === "Pick your division") {
+      toast.error("Select Your Division");
+      return false;
+    } else if (deliveryDist === "" || deliveryDist === "Pick your District") {
+      toast.error("Select Your District");
+      return false;
+    } else if (mobileNo === "" || mobileNo.length < 11) {
+      toast.error("Phone number cannot be empty or less than 11 characters");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateFields()) {
+      return;
+    }
+
+    setPaymentTrigger(true);
+
     if (enabled) {
       const { data } = await axiosPublic.post("/savePayment", paymentInfo);
       if (data?.result?.insertedId) {
@@ -81,28 +109,17 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
         navigate("/dashboard/myorders");
       }
     } else {
-      if (deliveryDiv === "" || deliveryDiv === "Pick Your division") {
-        return toast.error("Select Your Division");
-      } else if (deliveryDist === "" || deliveryDist === "Pick Your District") {
-        return toast.error("Select Your District");
-      } else if (mobileNo === "" || mobileNo.length < 11) {
-        return toast.error(
-          "Phone number can not be empty or less than 11 characters"
-        );
-      } else {
-        fetch("http://localhost:5000/api/v1/payment", {
-          // mode: "no-cors",
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(paymentInfo),
-        })
-          .then((res) => res.json())
-          .then((result) => {
-            window.location.replace(result.url);
-          });
-      }
+      fetch("http://localhost:5000/api/v1/payment", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(paymentInfo),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          window.location.replace(result.url);
+        });
     }
   };
 
@@ -138,7 +155,7 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white ">
+                    <div className="text-center p-4 bg-black text-white ">
                       <p>Shipping Address</p>
                     </div>
                   </Dialog.Title>
@@ -146,7 +163,10 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                   <div>
                     <div className="flex justify-between px-4 pt-4 text-sm text-black font-medium">
                       <p>Sub Total Price</p>
-                      <p>{priceTotal?.toFixed(2)}</p>
+                      <p className="flex items-center">
+                        <TbCurrencyTaka />
+                        {priceTotal?.toFixed(2)}
+                      </p>
                     </div>
                     <div className="flex justify-between px-4 pt-4 text-sm text-black font-medium">
                       <p>
@@ -159,7 +179,10 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                           </small>
                         </span>
                       </p>
-                      <p>{priceWithDeliveryCharge?.toFixed(2)}</p>
+                      <p className="flex items-center">
+                        <TbCurrencyTaka />
+                        {priceWithDeliveryCharge?.toFixed(2)}
+                      </p>
                     </div>
                     <div>
                       <form onSubmit={handleSubmit} className="px-4 pt-4">
@@ -212,7 +235,7 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                               <option key={dis}>{dis}</option>
                             ))}
                         </select>
-                        <label className="input bg-white input-bordered flex items-center gap-2 mb-2">
+                        <label className="input sm:text-xs bg-white input-bordered flex items-center gap-2 mb-2">
                           Mobile :
                           <input
                             type="text"
@@ -235,8 +258,8 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                         />
                         <div className="w-full">
                           <button
-                            disabled={!enabled}
-                            className="btn btn-primary w-full mb-2"
+                            disabled={!enabled || !!paymentTrigger}
+                            className="btn btn-primary bg-green-900 hover:bg-accent hover:text-black border-none w-full mb-2"
                           >
                             <input
                               type="submit"
@@ -244,8 +267,8 @@ export default function Checkout({ isOpen, closeModal, priceTotal, products }) {
                             />
                           </button>
                           <button
-                            disabled={enabled}
-                            className="btn btn-primary w-full"
+                            disabled={enabled || paymentTrigger}
+                            className="btn btn-primary bg-green-900 hover:bg-accent border-none hover:text-black w-full"
                           >
                             <input type="submit" value="Pay Now" />
                           </button>

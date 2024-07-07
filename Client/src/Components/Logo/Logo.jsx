@@ -1,6 +1,6 @@
-import { HiMiniShoppingBag } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
+import { HiMiniShoppingBag } from "react-icons/hi2";
 const Logo = () => {
   return (
     <>

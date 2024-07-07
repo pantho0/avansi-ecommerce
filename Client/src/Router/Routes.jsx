@@ -12,13 +12,15 @@ import Users from "../Pages/AdminDashboard/Users";
 import AddProducts from "../Pages/AdminDashboard/AddProducts";
 import Inventory from "../Pages/AdminDashboard/Inventory";
 import MyOrders from "../Pages/User_Dashboard/MyOrders";
-import AllOrders from "../Pages/AdminDashboard/AllOrders";
 import Cateories from "../Pages/Categories/Cateories";
 import SearchResult from "../Pages/SearchResult/SearchResult";
 import AdminRoute from "./AdminRoute";
 import DashboardAdmin from "../Pages/AdminDashboard/DashboardAdmin";
 import PaymentSuccess from "./../Pages/PaymentSuccess/PaymentSuccess";
 import PaymentFailed from "../Pages/PaymentFailed/PaymentFailed";
+import AllProductsView from "../Pages/AllProductsView/AllProductsView";
+import AddBanner from "../Pages/AdminDashboard/AddBanner";
+import OrderAll from "../Pages/AdminDashboard/OrdersAll";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-failed/:tranId",
         element: <PaymentFailed />,
+      },
+      {
+        path: "allproducts",
+        element: <AllProductsView />,
       },
     ],
   },
@@ -117,7 +123,7 @@ export const router = createBrowserRouter([
         path: "allorders",
         element: (
           <AdminRoute>
-            <AllOrders />
+            <OrderAll />
           </AdminRoute>
         ),
       },
@@ -126,6 +132,14 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <DashboardAdmin />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "addbanner",
+        element: (
+          <AdminRoute>
+            <AddBanner />
           </AdminRoute>
         ),
       },

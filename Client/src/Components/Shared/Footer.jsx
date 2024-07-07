@@ -3,11 +3,12 @@ import Container from "../Ui/Container/Container";
 
 const Footer = () => {
   return (
-    <div className="bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e]">
+    <div className="bg-black">
       <Container>
         <footer className="footer p-10 text-base-content">
           <aside>
             <Logo />
+
             <p className="text-white">
               Where vendors unite, products shine,
               <br />
@@ -40,12 +41,12 @@ const Footer = () => {
             <p>For Consumer:</p>
             <p>Complaint Service:</p>
             <p>(880-99997799)</p>
-            <p>E-mail : complain@avansi.av</p>
+            <p>E-mail : complain@Avansi.av</p>
           </nav>
         </footer>
         <div className="text-center text-xs text-white">
           <p className="uppercase">
-            copyright &copy; {new Date().getFullYear()} AVANSI all rights
+            copyright &copy; {new Date().getFullYear()} Avansi all rights
             reserved.
           </p>
           <div className="">

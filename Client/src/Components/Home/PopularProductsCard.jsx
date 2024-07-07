@@ -3,84 +3,123 @@ import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LodaingState from "../Loading State/LodaingState";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const PopularProductsCard = () => {
-    const [totalProducts, setTotalProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const limit = 12;
-  const pages = Math.ceil(totalProducts / limit);
+  // const [totalProducts, setTotalProducts] = useState([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const limit = 12;
+  // const pages = Math.ceil(totalProducts / limit);
 
-  const numberofButtons = [...Array(pages).keys()];
+  // const numberofButtons = [...Array(pages).keys()];
 
-  const handlePageButton = (btn) => {
-    setCurrentPage(btn + 1);
-  };
+  // const handlePageButton = (btn) => {
+  //   setCurrentPage(btn + 1);
+  // };
   const axiosPublic = useAxiosPublic();
   const { data: products = [], isLoading } = useQuery({
-    queryKey: ["products", currentPage],
+    queryKey: ["products"],
     queryFn: async () => {
       const res = await axiosPublic.get(
-        `/products?page=${currentPage}&limit=${limit}`
+        `/products?parent_category=Men's Collections`
       );
       return res.data;
     },
   });
 
-  useEffect(() => {
-    axiosPublic("/productCount").then((res) =>
-      setTotalProducts(res.data.total)
-    );
-  }, [axiosPublic]);
+  // useEffect(() => {
+  //   axiosPublic("/productCount").then((res) =>
+  //     setTotalProducts(res.data.total)
+  //   );
+  // }, [axiosPublic]);
 
-
-
-
-  if(isLoading){
-    return <LodaingState/>
+  if (isLoading) {
+    return <LodaingState />;
   }
 
-
-    return (
-        <div className="min-h-screen">
+  return (
+    <div className="min-h-screen">
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
           <div className="grid grid-cols-2 text-center md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {products.map((product) => {
-              return (
-                <div
-                  key={product.name}
-                  className="shadow-lg mx-4 rounded-md p-4 md:p-4"
-                >
-                  <a className="block relative h-[120px] md:h-28 rounded overflow-hidden">
-                    <img
-                      alt="ecommerce"
-                      className="object-contain object-center w-[120px] h-[120px] md:w-full md:h-full block"
-                      src={product.images[0]}
-                    />
-                  </a>
-                  <div className="mt-4">
-                    <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                      {product.parent_category}
-                    </h3>
-                    <h2 className="text-gray-900 title-font text-sm md:text-lg font-medium">
-                      {product.name}
-                    </h2>
-                    <p className="mt-1 text-primary font-bold">
-                      ${product.price}
-                    </p>
-                  </div>
-                  <div className="card-actions justify-center md:justify-center">
-                    <Link to={`/product/${product._id}`}>
-                      <button className="btn btn-primary btn-sm w-full hover:btn-accent">
-                        Buy Now
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+            {[...products]
+              .reverse()
+              .slice(0, 16)
+              .map((product) => {
+                return (
+                  <Link
+                    key={product._id}
+                    to={`/product/${product._id}`}
+                    className="group block overflow-hidden"
+                  >
+                    <div className="relative h-[250px] sm:h-[450px]">
+                      <img
+                        alt="ecommerce"
+                        className="object-cover md:object-cover object-center  md:w-full md:h-full block"
+                        src={product.images[0]}
+                      />
+                    </div>
+
+                    <div className="relative bg-white pt-3">
+                      <h3 className="text-sm text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                        {product?.name}
+                      </h3>
+                      <h3 className="text-sm text-gray-700  ">
+                        Category : {product?.category}
+                      </h3>
+
+                      <p className="mt-1.5 tracking-wide text-gray-900">
+                        <span className="flex justify-center items-center">
+                          <TbCurrencyTaka size={18} />
+                          {product?.price}
+                        </span>
+                      </p>
+                    </div>
+                  </Link>
+                  // <div
+                  //   key={product.name}
+                  //   className="shadow-lg mx-4 rounded-md p-4 md:p-4"
+                  // >
+                  //   <a className="block relative h-[120px] md:h-28 rounded overflow-hidden">
+                  //     <img
+                  //       alt="ecommerce"
+                  //       className="object-contain object-center w-[120px] h-[120px] md:object-contain md:object-center md:w-full md:h-full block"
+                  //       src={product.images[0]}
+                  //     />
+                  //   </a>
+                  //   <div className="mt-4">
+                  //     <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
+                  //       {product.parent_category}
+                  //     </h3>
+                  //     <h2 className="text-gray-900 title-font text-sm md:text-lg font-medium">
+                  //       {product.name}
+                  //     </h2>
+                  //     <p className="mt-1 text-green-900 font-bold">
+                  //       <span className="flex justify-center items-center">
+                  //         <TbCurrencyTaka size={18} />
+                  //         {product.price}
+                  //       </span>
+                  //     </p>
+                  //   </div>
+                  //   <div className="card-actions justify-center md:justify-center">
+                  //     <Link to={`/product/${product._id}`}>
+                  //       <button className="btn btn-primary bg-green-900 border-none text-white btn-sm w-full hover:bg-indigo-500">
+                  //         Buy Now
+                  //       </button>
+                  //     </Link>
+                  //   </div>
+                  // </div>
+                );
+              })}
           </div>
-          <div className="flex justify-center my-4">
+          <div className="flex justify-center mt-8">
+            <Link to="/categories" state={{ category: "Men's Collections" }}>
+              <button className="btn btn-primary bg-green-900 border-none hover:bg-indigo-500">
+                Show All
+              </button>
+            </Link>
+          </div>
+          {/* <div className="flex justify-center my-4">
             <div className="join">
               {numberofButtons.map((pageBtn) => (
                 <input
@@ -94,11 +133,11 @@ const PopularProductsCard = () => {
                 />
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </div>
-    );
+  );
 };
 
 export default PopularProductsCard;

@@ -87,57 +87,57 @@ const AddProducts = () => {
     const color = colors;
     const price = parseFloat(form.price.value);
     const description = form.description.value;
-    const rating = form.rating.value;
-    const reviews = [
-      {
-        user_name: "Bob",
-        image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
-        date: "2024-02-08",
-        rating: 4,
-        review_message:
-          "Solid performance and premium build. A bit pricey though.",
-      },
-      {
-        user_name: "Alice",
-        image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
-        date: "2024-01-15",
-        rating: 5,
-        review_message:
-          "Absolutely fantastic product! It exceeded all my expectations.",
-      },
-      {
-        user_name: "Emily",
-        image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
-        date: "2024-02-20",
-        rating: 3,
-        review_message:
-          "Decent product, but I expected more features for the price.",
-      },
-      {
-        user_name: "John",
-        image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
-        date: "2024-02-12",
-        rating: 4,
-        review_message:
-          "Great design and functionality. Could be more user-friendly.",
-      },
-      {
-        user_name: "Sarah",
-        image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
-        date: "2024-01-28",
-        rating: 4,
-        review_message:
-          "Sturdy construction and excellent performance. Worth the investment.",
-      },
-      {
-        user_name: "David",
-        image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
-        date: "2024-02-05",
-        rating: 2,
-        review_message:
-          "Disappointing quality for the price. Wouldn't recommend.",
-      },
-    ];
+    const rating = "5";
+    // const reviews = [
+    //   {
+    //     user_name: "Bob",
+    //     image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    //     date: "2024-02-08",
+    //     rating: 4,
+    //     review_message:
+    //       "Solid performance and premium build. A bit pricey though.",
+    //   },
+    //   {
+    //     user_name: "Alice",
+    //     image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    //     date: "2024-01-15",
+    //     rating: 5,
+    //     review_message:
+    //       "Absolutely fantastic product! It exceeded all my expectations.",
+    //   },
+    //   {
+    //     user_name: "Emily",
+    //     image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    //     date: "2024-02-20",
+    //     rating: 3,
+    //     review_message:
+    //       "Decent product, but I expected more features for the price.",
+    //   },
+    //   {
+    //     user_name: "John",
+    //     image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    //     date: "2024-02-12",
+    //     rating: 4,
+    //     review_message:
+    //       "Great design and functionality. Could be more user-friendly.",
+    //   },
+    //   {
+    //     user_name: "Sarah",
+    //     image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    //     date: "2024-01-28",
+    //     rating: 4,
+    //     review_message:
+    //       "Sturdy construction and excellent performance. Worth the investment.",
+    //   },
+    //   {
+    //     user_name: "David",
+    //     image: "https://bellfund.ca/wp-content/uploads/2018/03/demo-user.jpg",
+    //     date: "2024-02-05",
+    //     rating: 2,
+    //     review_message:
+    //       "Disappointing quality for the price. Wouldn't recommend.",
+    //   },
+    // ];
     const productInfo = {
       name,
       parent_category,
@@ -148,9 +148,8 @@ const AddProducts = () => {
       color,
       description,
       rating,
-      reviews,
+      // reviews,
     };
-    console.log(productInfo);
 
     const { data: uploadResult } = await axiosPublic.post(
       "/add_product",
@@ -167,7 +166,7 @@ const AddProducts = () => {
 
   return (
     <div className="bg-white h-[100%]">
-      <div className="text-center bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+      <div className="text-center bg-black text-white">
         <div className="lg:p-6">
           <p className="text-2xl font-bold">Add Products</p>
           <p className="text-sm text-white">
@@ -262,7 +261,7 @@ const AddProducts = () => {
                 <div>
                   <button
                     onClick={clearVariant}
-                    className="btn btn-primary btn-md w-full"
+                    className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black btn-md w-full"
                   >
                     Clear
                   </button>
@@ -270,7 +269,7 @@ const AddProducts = () => {
                 <div className="">
                   <button
                     onClick={handleAddVariant}
-                    className="btn btn-primary btn-md w-full"
+                    className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black btn-md w-full"
                   >
                     Add
                   </button>
@@ -302,7 +301,7 @@ const AddProducts = () => {
                   <div>
                     <button
                       onClick={clearAddColor}
-                      className="btn btn-primary btn-md w-full"
+                      className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black btn-md w-full"
                     >
                       Clear
                     </button>
@@ -310,7 +309,7 @@ const AddProducts = () => {
                   <div className="">
                     <button
                       onClick={handleAddColor}
-                      className="btn btn-primary btn-md w-full"
+                      className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black btn-md w-full"
                     >
                       Add
                     </button>
@@ -324,7 +323,7 @@ const AddProducts = () => {
               </label>
             </div>
           </div>
-          <div className="flex flex-col md:flex-col gap-2">
+          {/* <div className="flex flex-col md:flex-col gap-2">
             <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Rating</span>
@@ -336,7 +335,7 @@ const AddProducts = () => {
                 className="input input-bordered w-full bg-white"
               />
             </label>
-          </div>
+          </div> */}
           <div className="flex flex-row gap-2 items-center">
             <label className="form-control w-[90%]">
               <div className="label">
@@ -354,7 +353,10 @@ const AddProducts = () => {
               <div className="label">
                 <span className="label-text">max:200kb</span>
               </div>
-              <button onClick={handleImagesUpload} className="btn btn-primary">
+              <button
+                onClick={handleImagesUpload}
+                className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black"
+              >
                 Add Image
               </button>
             </div>
@@ -376,7 +378,10 @@ const AddProducts = () => {
               <div className="label">
                 <span className="label-text">max:200kb</span>
               </div>
-              <button onClick={handleImagesUpload} className="btn btn-primary">
+              <button
+                onClick={handleImagesUpload}
+                className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black"
+              >
                 Add Image
               </button>
             </div>
@@ -398,7 +403,10 @@ const AddProducts = () => {
               <div className="label">
                 <span className="label-text">max:200kb</span>
               </div>
-              <button onClick={handleImagesUpload} className="btn btn-primary">
+              <button
+                onClick={handleImagesUpload}
+                className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black"
+              >
                 Add Image
               </button>
             </div>
@@ -420,7 +428,10 @@ const AddProducts = () => {
               <div className="label">
                 <span className="label-text">max:200kb</span>
               </div>
-              <button onClick={handleImagesUpload} className="btn btn-primary">
+              <button
+                onClick={handleImagesUpload}
+                className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black"
+              >
                 Add Image
               </button>
             </div>
@@ -440,7 +451,7 @@ const AddProducts = () => {
             </label>
           </div>
           <div className="flex justify-center mt-6 mb-10">
-            <button className="btn btn-primary hover:btn-accent cursor-pointer">
+            <button className="btn btn-primary bg-green-900 border-none hover:bg-accent hover:text-black hover:btn-accent cursor-pointer">
               <input type="submit" value="Add Product" />
             </button>
           </div>

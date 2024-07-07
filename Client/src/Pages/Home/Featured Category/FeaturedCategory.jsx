@@ -19,16 +19,16 @@ const FeaturedCategory = () => {
       <div className="my-50">
         <div className="flex flex-col items-center md:flex-row justify-between px-2">
           <h2 className="text-base md:text-3xl font-bold">Featured Category</h2>
-         <Link to='/'>
-         <button className="btn btn-xs md:btn-outline border-primary md:btn-md px-8 hover:btn-primary">
-            View All
-          </button>
-         </Link>
+          <Link to="/allproducts">
+            <button className="btn btn-xs md:btn-outline border-green-800  md:btn-md px-8 hover:bg-green-900">
+              View All
+            </button>
+          </Link>
         </div>
         <div className="mt-8 px-2">
           <Swiper
             slidesPerView={1}
-            spaceBetween={8}  
+            spaceBetween={8}
             pagination={{
               clickable: true,
             }}
@@ -50,42 +50,41 @@ const FeaturedCategory = () => {
             className="mySwiper"
           >
             <SwiperSlide>
-                <div className="flex flex-col items-center p-5 border border-shadow-500">
-                    <FaMobile className="text-primary" size={60}/>
-                    <h6 className="text-sm font-bold">Electronic</h6>
-                </div>
+              <div className="flex flex-col items-center p-5 border border-shadow-500">
+                <FaMobile className="text-green-800" size={60} />
+                <h6 className="text-sm font-bold">Electronic</h6>
+              </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className="flex flex-col items-center p-5 border border-shadow-500">
-                    <GiClothes className="text-primary" size={60}/>
-                    <h6 className="text-sm font-bold">Fashion</h6>
-                </div>
+              <div className="flex flex-col items-center p-5 border border-shadow-500">
+                <GiClothes className="text-green-800" size={60} />
+                <h6 className="text-sm font-bold">Fashion</h6>
+              </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className="flex flex-col items-center p-5 border border-shadow-500">
-                    <TbPerfume className="text-primary" size={60}/>
-                    <h6 className="text-sm font-bold">Body Care</h6>
-                </div>
+              <div className="flex flex-col items-center p-5 border border-shadow-500">
+                <TbPerfume className="text-green-800" size={60} />
+                <h6 className="text-sm font-bold">Body Care</h6>
+              </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className="flex flex-col items-center p-5 border border-shadow-500">
-                    <SiFacebookgaming className="text-primary" size={60}/>
-                    <h6 className="text-sm font-bold">Gaming</h6>
-                </div>
+              <div className="flex flex-col items-center p-5 border border-shadow-500">
+                <SiFacebookgaming className="text-green-800" size={60} />
+                <h6 className="text-sm font-bold">Gaming</h6>
+              </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className="flex flex-col items-center p-5 border border-shadow-500">
-                    <MdOutlinePets className="text-primary" size={60}/>
-                    <h6 className="text-sm font-bold">Pet Supplies</h6>
-                </div>
+              <div className="flex flex-col items-center p-5 border border-shadow-500">
+                <MdOutlinePets className="text-green-800" size={60} />
+                <h6 className="text-sm font-bold">Pet Supplies</h6>
+              </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className="flex flex-col items-center p-5 border border-shadow-500">
-                    <SiHomeassistant className="text-primary" size={60}/>
-                    <h6 className="text-sm font-bold">Home & Kitchen</h6>
-                </div>
+              <div className="flex flex-col items-center p-5 border border-shadow-500">
+                <SiHomeassistant className="text-green-800" size={60} />
+                <h6 className="text-sm font-bold">Home & Kitchen</h6>
+              </div>
             </SwiperSlide>
-            
           </Swiper>
         </div>
       </div>

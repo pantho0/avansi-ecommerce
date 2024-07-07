@@ -12,11 +12,7 @@ const port = process.env.PORT || 5000;
 //middlewares
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://task-flare.web.app",
-      "https://www.rajshopping.com",
-    ],
+    origin: ["http://localhost:5173", "https://enova-store.web.app"],
     credentials: true,
   })
 );
@@ -43,9 +39,9 @@ const verifyToken = (req, res, next) => {
 //Mail sending api (with nodemailer)
 const sendMail = (emailAddress, emailData) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: "",
     host: "smtp.gmail.com",
-    port: 587,
+    port: 465,
     auth: {
       user: process.env.GMAIL,
       pass: process.env.PASS,
@@ -77,7 +73,8 @@ const sendMail = (emailAddress, emailData) => {
   });
 };
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.guubgk2.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.guubgk2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.uvsbotr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -94,7 +91,11 @@ async function run() {
     const cartsCollection = client.db("avansi").collection("carts");
     const usersCollection = client.db("avansi").collection("users");
     const ordersCollection = client.db("avansi").collection("orders");
+    const bannersCollection = client.db("avansi").collection("banners");
     // process.env.NODE_ENV === "production" ? "none" :
+    // httpOnly: true,
+    //     secure: process.env.NODE_ENV === "production",
+    //     sameSite: process.env.NODE_ENV === "production" ? "none" : "none",
 
     //Json webtoken
     app.post("/api/v1/jwt", async (req, res) => {
@@ -104,8 +105,8 @@ async function run() {
       });
       res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        secure: true,
+        sameSite: "none",
       });
       res.send({ success: true });
     });
@@ -115,8 +116,8 @@ async function run() {
         res
           .clearCookie("token", {
             maxAge: 0,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            secure: true,
+            sameSite: "none",
           })
           .send({ success: true });
       } catch (err) {
@@ -136,6 +137,36 @@ async function run() {
         next();
       }
     };
+
+    //upload store banner
+    app.post(
+      "/api/v1/uploadBanner",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const images = req.body;
+        const result = await bannersCollection.insertOne(images);
+        res.send(result);
+      }
+    );
+    //get store banner
+    app.get("/api/v1/banners", async (req, res) => {
+      const result = await bannersCollection.find().toArray();
+      res.send(result);
+    });
+    //delete store banner
+    app.delete(
+      "/api/v1/deletebanner/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const result = await bannersCollection.deleteOne({
+          _id: new ObjectId(id),
+        });
+        res.send(result);
+      }
+    );
 
     //All Products API with sort & filter methods
     app.get("/api/v1/products", async (req, res) => {
@@ -168,6 +199,10 @@ async function run() {
         .limit(limit)
         .sort(sortObj)
         .toArray();
+      res.send(result);
+    });
+    app.get("/api/v1/getPartialProducts", async (req, res) => {
+      const result = await productsCollection.find().toArray();
       res.send(result);
     });
 
@@ -232,6 +267,42 @@ async function run() {
       }
     );
 
+    //stock management api
+    app.patch(
+      "/api/v1/instock/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const result = await productsCollection.updateOne(
+          { _id: new ObjectId(id) },
+          {
+            $set: {
+              inStock: true,
+            },
+          }
+        );
+        res.send(result);
+      }
+    );
+    app.patch(
+      "/api/v1/stockout/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const result = await productsCollection.updateOne(
+          { _id: new ObjectId(id) },
+          {
+            $set: {
+              inStock: false,
+            },
+          }
+        );
+        res.send(result);
+      }
+    );
+
     //All Articles get api
     app.get("/api/v1/articles", async (req, res) => {
       const result = await articlesCollection.find().toArray();
@@ -244,7 +315,6 @@ async function run() {
       try {
         const email = req.query.email;
         const tokenEmail = req.user?.email;
-        console.log(tokenEmail);
         if (email !== tokenEmail) {
           res.status(403).send({ message: "Forbidden" });
         }
@@ -364,6 +434,18 @@ async function run() {
       const result = await ordersCollection.find(query).toArray();
       res.send(result);
     });
+    app.delete("/api/v1/deleteOrder/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await ordersCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
+      res.send(result);
+    });
+    app.get("/api/v1/singleOrders/:id", verifyToken, async (req, res) => {
+      const id = req.params.id;
+      const result = await ordersCollection.findOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
 
     app.get("/api/v1/allOrders", verifyToken, verifyAdmin, async (req, res) => {
       const result = await ordersCollection.find().toArray();
@@ -399,9 +481,9 @@ async function run() {
         total_amount: paymentInfo.totalPriceWithDelivery,
         currency: "BDT",
         tran_id: tranId, // use unique tran_id for each api call
-        success_url: `http://localhost:5000/api/v1/payment-success/${tranId}`,
-        fail_url: `http://localhost:5000/api/v1/payment-failed/${tranId}`,
-        cancel_url: "http://localhost:3030/cancel",
+        success_url: `https://enova-store-backend.vercel.app/api/v1/payment-success/${tranId}`,
+        fail_url: `https://enova-store-backend.vercel.app/api/v1/payment-failed/${tranId}`,
+        cancel_url: `https://enova-store-backend.vercel.app/api/v1/payment-failed/${tranId}`,
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",
         product_name: "ECOM PRODUCT",
@@ -438,7 +520,7 @@ async function run() {
         paidStatus: false,
         tranId: tranId,
       };
-
+      const emailData = paymentInfo;
       const result = await ordersCollection.insertOne(finalizeOrder);
 
       app.post("/api/v1/payment-success/:tranId", async (req, res) => {
@@ -452,11 +534,13 @@ async function run() {
           }
         );
         if (result.modifiedCount > 0) {
-          await cartsCollection.deleteMany({
+          sendMail(paymentInfo.email, emailData);
+          const { data } = await cartsCollection.deleteMany({
             email: paymentInfo.email,
           });
+
           res.redirect(
-            `http://localhost:5173/payment-success/${req.params.tranId}`
+            `https://enova-store.web.app/payment-success/${req.params.tranId}`
           );
         }
       });
@@ -467,7 +551,7 @@ async function run() {
         });
         if (result.deletedCount) {
           res.redirect(
-            `http://localhost:5173/payment-failed/${req.params.tranId}`
+            `https://enova-store.web.app/payment-failed/${req.params.tranId}`
           );
         }
       });
@@ -489,6 +573,7 @@ async function run() {
         updatedDoc,
         options
       );
+      res.send(result);
     });
 
     ////Admin-Stats
@@ -528,6 +613,43 @@ async function run() {
       const result = await usersCollection.find().toArray();
       res.send(result);
     });
+
+    app.patch(
+      "/api/v1/updateRoleToAdmin/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const result = await usersCollection.updateOne(
+          { _id: new ObjectId(id) },
+          {
+            $set: {
+              role: "admin",
+            },
+          }
+        );
+        res.send(result);
+      }
+    );
+
+    app.patch(
+      "/api/v1/updateRoleToUser/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const result = await usersCollection.updateOne(
+          { _id: new ObjectId(id) },
+          {
+            $set: {
+              role: "user",
+            },
+          }
+        );
+        res.send(result);
+      }
+    );
+
     // user role checking of admin :
     app.get("/api/v1/isAdmin", async (req, res) => {
       const userEmail = req.query.email;
@@ -559,9 +681,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Avansi Server is in operation");
+  res.send("Enova Fashion Fashion Server is in operation");
 });
 
 app.listen(port, () => {
-  console.log("Avansi Server is running on port", port);
+  console.log("Enova Fashion Fashion Server is running on port", port);
 });

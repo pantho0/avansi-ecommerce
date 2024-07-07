@@ -38,18 +38,21 @@ const Dashboard = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-56 min-h-full bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-base-content">
+        <ul className="menu p-4 w-56 min-h-full bg-black text-base-content">
           {/* Sidebar content here */}
           <div className="">
-            <Logo />
-            <div className="divider divider-primary"></div>
+            <div className="flex justify-center">
+              <Logo />
+            </div>
+
+            <div className="divider divider-primary "></div>
             <div className="flex justify-center mb-6">
               <div className="tooltip tooltip-primary" data-tip="Home">
                 <Link to="/">
                   <IoMdHome size={25} className="cursor-pointer text-accent" />
                 </Link>
               </div>
-              <div className="divider divider-primary divider-horizontal"></div>
+              <div className="divider divider-primary  divider-horizontal"></div>
               <div className="tooltip tooltip-primary" data-tip="Logout">
                 <TbLogout
                   onClick={signOut}
@@ -58,25 +61,26 @@ const Dashboard = () => {
                 />
               </div>
             </div>
-            { isAdmin &&
+            {isAdmin && (
               <div className="text-white flex flex-col items-center mb-4">
-              <Switch.Group>
-                <Switch.Label passive>Switch To Admin Dashboard</Switch.Label>
-                <Switch
-                  checked={enabled}
-                  onChange={setEnabled}
-                  className={`${enabled ? "bg-primary" : "bg-secondary"}
+                <Switch.Group>
+                  <Switch.Label passive>Switch To Admin Dashboard</Switch.Label>
+                  <Switch
+                    checked={enabled}
+                    onChange={setEnabled}
+                    className={`${enabled ? "bg-primary" : "bg-secondary"}
           relative inline-flex h-[24px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
-                >
-                  <span className="sr-only">Use setting</span>
-                  <span
-                    aria-hidden="true"
-                    className={`${enabled ? "translate-x-5" : "translate-x-0"}
+                  >
+                    <span className="sr-only">Use setting</span>
+                    <span
+                      aria-hidden="true"
+                      className={`${enabled ? "translate-x-5" : "translate-x-0"}
             pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                  />
-                </Switch>
-              </Switch.Group>
-            </div>}
+                    />
+                  </Switch>
+                </Switch.Group>
+              </div>
+            )}
             <div className="divider divider-primary"></div>
           </div>
           {enabled ? "" : <UserDashboard />}

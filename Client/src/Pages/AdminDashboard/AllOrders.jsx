@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import { toast } from "react-hot-toast";
 
 const AllOrders = () => {
   const axiosPublic = useAxiosPublic();
-  const { data: orders = [] } = useQuery({
+  const { data: orders = [], refetch } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
       const { data } = await axiosPublic(`/allOrders`);
@@ -18,11 +19,14 @@ const AllOrders = () => {
       status: status,
     };
     const { data } = await axiosPublic.patch(`/updateStatus/${id}`, action);
-    console.log(data);
+    if (data.modifiedCount > 0) {
+      refetch();
+      toast.success("Order Status Updated");
+    }
   };
   return (
     <div>
-      <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-center bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+      <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-center bg-black text-white">
         <div className="lg:p-6">
           <p className="text-2xl font-bold">All Orders ({orders.length})</p>
           <p className="text-sm text-white">Orders History</p>
@@ -86,7 +90,7 @@ const AllOrders = () => {
                     {order?.status}
                   </button>
                 </th>
-                <th>
+                {/* <th>
                   <select
                     onChange={(e) => handleAction(e, order._id)}
                     className="select select-bordered w-full max-w-xs"
@@ -104,7 +108,7 @@ const AllOrders = () => {
                     <option value="Shipped">Shipped</option>
                     <option value="Cancelled">Cancelled</option>
                   </select>
-                </th>
+                </th> */}
               </tr>
             ))}
           </tbody>

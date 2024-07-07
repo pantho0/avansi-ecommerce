@@ -17,20 +17,19 @@ const SearchResult = () => {
     },
   });
 
-
   const searchResult = products.filter((item) =>
-    item.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+    item.name.toLocaleLowerCase().includes(searchText?.toLocaleLowerCase())
   );
 
- if(isPending){
-    return <LodaingState/>
- }
+  if (isPending) {
+    return <LodaingState />;
+  }
 
   return (
     <div className="pt-20">
-        <div className="flex justify-center font-bold text-sm">
-            <p>Search Result : {searchResult.length} </p>
-        </div>
+      <div className="flex justify-center font-bold text-sm">
+        <p>Search Result : {searchResult.length} </p>
+      </div>
       <section className="text-gray-600 body-font">
         <div className="container py-10  mx-auto">
           {searchResult && searchResult.length > 0 ? (

@@ -4,21 +4,21 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
 
 const Articles = () => {
-  const axiosPublic = useAxiosPublic()
-  const {data:articles=[]}=useQuery({
-    queryKey:['articles'],
-    queryFn: async()=>{
-      const {data} = await axiosPublic("/articles")
+  const axiosPublic = useAxiosPublic();
+  const { data: articles = [] } = useQuery({
+    queryKey: ["articles"],
+    queryFn: async () => {
+      const { data } = await axiosPublic("/articles");
       return data;
-    }
-  })
+    },
+  });
   return (
     <Container>
       <div className="my-24">
         <div className="flex flex-col items-center md:flex-row justify-between px-4 ">
-          <h2 className="text-3xl font-bold">Avansi&apos;s Article</h2>
+          <h2 className="text-3xl font-bold">Avansi Fashion&apos;s Article</h2>
           <Link to="/">
-            <button className="btn btn-outline btn-xs md:border-primary md:btn-md px-8 hover:btn-primary">
+            <button className="btn btn-outline border-green-800 btn-xs md:border-green-800 md:btn-md px-8 hover:bg-green-900">
               View All
             </button>
           </Link>
@@ -35,11 +35,15 @@ const Articles = () => {
                   />
                 </figure>
                 <div className="card-body p-2">
-                  <h2 className="card-title">{article?.title.slice(0,40)+'....'}</h2>
+                  <h2 className="card-title">
+                    {article?.title.slice(0, 40) + "...."}
+                  </h2>
                   <p>{article.date}</p>
-                  <p>{article.details.slice(0,100)+'...'}</p>
+                  <p>{article.details.slice(0, 100) + "..."}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-xs btn-primary md:btn-md">Learn now!</button>
+                    <button className="btn btn-xs btn-primary bg-green-900 hover:bg-indigo-500 border-none text-white md:btn-md">
+                      Learn now!
+                    </button>
                   </div>
                 </div>
               </div>

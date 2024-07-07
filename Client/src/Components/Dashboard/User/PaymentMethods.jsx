@@ -9,7 +9,7 @@ const PaymentMethods = ({ isCashOn, setIsCashOn, enabled, setEnabled }) => {
   console.log(isCashOn);
   return (
     <div>
-      {/* <div className="text-center p-4 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] text-white ">
+      {/* <div className="text-center p-4 bg-black text-white ">
         <p>Select Your Payment Method</p>
       </div>
       <div className="form-control">

@@ -88,6 +88,7 @@ const AddProducts = () => {
     const price = parseFloat(form.price.value);
     const description = form.description.value;
     const rating = "5";
+    //Todo : Review System will be added later
     // const reviews = [
     //   {
     //     user_name: "Bob",

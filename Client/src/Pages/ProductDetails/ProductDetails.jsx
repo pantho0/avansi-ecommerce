@@ -144,15 +144,10 @@ const ProductDetails = () => {
                     <div className="relative h-[450px] sm:h-[450px]">
                       <img
                         alt="ecommerce"
-                        className="object-contain md:object-cover object-center  md:w-full md:h-full block"
+                        className="object-cover md:object-contain object-center  md:w-full md:h-full block"
                         src={image}
                       />
                     </div>
-                    {/* <img
-                      className="w-full h-[400px] lg:w-full lg:h-[400px] object-contain"
-                      src={image}
-                      alt=""
-                    /> */}
                   </SwiperSlide>
                 ))}
               </Swiper>

@@ -1,24 +1,76 @@
-import toast from "react-hot-toast";
 import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 import useUsers from "../../Components/Hooks/useUsers";
+import Swal from "sweetalert2";
 
 const Users = () => {
   const [users, refetch] = useUsers();
   const axiosSecure = useAxiosSecure();
 
   const handleAdmin = async (id) => {
-    const { data } = await axiosSecure.patch(`/updateRoleToAdmin/${id}`);
-    if (data.modifiedCount > 0) {
-      toast.success("User Role Updated To Admin");
-      refetch();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      background: "#000",
+      color: "#fff",
+      showCancelButton: true,
+      confirmButtonColor: "#22C55E",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup: "custom-swal-popup",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axiosSecure.patch(`/updateRoleToAdmin/${id}`);
+        if (data.modifiedCount > 0) {
+          refetch();
+        }
+        Swal.fire({
+          title: "Role Updated!",
+          background: "#000",
+          color: "#fff",
+          text: "User Role Updated To Admin.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
+      }
+    });
   };
   const handleUser = async (id) => {
-    const { data } = await axiosSecure.patch(`/updateRoleToUser/${id}`);
-    if (data.modifiedCount > 0) {
-      toast.success("User Role Updated To User");
-      refetch();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      background: "#000",
+      color: "#fff",
+      showCancelButton: true,
+      confirmButtonColor: "#22C55E",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup: "custom-swal-popup",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axiosSecure.patch(`/updateRoleToUser/${id}`);
+        if (data.modifiedCount > 0) {
+          refetch();
+        }
+        Swal.fire({
+          title: "Role Updated!",
+          background: "#000",
+          color: "#fff",
+          text: "Role Updated To User.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
+      }
+    });
   };
 
   return (

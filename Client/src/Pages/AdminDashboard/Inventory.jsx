@@ -6,12 +6,10 @@ import { MdDelete } from "react-icons/md";
 import UpdateProductModal from "../../Components/Modals/Product Update Modal/UpdateProductModal";
 import Swal from "sweetalert2";
 import useAxiosSecure from "./../../Components/Hooks/useAxiosSecure";
-import toast from "react-hot-toast";
 
 const Inventory = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [productId, setProductId] = useState("");
-  const [price, setPrice] = useState("");
 
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
@@ -26,54 +24,107 @@ const Inventory = () => {
       return data;
     },
   });
-  const handleFilter = (e) => {
-    setPrice(e.target.value);
-    setProductId("");
-  };
 
-  // const handleUpdate = () => {
-  //   console.log("clicked update");
-  // };
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
-      background: "#272253",
+      background: "#000",
       color: "#fff",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#22C55E",
+      cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup: "custom-swal-popup",
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { data } = await axiosPublic.delete(`/deleteProduct/${id}`);
         if (data.deletedCount > 0) {
           inventoryReload();
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
         }
+        Swal.fire({
+          title: "Deleted!",
+          background: "#000",
+          color: "#fff",
+          text: "Product has been deleted.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
       }
     });
   };
 
   const handleInStock = async (id) => {
-    const { data } = await axiosSecure.patch(`/instock/${id}`);
-    if (data.modifiedCount > 0) {
-      toast.success("Product marked as in Stock");
-      inventoryReload();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This make this product in stock",
+      icon: "warning",
+      background: "#000",
+      color: "#fff",
+      showCancelButton: true,
+      confirmButtonColor: "#22C55E",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup: "custom-swal-popup",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axiosSecure.patch(`/instock/${id}`);
+        if (data.modifiedCount > 0) {
+          inventoryReload();
+        }
+        Swal.fire({
+          title: "Product added to inventory!",
+          background: "#000",
+          color: "#fff",
+          text: "Product marked as in Stock",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
+      }
+    });
   };
 
   const handleStockOut = async (id) => {
-    const { data } = await axiosSecure.patch(`/stockout/${id}`);
-    if (data.modifiedCount > 0) {
-      toast.success("Product marked as stock out");
-      inventoryReload();
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This make this product stock out",
+      icon: "warning",
+      background: "#000",
+      color: "#fff",
+      showCancelButton: true,
+      confirmButtonColor: "#22C55E",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup: "custom-swal-popup",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axiosSecure.patch(`/stockout/${id}`);
+        if (data.modifiedCount > 0) {
+          inventoryReload();
+        }
+        Swal.fire({
+          title: "Product Stock Out !",
+          background: "#000",
+          color: "#fff",
+          text: "Product marked as stock out",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
+      }
+    });
   };
 
   return (
@@ -147,7 +198,7 @@ const Inventory = () => {
                         <button
                           disabled={!product?.inStock}
                           onClick={() => handleStockOut(product._id)}
-                          className="btn btn-primary  text-white bg-green-900 border-none hover:bg-accent hover:text-black"
+                          className="btn btn-primary  text-white bg-[#8C0327] border-none hover:bg-accent hover:text-black"
                         >
                           Make StockOut
                         </button>

@@ -7,6 +7,7 @@ import ViewOrderModal from "../../Components/Modals/viewOrder/ViewOrderModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import AdminViewOrder from "./../../Components/Modals/viewOrder/AdminViewOrder";
+import Swal from "sweetalert2";
 
 const OrderAll = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -32,11 +33,37 @@ const OrderAll = () => {
   });
 
   const handleDelete = async (id) => {
-    const { data } = await axiosSecure.delete(`/deleteOrder/${id}`);
-    if (data.deletedCount > 0) {
-      refetch();
-      toast.success("Order Deleted");
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      background: "#000",
+      color: "#fff",
+      showCancelButton: true,
+      confirmButtonColor: "#22C55E",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup: "custom-swal-popup",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axiosSecure.delete(`/deleteOrder/${id}`);
+        if (data.deletedCount > 0) {
+          refetch();
+        }
+        Swal.fire({
+          title: "Deleted!",
+          background: "#000",
+          color: "#fff",
+          text: "Order has been deleted.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
+      }
+    });
   };
 
   return (
@@ -49,7 +76,9 @@ const OrderAll = () => {
       />
       <div className="flex z-50 flex-col text-center p-4 lg:flex-row justify-center bg-black text-white">
         <div className="lg:p-6">
-          <p className="text-2xl font-bold">My Orders ({orders.length})</p>
+          <p className="text-2xl font-bold">
+            All Orders || ADMIN ({orders.length})
+          </p>
           <p className="text-sm text-white">Orders History</p>
         </div>
       </div>

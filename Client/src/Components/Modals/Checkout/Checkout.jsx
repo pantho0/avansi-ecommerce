@@ -109,7 +109,7 @@ export default function Checkout({
         navigate("/dashboard/myorders");
       }
     } else {
-      fetch("http://localhost:5000/api/v1/payment", {
+      fetch("https://avansi-backend.onrender.com/api/v1/payment", {
         method: "POST",
         headers: {
           "content-type": "application/json",

@@ -43,7 +43,9 @@ export const router = createBrowserRouter([
         path: "product/:id",
         element: <ProductDetails />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/api/v1/singleproducts/${params.id}`),
+          fetch(
+            `https://avansi-backend.onrender.com/api/v1/singleproducts/${params.id}`
+          ),
       },
       {
         path: "categories",

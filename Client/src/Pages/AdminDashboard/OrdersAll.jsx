@@ -6,6 +6,7 @@ import { MdRemoveRedEye } from "react-icons/md";
 import ViewOrderModal from "../../Components/Modals/viewOrder/ViewOrderModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import AdminViewOrder from "./../../Components/Modals/viewOrder/AdminViewOrder";
 
 const OrderAll = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -40,7 +41,7 @@ const OrderAll = () => {
 
   return (
     <div>
-      <ViewOrderModal
+      <AdminViewOrder
         isOpen={isOpen}
         closeModal={closeModal}
         productId={productId}

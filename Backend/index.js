@@ -474,16 +474,20 @@ async function run() {
     //pay with sslcommerz
 
     app.post("/api/v1/payment", async (req, res) => {
-      const tranId = generateUniqueId({ length: 12, useLetters: true });
+      const tranId = generateUniqueId({
+        length: 12,
+        useLetters: true,
+        useNumbers: true,
+      });
       const paymentInfo = req.body;
       // console.log(paymentInfo);
       const data = {
         total_amount: paymentInfo.totalPriceWithDelivery,
         currency: "BDT",
         tran_id: tranId, // use unique tran_id for each api call
-        success_url: `https://enova-store-backend.vercel.app/api/v1/payment-success/${tranId}`,
-        fail_url: `https://enova-store-backend.vercel.app/api/v1/payment-failed/${tranId}`,
-        cancel_url: `https://enova-store-backend.vercel.app/api/v1/payment-failed/${tranId}`,
+        success_url: `http://localhost:5000/api/v1/payment-success/${tranId}`,
+        fail_url: `http://localhost:5000/api/v1/payment-failed/${tranId}`,
+        cancel_url: `http://localhost:5000/api/v1/payment-failed/${tranId}`,
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",
         product_name: "ECOM PRODUCT",
@@ -540,7 +544,7 @@ async function run() {
           });
 
           res.redirect(
-            `https://enova-store.web.app/payment-success/${req.params.tranId}`
+            `http://localhost:5173/payment-success/${req.params.tranId}`
           );
         }
       });
@@ -551,7 +555,7 @@ async function run() {
         });
         if (result.deletedCount) {
           res.redirect(
-            `https://enova-store.web.app/payment-failed/${req.params.tranId}`
+            `http://localhost:5173/payment-failed/${req.params.tranId}`
           );
         }
       });

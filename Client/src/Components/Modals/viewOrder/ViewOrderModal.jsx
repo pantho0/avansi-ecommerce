@@ -1,9 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { MdBorderColor } from "react-icons/md";
 import toast from "react-hot-toast";
-import useAxiosPublic from "./../../Hooks/useAxiosPublic";
 
 export default function ViewOrderModal({
   isOpen,
@@ -37,7 +35,7 @@ export default function ViewOrderModal({
   };
 
   return (
-    <div className="-z-10">
+    <div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -114,28 +112,6 @@ export default function ViewOrderModal({
                             </div>
                           ))
                         : "No Products"}
-                    </div>
-                    <div className="divider">Select delivery action </div>
-                    <div className="mt-2 flex justify-center">
-                      <button>
-                        <select
-                          onChange={(e) => handleAction(e, order._id)}
-                          className="select select-bordered w-full max-w-xs"
-                        >
-                          <option disabled selected>
-                            Select an action
-                          </option>
-                          <option value="Pending">Pending</option>
-                          <option value="Product Picked Up From Warehouse">
-                            Product Picked Up From Warehouse
-                          </option>
-                          <option value="Assigned To Delivery Man">
-                            Assigned To Delivery Man
-                          </option>
-                          <option value="Shipped">Shipped</option>
-                          <option value="Cancelled">Cancelled</option>
-                        </select>
-                      </button>
                     </div>
                   </div>
 

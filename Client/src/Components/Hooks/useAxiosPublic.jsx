@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-  baseURL: "https://avansi-backend.onrender.com/api/v1",
+  baseURL: "https://avansi-backend.vercel.app/api/v1",
   withCredentials: true,
 });
 

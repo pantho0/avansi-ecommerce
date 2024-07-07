@@ -37,7 +37,7 @@ const ProductCard = () => {
   // }
 
   useEffect(() => {
-    fetch("https://avansi-backend.onrender.com/api/v1/products")
+    fetch("https://avansi-backend.vercel.app/api/v1/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);

@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
         element: <ProductDetails />,
         loader: ({ params }) =>
           fetch(
-            `https://avansi-backend.onrender.com/api/v1/singleproducts/${params.id}`
+            `https://avansi-backend.vercel.app/api/v1/singleproducts/${params.id}`
           ),
       },
       {

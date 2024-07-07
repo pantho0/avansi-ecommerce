@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 import toast from "react-hot-toast";
-// baseURL: "https://avansi-backend.onrender.com/api/v1",
+// baseURL: "https://avansi-backend.vercel.app/api/v1",
 const axiosSecure = axios.create({
-  baseURL: "https://avansi-backend.onrender.com/api/v1",
+  baseURL: "https://avansi-backend.vercel.app/api/v1",
   withCredentials: true,
 });
 

@@ -51,10 +51,24 @@ This is the GitHub repository for Avansi Fashion, an e-commerce website built wi
   Add the following variable (replace with your actual API key):
 
 ```
-(VITE_IMGBB_API=<your-ImgBB-API-key>)
+VITE_IMGBB_API=<your-ImgBB-API-key>
+VITE_APIKEY=<your- firebase APIKEY>
+VITE_AUTHDOMAIN=<your- firebase AUTHDOMAIN>
+VITE_PROJECTID=<your- firebase PROJECTID>
+VITE_STORAGEBUCKET=<your- firebase STORAGEBUCKET>
+VITE_MESSAGINGSENDERID=<your- firebase MESSAGINGSENDERID>
+VITE_APPID=<your- firebase APPID>
 ```
 
+## Firebase Configuration:
+
+Follow Firebase documentation to set up and obtain configuration details.
+Add these details to the appropriate place in your code (for frond end ex: src/utils/firebase.config.js).
+
 ## Backend:
+
+- Clone this backend repository and follow the configuration guide.
+- [Backend Here](https://github.com/pantho0/avansi-backend)
 
 - Create a .env file in the backend directory.
 - Add the following variables (replace with your actual credentials):
@@ -68,11 +82,3 @@ PASS=<your-password-for-Nodemailer>
 STORE_ID=<your-SSLcommerz-store-ID>
 STORE_PASS=<your-SSLcommerz-store-password>
 ```
-
-## Firebase Configuration:
-
-Follow Firebase documentation to set up and obtain configuration details.
-Add these details to the appropriate place in your code (for frond end).
-
-Backend Setup:
-Instructions for running the backend server are likely in the backend directory (e.g., npm install and npm start).

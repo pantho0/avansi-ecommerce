@@ -16,7 +16,7 @@ const Users = () => {
       showCancelButton: true,
       confirmButtonColor: "#22C55E",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Update role to Admin!",
       customClass: {
         popup: "custom-swal-popup",
       },
@@ -49,7 +49,7 @@ const Users = () => {
       showCancelButton: true,
       confirmButtonColor: "#22C55E",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Update role to User",
       customClass: {
         popup: "custom-swal-popup",
       },

@@ -69,7 +69,7 @@ const Inventory = () => {
       showCancelButton: true,
       confirmButtonColor: "#22C55E",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Make In-Stock",
       customClass: {
         popup: "custom-swal-popup",
       },
@@ -103,7 +103,7 @@ const Inventory = () => {
       showCancelButton: true,
       confirmButtonColor: "#22C55E",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Make Stock-Out",
       customClass: {
         popup: "custom-swal-popup",
       },

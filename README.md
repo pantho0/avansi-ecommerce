@@ -42,8 +42,8 @@ This is the GitHub repository for Avansi Fashion, an e-commerce website built wi
 
 ### Clone the Repository:
 
-git clone https://github.com/<your-username>/avansi-fashion.git
-cd avansi-fashion
+- git clone https://github.com/<your-username>/avansi-fashion.git
+- cd avansi-fashion
 
 ## Frontend:
 

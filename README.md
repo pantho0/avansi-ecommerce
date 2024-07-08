@@ -56,16 +56,18 @@ This is the GitHub repository for Avansi Fashion, an e-commerce website built wi
 
 ## Backend:
 
-Create a .env file in the backend directory.
-Add the following variables (replace with your actual credentials):
+- Create a .env file in the backend directory.
+- Add the following variables (replace with your actual credentials):
 
-(DB_USER=<your-database-username>
+```
+DB_USER=<your-database-username>
 DB_PASS=<your-database-password>
 ACCESS_TOKEN_SECRET=<your-access-token-secret>
 GMAIL=<your-email-for-Nodemailer>
 PASS=<your-password-for-Nodemailer>
 STORE_ID=<your-SSLcommerz-store-ID>
-STORE_PASS=<your-SSLcommerz-store-password>)
+STORE_PASS=<your-SSLcommerz-store-password>
+```
 
 ## Firebase Configuration:
 

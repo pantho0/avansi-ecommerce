@@ -47,10 +47,12 @@ This is the GitHub repository for Avansi Fashion, an e-commerce website built wi
 
 ## Frontend:
 
-Create a .env file in the root directory.
-Add the following variable (replace with your actual API key):
+- Create a .env.local file in the root directory.
+  Add the following variable (replace with your actual API key):
 
+```
 (VITE_IMGBB_API=<your-ImgBB-API-key>)
+```
 
 ## Backend:
 
@@ -72,7 +74,3 @@ Add these details to the appropriate place in your code (for frond end).
 
 Backend Setup:
 Instructions for running the backend server are likely in the backend directory (e.g., npm install and npm start).
-
-```
-
-```

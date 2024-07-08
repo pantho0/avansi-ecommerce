@@ -66,10 +66,13 @@ VITE_APPID=<your- firebase APPID>
 Follow Firebase documentation to set up and obtain configuration details.
 Add these details to the appropriate place in your code (for frond end ex: src/utils/firebase.config.js).
 
+- The Front-end will run on the port Ex: `http://localhost:5173`
+
 ## Backend:
 
 - Clone this backend repository and follow the configuration guide.
 - [Backend Here](https://github.com/pantho0/avansi-backend)
+- Run `npm i` in your terminal
 
 - Create a .env file in the backend directory.
 - Add the following variables (replace with your actual credentials):
@@ -83,3 +86,5 @@ PASS=<your-password-for-Nodemailer>
 STORE_ID=<your-SSLcommerz-store-ID>
 STORE_PASS=<your-SSLcommerz-store-password>
 ```
+
+- The backend will run on the port you declared Ex: `http://localhost:5000`
